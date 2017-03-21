@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Library</string>
+    <string name="usernameInput">Username</string>
+    <string name="passwordInput">Password</string>
+    <string name="loginButtonText">LOGIN</string>
+    <string name="accountTab">Account</string>
+    <string name="browsingTab">Categories</string>
+    <string name="addItemTab">Add Item</string>
+    <string name="searchTab">Search</string>
+</resources>
