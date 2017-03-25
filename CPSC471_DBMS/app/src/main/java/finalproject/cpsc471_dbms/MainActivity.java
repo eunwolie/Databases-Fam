@@ -4,6 +4,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 /* Contains the bulk of the program.
  * This class will do everything that manages the general program.
@@ -15,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    CharSequence Titles[] = {"Account", "Categories", "Add Item", "Login"};
-    int Numboftabs = 4;
+    CharSequence Titles[] = {"Dashboard", "Account", "Categories"};
+    int Numboftabs = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,5 +45,11 @@ public class MainActivity extends AppCompatActivity {
         tabs.setViewPager(pager);
 
         //----------------------------------------------------------------------------------------
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
     }
 }

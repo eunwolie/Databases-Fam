@@ -18,9 +18,9 @@
 
         <!--THE IMAGE IS A PLACEHOLDER CHILL-->
         <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
+            android:id="@+id/accImage"
+            android:layout_width="124dp"
+            android:layout_height="124dp"
             android:scaleType="centerCrop"
             android:layout_gravity="center"
             android:src="@drawable/cpl_logo"
@@ -29,21 +29,33 @@
 
         <!--Placeholder name string-->
         <TextView
+            android:id="@+id/accName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Name: thrasher"
-            android:textSize="24sp"
+            android:textSize="16sp"
             android:gravity="center"
             android:layout_marginBottom="@dimen/activity_spacer"/>
 
         <!--Placeholder id string-->
         <TextView
+            android:id="@+id/accID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ID: 69202"
-            android:textSize="24sp"
+            android:textSize="16sp"
             android:gravity="center"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+            android:layout_marginBottom="@dimen/activity_spacer"/>
+
+        <TextView
+            android:id="@+id/accEID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Employee ID: 1453"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:visibility="visible"/>
 
         <!--Divider for layout. Optional.-->
         <!--

@@ -94,7 +94,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         super(context, attrs, defStyle);
 
         // Disable the Scroll Bar
-        setHorizontalScrollBarEnabled(true);
+        setHorizontalScrollBarEnabled(false);
         // Make sure that the Tab Strips fills this View
         setFillViewport(true);
 

@@ -8,18 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Created by wj-hong on 26/02/17.
+ * Created by wj-hong on 24/03/17.
  */
 
-public class SearchFragment extends Fragment {
+public class DashboardFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.search_tab, container, false);
+        View view = inflater.inflate(R.layout.dashboard_tab, container, false);
 
         //code for this fragment goes here
 
         return view;
     }
+
 }

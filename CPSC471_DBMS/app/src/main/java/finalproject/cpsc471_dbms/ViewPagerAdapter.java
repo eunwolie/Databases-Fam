@@ -32,23 +32,18 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         if(position == 0) // if the position is 0 we are returning the First tab
         {
-            AccountFragment tab1 = new AccountFragment();
+            DashboardFragment tab1 = new DashboardFragment();
             return tab1;
         }
         else if(position == 1)
         {
-            CategoryFragment tab2 = new CategoryFragment();
+            AccountFragment tab2 = new AccountFragment();
             return tab2;
-        }
-        else if(position == 2)
-        {
-            AddFragment tab3 = new AddFragment();
-            return tab3;
         }
         else
         {
-            LoginActivity tab4 = new LoginActivity();
-            return tab4;
+            CategoryFragment tab3 = new CategoryFragment();
+            return tab3;
         }
     }
 

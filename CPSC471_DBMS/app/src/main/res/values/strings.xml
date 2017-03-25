@@ -5,6 +5,8 @@
     <string name="loginButtonText">LOGIN</string>
     <string name="accountTab">Account</string>
     <string name="browsingTab">Categories</string>
-    <string name="addItemTab">Add Item</string>
-    <string name="searchTab">Search</string>
+    <string name="addItem">Add Item</string>
+    <string name="search">Search</string>
+    <string name="langSpinner">Language</string>
+
 </resources>

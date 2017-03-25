@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary">
+    android:background="@color/backgroundColour"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <!--This block is for the password input, centered in the screen-->
     <EditText
@@ -12,10 +14,13 @@
         android:textAlignment="center"
         android:inputType="textPassword"
         android:hint="@string/passwordInput"
-        android:background="@drawable/underline_input_bg"
+        android:textColorHint="@color/colorPrimary"
+        android:background="@drawable/app_edit_text_bg"
+        android:textColor="@color/textColour"
         android:ems="10"
         android:gravity="center"
         android:layout_gravity="center"
+        android:padding="@dimen/activity_spacer"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:id="@+id/passwordEdit"
         android:layout_centerVertical="true"
@@ -30,11 +35,14 @@
         android:inputType="textPersonName"
         android:textAlignment="center"
         android:hint="@string/usernameInput"
-        android:background="@drawable/underline_input_bg"
+        android:textColorHint="@color/colorPrimary"
+        android:background="@drawable/app_edit_text_bg"
+        android:textColor="@color/textColour"
         android:ems="10"
         android:layout_gravity="center"
         android:id="@+id/usernameEdit"
         android:layout_above="@id/passwordEdit"
+        android:padding="@dimen/activity_spacer"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_centerHorizontal="true" />
 
@@ -42,11 +50,11 @@
     <TextView
         android:text="@string/app_name"
         android:textSize="42sp"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorAccent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         android:id="@+id/libraryText"
         android:layout_above="@id/usernameEdit"/>
 
@@ -56,9 +64,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/app_button_bg"
         android:id="@+id/loginButton"
-        android:textColor="@color/colorPrimary"
-        android:background="@drawable/default_button"
+        android:textColor="@color/white"
         android:layout_below="@+id/passwordEdit"
         android:layout_centerHorizontal="true" />
 
