@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by evech on 2017-03-24.
  */
 
-public class Shelf {
+public class Shelf implements Parcelable{
     private int sNumber;
     private int sIsbn;
     private String sGenre;
