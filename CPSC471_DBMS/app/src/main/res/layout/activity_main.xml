@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--DO NOT CHANGE THIS FILE IT IS COMPLETE for the most part.-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="finalproject.cpsc471_dbms.MainActivity">
+
+    <!--Toolbar placement-->
+    <include
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/tool_bar" />
+
+    <!--SlidingTabs Placement-->
+    <finalproject.cpsc471_dbms.SlidingTabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:background="@color/colorPrimary"/>
+
+    <!--This is just everything within the tabs.-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
