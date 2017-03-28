@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String USERS_COLUMN_PASSWORD = "Password";
     public static final String USERS_COLUMN_PHONE = "Phone Number";
 
-    public static final String NAME_TABLE_NAME = "Name"
+    public static final String NAME_TABLE_NAME = "Name";
     public static final String NAME_COLUMN_FIRST_NAME = "First Name";
     public static final String NAME_COLUMN_MIDDLE_NAME = "Middle Name";
     public static final String NAME_COLUMN_LAST_NAME = "Last Name";
@@ -117,7 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String AUTHORS_COLUMN_FIRST_NAME = "First Name";
     public static final String AUTHORS_COLUMN_MINIT_NAME = "Middle Name";
     public static final String AUTHORS_COLUMN_LAST_NAME = "Last Name";
-    public static final String AUTHORS_COLUMN_ISBN = "ISBN"
+    public static final String AUTHORS_COLUMN_ISBN = "ISBN";
 
     public static final String TYPES = "Type";
     public static final String TYPES_COLUMN_NAME = "Type Name";
@@ -165,7 +165,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + MATERIALS_TABLE_NAME + "(ISBN) " + ")";
 
     public static final String EVENT_TABLE_NAME = "Event";
-    public static final String SPONSOR_TABLE_NAME = "SponsorDefinitonsClass";
+    public static final String SPONSOR_TABLE_NAME = "SponsorDefinitionsClass";
 
     public static final String FLOOR_TABLE_NAME = "Floor";
     public static final String FLOOR_COLUMN_NUMBER = "Number";
@@ -209,7 +209,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String SPONSOR_COLUMN_NAME = "Name";
     public static final String SPONSOR_COLUMN_REASON = "Reason";
-    public static final String SPONSOR_COLUMN_SPONSOR_ID = "SponsorDefinitonsClass ID";
+    public static final String SPONSOR_COLUMN_SPONSOR_ID = "SponsorDefinitionsClass ID";
 
     public static final String CREATE_SPONSOR_TABLE = "CREATE TABLE"
             + SPONSOR_TABLE_NAME + "("
@@ -221,13 +221,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String EVENT_COLUMN_TIME = "Time";
     public static final String EVENT_COLUMN_DATE = "Date";
     public static final String EVENT_COLUMN_TITLE = "Event Name";
-    public static final String EVENT_COLUMN_SPONSOR_ID = "SponsorDefinitonsClass ID";
+    public static final String EVENT_COLUMN_SPONSOR_ID = "SponsorDefinitionsClass ID";
     public static final String EVENT_COLUMN_HOST = "Work ID";
 
     public static final String TIME_TABLE_NAME = "Time";
     public static final String TIME_COLUMN_START = "Start";
     public static final String TIME_COLUMN_END = "End";
-    public static final String TIME_COLUMN_SPONSOR_ID = "SponsorDefinitonsClass ID";
+    public static final String TIME_COLUMN_SPONSOR_ID = "SponsorDefinitionsClass ID";
     public static final String TIME_COLUMN_TITLE = "Title";
 
 
@@ -262,18 +262,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String BORROWS_COLUMN_ISBN = "ISBN";
 
     public static final String DONATES_RELATION_TABLE = "Donates";
-    public static final String DONATES_COLUMN_SID = "SponsorDefinitonsClass ID";
+    public static final String DONATES_COLUMN_SID = "SponsorDefinitionsClass ID";
     public static final String DONATES_COLUMN_ISBN = "ISBN";
 
     public static final String ATTENDS_RELATION_TABLE = "Attends";
-    public static final String ATTENDS_COLUMN_SID = "SponsorDefinitonsClass ID";
+    public static final String ATTENDS_COLUMN_SID = "SponsorDefinitionsClass ID";
     public static final String ATTENDS_COLUMN_ID = "UserDefinitionsClass ID";
 
 
     public static final String CREATE_HELPS_TABLE = "CREATE TABLE"
             + HELPS_RELATION_TABLE + "("
-            + "FOREIGN KEY(" + HELPS_COLUMN_WORK_ID + " " + + HELPS_COLUMN_USER_ID + ") REFERENCES "
-            + LIBRARIAN_TABLE_NAME, USERS_TABLE_NAME + "(WORK ID, USER ID) " + ");
+            + "FOREIGN KEY(" + HELPS_COLUMN_WORK_ID + " " + HELPS_COLUMN_USER_ID + ") REFERENCES "
+            + LIBRARIAN_TABLE_NAME + USERS_TABLE_NAME + "(WORK ID, USER ID) " + ")";
 
     public static final String CREATE_BORROWS_TABLE = "CREATE TABLE"
             + BORROWS_RELATION_TABLE + "("
@@ -281,19 +281,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + BORROWS_COLUMN_RETURN_DATE + " Int, "
             + BORROWS_COLUMN_OVERDUE_FEE + " Int, "
             + BORROWS_COLUMN_STATUS + " String, "
-            + "FOREIGN KEY(" + BORROWS_COLUMN_ID + " " + + BORROWS_COLUMN_ISBN + ") REFERENCES "
-            + USERS_TABLE_NAME, MATERIALS_TABLE_NAME + "(USER ID, ISBN) " + ");
+            + "FOREIGN KEY(" + BORROWS_COLUMN_ID + " " + BORROWS_COLUMN_ISBN + ") REFERENCES "
+            + USERS_TABLE_NAME + MATERIALS_TABLE_NAME + "(USER ID, ISBN) " + ")";
 
 
     public static final String CREATE_DONATE_TABLE = "CREATE TABLE"
             + DONATES_RELATION_TABLE + "("
-            + "FOREIGN KEY(" + DONATES_COLUMN_SID + " " + + DONATES_COLUMN_ISBN + ") REFERENCES "
-            + SPONSOR_TABLE_NAME, MATERIALS_TABLE_NAME + "(SPONSOR ID, ISBN) " + ");
+            + "FOREIGN KEY(" + DONATES_COLUMN_SID + " " + DONATES_COLUMN_ISBN + ") REFERENCES "
+            + SPONSOR_TABLE_NAME + MATERIALS_TABLE_NAME + "(SPONSOR ID, ISBN) " + ")";
 
     public static final String CREATE_ATTENDS_TABLE = "CREATE TABLE"
             + ATTENDS_RELATION_TABLE + "("
-            + "FOREIGN KEY(" + ATTENDS_COLUMN_SID + " " + + ATTENDS_COLUMN_ID + ") REFERENCES "
-            + SPONSOR_TABLE_NAME, USERS_TABLE_NAME + "(SPONSOR ID, User ID) " + ");
+            + "FOREIGN KEY(" + ATTENDS_COLUMN_SID + " " + ATTENDS_COLUMN_ID + ") REFERENCES "
+            + SPONSOR_TABLE_NAME + USERS_TABLE_NAME + "(SPONSOR ID, User ID) " + ")";
 
 
     private static DatabaseHelper state;

@@ -1,5 +1,8 @@
 package finalproject.cpsc471_dbms;
 
+import android.content.Context;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,90 +11,21 @@ import android.os.Parcelable;
  */
 
 public class Helps {
-    private int userId;
-    private int workId;
+    protected SQLiteDatabase database;
+    private DatabaseHelper dataHelper;
+    private Context aContext;
 
-    public Department() {
-        super();
+    public Helps(Context context) {
+        this.aContext = context;
+        dataHelper = DatabaseHelper.getHelper(aContext);
+        open();
+
     }
 
-    public Department(int userId, int workId) {
-        super();
-        this.userId = userId;
-        this.workId = workId;
+    public void open() throws SQLException {
+        if(dataHelper == null)
+            dataHelper = DatabaseHelper.getHelper(aContext);
+        database = dataHelper.getWritableDatabase();
     }
 
-    /*public Department(String name) {
-        this.name = name;
-    }*/
-
-    private Department(Parcel in) {
-        super();
-        this.userId = in.readInt();
-        this.workId = in.readInt();
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public String getWorkId() {
-        return workId;
-    }
-
-    public void setWorkId(int workId) {
-        this.workId = workId;
-    }
-
-    @Override
-    public String toString() {
-        return "user ID:" + userId + ", work ID:" + workId;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(getUserId());
-        parcel.writeInt(getWorkId());
-    }
-
-    public static final Parcelable.Creator<Helps> CREATOR = new Parcelable.Creator<Helps>() {
-        public Helps createFromParcel(Parcel in) {
-            return new Helps(in);
-        }
-
-        public Helps[] newArray(int size) {
-            return new Helps[size];
-        }
-    };
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + userId;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Helps other = (Helps) obj;
-        if (userId != other.userId)
-            return false;
-        return true;
-    }
 }
