@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 
 public class SectionTable implements BaseColumns {
     public static final String TABLE_NAME = "Section";
-    public static final String GENRE = "Genre";
+    public static final String _ID = "Genre";
     public static final String SHELF_NUMBER = "Shelf Number";
     public static final String FLOOR_NUMBER = "Floor Number";
 }

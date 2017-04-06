@@ -7,10 +7,16 @@ import android.os.Parcelable;
  * Created by evech on 2017-03-27.
  */
 
+/*
+    TODO : overdue money stuff
+
+
+ */
+
 public class BorrowingDef {
     private String borrowDate;
     private String returnDate;
-    private String overdueDate;
+    private String overdueFee;
     private String status;
     private int id;
     private int isbn;
@@ -19,11 +25,11 @@ public class BorrowingDef {
         super();
     }
 
-    public BorrowingDef(String borrowDate, String returnDate, String overdueDate, String status, int id, int isbn) {
+    public BorrowingDef(String borrowDate, String returnDate, String overdueFee, String status, int id, int isbn) {
         super();
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
-        this.overdueDate = overdueDate;
+        this.overdueFee = overdueFee;
         this.status = status;
         this.id = id;
         this.isbn = isbn;
@@ -33,7 +39,7 @@ public class BorrowingDef {
         super();
         this.borrowDate = in.readString();
         this.returnDate = in.readString();
-        this.overdueDate = in.readString();
+        this.overdueFee = in.readString();
         this.status = in.readString();
         this.id = in.readInt();
         this.isbn = in.readInt();
@@ -55,12 +61,12 @@ public class BorrowingDef {
         this.returnDate = returnDate;
     }
 
-    public String getOverdueDate(){
-        return overdueDate;
+    public String getOverdueFee(){
+        return overdueFee;
     }
 
-    public void setOverdueDate(String overdueDate){
-        this.overdueDate = overdueDate;
+    public void setOverdueFee(String overdueFee){
+        this.overdueFee = overdueFee;
     }
 
     public int getIsbn(){
@@ -70,7 +76,9 @@ public class BorrowingDef {
     public void setIsbn(int isbn){
         this.isbn = isbn;
     }
+
     public int getId(){return id;}
+
     public void setId(int id){ this.id = id; }
 
     public int describeContents() {
@@ -80,7 +88,7 @@ public class BorrowingDef {
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeString(getBorrowDate());
         parcel.writeString(getReturnDate());
-        parcel.writeString(getOverdueDate());
+        parcel.writeString(getOverdueFee());
         parcel.writeInt(getId());
         parcel.writeInt(getIsbn());
     }
@@ -97,7 +105,7 @@ public class BorrowingDef {
 
     @Override
     public String toString() {
-        return "Borrow date:" + borrowDate + ", Return date:" + returnDate + ", Overdue date:" + overdueDate + ", isbn:" + isbn + ", ID:" + id;
+        return "Borrow date:" + borrowDate + ", Return date:" + returnDate + ", Overdue fee:" + overdueFee + ", isbn:" + isbn + ", ID:" + id;
     }
 
     @Override

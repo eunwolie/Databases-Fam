@@ -22,7 +22,7 @@ public class User {
     SQLiteDatabase readDB;
     private Context aContext;
 
-    private static final String WHERE_ID_EQUALS = UserTable.ID
+    private static final String WHERE_ID_EQUALS = UserTable._ID
             + " =?";
 
     public User(Context context) {
@@ -57,7 +57,7 @@ public class User {
     public List<UserDef> getUsers() {
         List<UserDef> users = new ArrayList<UserDef>();
         Cursor cursor = readDB.query(_DatabaseHelper.CREATE_USER_TABLE,
-                new String[] { UserTable.ID,
+                new String[] { UserTable._ID,
                         UserTable.NAME}, null, null, null, null,
                 null);
 

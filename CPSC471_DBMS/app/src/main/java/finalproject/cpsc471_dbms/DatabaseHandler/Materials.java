@@ -17,7 +17,7 @@ import finalproject.cpsc471_dbms.Definitions.MaterialsDef;
  */
 
 public class Materials extends MaterialsDef {
-    private static final String WHERE_ISBN_EQUALS = MaterialTable.ISBN
+    private static final String WHERE_ISBN_EQUALS = MaterialTable._ID
             + " =?";
 
     _DatabaseHelper materialdbHelper;
@@ -57,7 +57,7 @@ public class Materials extends MaterialsDef {
     public List<MaterialsDef> getMaterials() {
         List<MaterialsDef> materials = new ArrayList<MaterialsDef>();
         Cursor cursor = readDB.query(_DatabaseHelper.CREATE_MATERIALS_TABLE,
-                new String[] { MaterialTable.ISBN,
+                new String[] { MaterialTable._ID,
                         MaterialTable.TITLE }, null, null, null, null,
                 null);
 

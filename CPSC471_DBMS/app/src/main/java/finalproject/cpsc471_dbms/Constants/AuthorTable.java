@@ -6,6 +6,8 @@ import android.provider.BaseColumns;
  * Created by farra on 2017-04-02.
  */
 
+// TODO : Multiple books for one author
+
 public class AuthorTable implements BaseColumns {
     public static final String TABLE_NAME = "Author";
     public static final String FIRST_NAME = "First Name";

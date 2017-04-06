@@ -7,8 +7,8 @@ import android.provider.BaseColumns;
  */
 
 public class UserTable implements BaseColumns {
-    public static final String TABLE_NAME = "UserDef";
-    public static final String ID = "ID";
+    public static final String TABLE_NAME = "User";
+    public static final String _ID = "ID";
     public static final String NAME = "Name";
     public static final String USERNAME = "Username";
     public static final String ADDRESS = "Address";

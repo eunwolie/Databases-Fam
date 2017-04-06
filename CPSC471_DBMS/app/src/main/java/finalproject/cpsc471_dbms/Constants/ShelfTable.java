@@ -8,7 +8,6 @@ import android.provider.BaseColumns;
 
 public class ShelfTable implements BaseColumns {
     public static final String TABLE_NAME = "Shelf";
-    public static final String NUMBER = "Shelf Number";
     public static final String ISBN = "ISBN";
     public static final String GENRE = "Genre";
 }

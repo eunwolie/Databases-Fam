@@ -76,11 +76,11 @@ public class UserDef {
         this.name = name;
     }
 
-    public String getUsernameName() {
+    public String getUsername() {
         return username;
     }
 
-    public void setUsernameName(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -109,7 +109,7 @@ public class UserDef {
         parcel.writeInt(getPhone());
         parcel.writeString(getName());
         parcel.writeString(getAddress());
-        parcel.writeString(getUsernameName());
+        parcel.writeString(getUsername());
         parcel.writeString(getPassword());
     }
 

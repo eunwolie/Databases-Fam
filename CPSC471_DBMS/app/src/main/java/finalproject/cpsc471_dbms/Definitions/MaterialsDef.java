@@ -16,6 +16,8 @@ public class MaterialsDef implements Parcelable{
     private int yearOfCreation;
     private String language;
     private String company;
+    private String description;
+    private int shelf;
 
     public MaterialsDef() {
         super();
@@ -26,8 +28,9 @@ public class MaterialsDef implements Parcelable{
         this.title = title;
     }
 
-    public MaterialsDef(String author, String title, String type, int isbn, String genre, int yearOfCreation, String language, String company){
+    public MaterialsDef(String description, String author, String title, String type, int isbn, String genre, int yearOfCreation, String language, String company, int shelf){
         super();
+        this.description = description;
         this.author = author;
         this.title = title;
         this.type = type;
@@ -36,10 +39,12 @@ public class MaterialsDef implements Parcelable{
         this.yearOfCreation = yearOfCreation;
         this.language = language;
         this.company = company;
+        this.shelf = shelf;
     }
 
     private MaterialsDef(Parcel in) {
         super();
+        this.description = in.readString();
         this.author = in.readString();
         this.title = in.readString();
         this.type = in.readString();
@@ -48,7 +53,12 @@ public class MaterialsDef implements Parcelable{
         this.yearOfCreation = in.readInt();
         this.language = in.readString();
         this.company = in.readString();
+        this.shelf = in.readInt();
     }
+
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
 
     public String getAuthor() {
         return author;
@@ -114,6 +124,12 @@ public class MaterialsDef implements Parcelable{
         this.company = company;
     }
 
+    public int getShelf() {
+        return shelf;
+    }
+
+    public void setShelf(int shelf) { this.shelf = shelf; }
+
     @Override
     public int describeContents() {
         return 0;
@@ -129,6 +145,7 @@ public class MaterialsDef implements Parcelable{
         parcel.writeString(getGenre());
         parcel.writeString(getLanguage());
         parcel.writeString(getCompany());
+        parcel.writeInt(getShelf());
     }
 
     public static final Parcelable.Creator<MaterialsDef> CREATOR = new Parcelable.Creator<MaterialsDef>() {

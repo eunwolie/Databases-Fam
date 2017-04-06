@@ -8,6 +8,7 @@ import android.provider.BaseColumns;
 
 public class EventAttendanceTable implements BaseColumns {
     public static final String TABLE_NAME = "EventAttendance";
-    public static final String SID = "SponsorDef ID";
-    public static final String ID = "UserDef ID";
+    public static final String UID = "User ID";
+    public static final String START_TIME = "Start Time";
+    public static final String DATE = "Date";
 }

@@ -22,7 +22,7 @@ public class Sponsor {
     private _DatabaseHelper sponsordbHelper;
     private SQLiteDatabase writeDB;
 
-    private static final String WHERE_ID_EQUALS = SponsorTable.SPONSOR_ID
+    private static final String WHERE_ID_EQUALS = SponsorTable._ID
             + " =?";
 
     public Sponsor(Context context) {
@@ -55,8 +55,14 @@ public class Sponsor {
 
     public List<SponsorDef> getSponsors() {
         List<SponsorDef> users = new ArrayList<SponsorDef>();
+        /*
         Cursor cursor = writeDB.query(_DatabaseHelper.CREATE_SPONSOR_TABLE,
-                new String[] { SponsorTable.SPONSOR_ID,
+                new String[] { SponsorTable._ID,
+                        SponsorTable.NAME}, null, null, null, null,
+                null);
+*/
+        Cursor cursor = writeDB.query(SponsorTable.TABLE_NAME,
+                new String[] { SponsorTable._ID,
                         SponsorTable.NAME}, null, null, null, null,
                 null);
 

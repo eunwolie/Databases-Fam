@@ -8,18 +8,20 @@ import android.os.Parcelable;
  */
 
 public class EventAttendanceDef {
-    private int sId;
     private int id;
+    private int startTime;
+    private int date;
 
     public EventAttendanceDef() {
         super();
     }
 
 
-    public EventAttendanceDef(int id, int sId) {
+    public EventAttendanceDef(int id, int startTime, int date) {
         super();
         this.id = id;
-        this.sId = sId;
+        this.startTime = startTime;
+        this.date = date;
     }
 
     /* public EventAttendance(String name) {
@@ -29,7 +31,8 @@ public class EventAttendanceDef {
     private EventAttendanceDef(Parcel in) {
         super();
         this.id = in.readInt();
-        this.sId = in.readInt();
+        this.startTime = in.readInt();
+        this.date = in.readInt();
     }
 
     public int getId() {
@@ -40,17 +43,26 @@ public class EventAttendanceDef {
         this.id = id;
     }
 
-    public int getsId() {
-        return sId;
+    public int getStartTime() {
+        return startTime;
     }
 
-    public void setName(String name) {
-        this.sId = sId;
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
     }
+
+    public int getDate() {
+        return date;
+    }
+
+    public void setDate(int date) {
+        this.date = date;
+    }
+
 
     @Override
     public String toString() {
-        return "id:" + id + ", sponsor ID:" + sId;
+        return "id:" + id + ", start time:" + startTime + ", date:" + date;
 }
 
     public int describeContents() {
@@ -59,7 +71,8 @@ public class EventAttendanceDef {
 
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(getId());
-        parcel.writeInt(getsId());
+        parcel.writeInt(getStartTime());
+        parcel.writeInt(getDate());
     }
 
     public static final Parcelable.Creator<EventAttendanceDef> CREATOR = new Parcelable.Creator<EventAttendanceDef>() {

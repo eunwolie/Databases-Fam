@@ -83,6 +83,9 @@ public class ShelfDef {
         return "genre:" + genre + ", isbn:" + isbn + ", shelf number:" + shelfNumber;
     }
 
+    //public int getHashCode(int i);
+    //public int getHashCode(String i);
+
     // TODO : Need to adjust genre because it's the pk but it ain't a number
     @Override
     public int hashCode() {
