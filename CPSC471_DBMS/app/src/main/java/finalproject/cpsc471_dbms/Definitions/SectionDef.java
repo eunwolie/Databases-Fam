@@ -8,9 +8,9 @@ import android.os.Parcelable;
  */
 
 public class SectionDef {
-    private String genre;
-    private int sNo;
-    private int fNo;
+    private String genre = null;
+    private int sNo = -1;
+    private int fNo = -1;
 
     public SectionDef() {
         super();

@@ -8,9 +8,9 @@ import android.provider.BaseColumns;
 
 public class BorrowingTable implements BaseColumns {
     public static final String TABLE_NAME = "Borrows";
-    public static final String BORROW_DATE = "Borrow Date";
-    public static final String RETURN_DATE = "Return Date";
-    public static final String OVERDUE_FEE = "Overdue Fee";
+    public static final String BORROW_DATE = "BorrowDate";
+    public static final String RETURN_DATE = "ReturnDate";
+    public static final String OVERDUE_DAY = "OverdueDay";
     public static final String STATUS = "Status";
     public static final String ID = "ID";
     public static final String ISBN = "ISBN";

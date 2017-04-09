@@ -8,12 +8,14 @@ import android.os.Parcelable;
  */
 
 public class UserDef {
-    private int id;
-    private String name;
-    private String username;
-    private String address;
-    private String password;
-    private int phone;
+    private int id = -1;
+    private String firstName = null;
+    private String minit = null;
+    private String lastName = null;
+    private String username = null;
+    private String address = null;
+    private String password = null;
+    private int phone = -1;
 
     public UserDef() {
         super();
@@ -22,21 +24,23 @@ public class UserDef {
     public UserDef(int id, String name) {
         super();
         this.id = id;
-        this.name = name;
+        this.firstName = name;
     }
 
-    public UserDef(int id, String name, String username, String address, String password, int phone) {
+    public UserDef(int id, String firstName, String lastName, String username, String address, String password, int phone) {
         super();
         this.id = id;
-        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.address = address;
         this.password = password;
         this.phone = phone;
     }
 
-    public UserDef(String name, String username, String address, String password) {
-        this.name = name;
+    public UserDef(String firstName, String lastName, String username, String address, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.address = address;
         this.password = password;
@@ -45,7 +49,8 @@ public class UserDef {
     private UserDef(Parcel in) {
         super();
         this.id = in.readInt();
-        this.name = in.readString();
+        this.firstName = in.readString();
+        this.lastName = in.readString();
         this.address = in.readString();
         this.password = in.readString();
         this.username = in.readString();
@@ -68,12 +73,20 @@ public class UserDef {
         this.phone = phone;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getUsername() {
@@ -89,7 +102,7 @@ public class UserDef {
     }
 
     public void setAddress(String address) {
-        this.name = address;
+        this.address = address;
     }
 
     public String getPassword() {
@@ -107,7 +120,8 @@ public class UserDef {
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(getId());
         parcel.writeInt(getPhone());
-        parcel.writeString(getName());
+        parcel.writeString(getFirstName());
+        parcel.writeString(getLastName());
         parcel.writeString(getAddress());
         parcel.writeString(getUsername());
         parcel.writeString(getPassword());
@@ -125,7 +139,7 @@ public class UserDef {
 
     @Override
     public String toString() {
-        return "id:" + id + ", name:" + name;
+        return "id:" + id + ", first name:" + firstName + ", last name:" + lastName;
     }
 
     @Override

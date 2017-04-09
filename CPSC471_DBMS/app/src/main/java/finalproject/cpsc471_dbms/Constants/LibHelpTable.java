@@ -8,6 +8,6 @@ import android.provider.BaseColumns;
 
 public class LibHelpTable implements BaseColumns {
     public static final String TABLE_NAME = "Helps";
-    public static final String USER_ID = "UserDef ID";
-    public static final String WORK_ID = "Work ID";
+    public static final String USER_ID = "UserID";
+    public static final String WORK_ID = "WorkID";
 }

@@ -8,10 +8,10 @@ import android.os.Parcelable;
  */
 
 public class _BorrowedDef {
-    private int borrowDate;
-    private int returnDate;
-    private String bookTitle;
-    private int ISBN;
+    private int borrowDate = -1;
+    private int returnDate = -1;
+    private String bookTitle = null;
+    private int ISBN = -1;
 
     /*
         String[] allBooks = new String[]{BorrowingTable.BORROW_DATE,

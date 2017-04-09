@@ -8,13 +8,13 @@ import android.os.Parcelable;
  */
 
 public class EventDef {
-    private int endTime;
-    private int startTime;
-    private int date;
-    private String title;
-    private int sponsorID;
-    private int workID;
-    private String description;
+    private int endTime = -1;
+    private int startTime = -1;
+    private int date = -1;
+    private String title = null;
+    private int sponsorID = -1;
+    private int workID = -1;
+    private String description = null;
 
     public EventDef() {
         super();
@@ -134,7 +134,6 @@ public class EventDef {
         return result;
     }
 
-    // TODO : Fix the equals of this to include date, time, and hostid
     @Override
     public boolean equals(Object obj) {
         if (obj == null)
@@ -144,7 +143,9 @@ public class EventDef {
         if (getClass() != obj.getClass())
             return false;
 
-        return (sponsorID == ((EventDef) obj).sponsorID);
+        return (date == ((EventDef) obj).date
+        && startTime == ((EventDef) obj).startTime
+        && workID == ((EventDef) obj).workID);
     }
 }
 

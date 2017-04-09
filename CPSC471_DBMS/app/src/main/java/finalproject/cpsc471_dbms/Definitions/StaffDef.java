@@ -8,18 +8,18 @@ import android.os.Parcelable;
  */
 
 public class StaffDef {
-    private int columnId;
-    private int salary;
-    private int ssn;
-    private int workId;
+    private int uId = -1;
+    private int salary = -1;
+    private int ssn = -1;
+    private int workId = -1;
 
     public StaffDef() {
         super();
     }
 
-    public StaffDef(int columnId, int salary, int ssn, int workId) {
+    public StaffDef(int uId, int salary, int ssn, int workId) {
         super();
-        this.columnId = columnId;
+        this.uId = uId;
         this.salary = salary;
         this.ssn = ssn;
         this.workId = workId;
@@ -27,18 +27,18 @@ public class StaffDef {
 
     private StaffDef(Parcel in) {
         super();
-        this.columnId = in.readInt();
+        this.uId = in.readInt();
         this.salary = in.readInt();
         this.ssn = in.readInt();
         this.workId = in.readInt();
     }
 
-    public int getColumnId() {
-        return columnId;
+    public int getUId() {
+        return uId;
     }
 
-    public void setColumnId(int columnId) {
-        this.columnId = columnId;
+    public void setUId(int uId) {
+        this.uId = uId;
     }
 
     public int getSalary() {
@@ -68,7 +68,7 @@ public class StaffDef {
 
     @Override
     public String toString() {
-        return "Column ID:" + columnId + ", Salary:" + salary + ", SSN:" + ssn + ", Word ID:" + workId;
+        return "User ID:" + uId + ", Salary:" + salary + ", SSN:" + ssn + ", Word ID:" + workId;
     }
 
     public int describeContents() {
@@ -76,7 +76,7 @@ public class StaffDef {
     }
 
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(getColumnId());
+        parcel.writeInt(getUId());
         parcel.writeInt(getSalary());
         parcel.writeInt(getSsn());
         parcel.writeInt(getWorkId());

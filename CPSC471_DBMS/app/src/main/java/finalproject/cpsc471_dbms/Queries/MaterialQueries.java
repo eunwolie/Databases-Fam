@@ -17,14 +17,14 @@ import finalproject.cpsc471_dbms.Definitions.*;
 
 public class MaterialQueries {
     SQLiteDatabase writeDB;
+    SQLiteDatabase readDB;
 
-    public MaterialQueries(Context context, int isbn)
-    {
+    public MaterialQueries(Context context, int isbn) {
         writeDB = new _DatabaseHelper(context).getWritableDatabase();
+        readDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public void update(MaterialsDef material)
-    {
+    public void update(MaterialsDef material) {
         ContentValues values = new ContentValues();
 
         if (material.getIsbn() != -1)
@@ -50,11 +50,10 @@ public class MaterialQueries {
 
         writeDB.update(MaterialTable.TABLE_NAME, values,
                 MaterialTable._ID + "=?",
-                new String[] {Integer.toString(material.getIsbn())});
+                new String[]{Integer.toString(material.getIsbn())});
     }
 
-    public void add(MaterialsDef material)
-    {
+    public void insert(MaterialsDef material) {
         ContentValues values = new ContentValues();
 
         values.put(MaterialTable._ID, material.getIsbn());
@@ -71,26 +70,29 @@ public class MaterialQueries {
         writeDB.insert(MaterialTable.TABLE_NAME, null, values);
     }
 
-    public void delete(MaterialsDef material)
-    {
+    public void delete(int ISBN) {
         writeDB.delete(MaterialTable.TABLE_NAME, MaterialTable._ID + "=?",
-                new String[]{Integer.toString(material.getIsbn())});
+                new String[]{Integer.toString(ISBN)});
     }
 
-    // TODO : Give choice to william whether ISBN or class would be easier
-    public _LocationDef getLocation(MaterialsDef material)
-    {
+    // TODO : Delete ISBN from _LocationDef
+    public _LocationDef getLocation(int ISBN) {
         _LocationDef location = new _LocationDef();
 
         String tables = FloorTable.TABLE_NAME + " , "
                 + SectionTable.TABLE_NAME + " , "
                 + ShelfTable.TABLE_NAME + " , "
                 + MaterialTable.TABLE_NAME;
-        String[] want = new String[] {FloorTable._ID, SectionTable._ID, ShelfTable._ID, MaterialTable._ID};
+        String[] want = new String[]{FloorTable._ID, SectionTable._ID, ShelfTable._ID};
+        String where =  MaterialTable._ID + "=? AND "
+                + ShelfTable._ID + "=" + MaterialTable.SHELF_NO + " AND "
+                + SectionTable._ID + "=" + ShelfTable.GENRE + " AND "
+                + FloorTable._ID + "=" + SectionTable.FLOOR_NUMBER;
 
-        Cursor cursor = writeDB.query(tables, want,
-                MaterialTable._ID + "=?",
-                new String[] {Integer.toString(material.getIsbn())},
+        // TODO : NEED TO FIX THIS ACCORDING TO MULTIPLE BOOKS IN SHELVES
+        Cursor cursor = readDB.query(tables, want,
+                where,
+                new String[]{Integer.toString(ISBN)},
                 null, null, null);
 
         if (cursor == null) return null;
@@ -100,10 +102,31 @@ public class MaterialQueries {
         location.setFloor(cursor.getInt(cursor.getColumnIndex(FloorTable._ID)));
         location.setSection(cursor.getInt(cursor.getColumnIndex(SectionTable._ID)));
         location.setShelf(cursor.getInt(cursor.getColumnIndex(ShelfTable._ID)));
-        location.setIsbn(material.getIsbn());
 
         cursor.close();
 
         return location;
+    }
+
+    // TODO : Fix the result
+    public boolean isAvailable(int isbn)
+    {
+        String table = BorrowingTable.TABLE_NAME + " , " + OnHoldTable.TABLE_NAME
+                + " , " + MaterialTable.TABLE_NAME;
+        String want =  BorrowingTable.ISBN + "=? AND "
+                + OnHoldTable.ISBN + "=? AND "
+                + MaterialTable._ID + "=?";
+
+        Cursor cursor = readDB.query(table,
+                new String[]{"COUNT (*)"},
+                want,
+                new String[]{Integer.toString(isbn), Integer.toString(isbn), Integer.toString(isbn)},
+                null, null, null);
+
+        int num = cursor.getInt(0);
+
+        cursor.close();
+
+        return (num == 0);
     }
 }

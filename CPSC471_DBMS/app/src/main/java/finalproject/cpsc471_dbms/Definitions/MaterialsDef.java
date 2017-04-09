@@ -8,16 +8,16 @@ import android.os.Parcelable;
  */
 
 public class MaterialsDef implements Parcelable{
-    private String author;
-    private String title;
-    private String type;
-    private int isbn;
-    private String genre;
-    private int yearOfCreation;
-    private String language;
-    private String company;
-    private String description;
-    private int shelf;
+    private String author = null;
+    private String title = null;
+    private String type = null;
+    private int isbn = -1;;
+    private String genre = null;
+    private int yearOfCreation = -1;;
+    private String language = null;
+    private String company = null;
+    private String description = null;
+    private int shelf = -1;
 
     public MaterialsDef() {
         super();

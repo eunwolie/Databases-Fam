@@ -7,8 +7,8 @@ import android.provider.BaseColumns;
  */
 
 public class SponsorTable implements BaseColumns {
-    public static final String TABLE_NAME = "SponsorDef";
+    public static final String TABLE_NAME = "Sponsor";
     public static final String NAME = "Name";
     public static final String REASON = "Reason";
-    public static final String SPONSOR_ID = "SponsorDef ID";
+    public static final String _ID = "SID";
 }

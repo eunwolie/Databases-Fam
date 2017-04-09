@@ -8,8 +8,8 @@ import android.os.Parcelable;
  */
 
 public class AudioDef {
-    private int length;
-    private int isbn;
+    private int length = -1;
+    private int isbn = -1;
 
     public AudioDef() {
         super();

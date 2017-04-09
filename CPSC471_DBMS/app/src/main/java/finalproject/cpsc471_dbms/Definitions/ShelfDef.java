@@ -8,9 +8,9 @@ import android.os.Parcelable;
  */
 
 public class ShelfDef {
-    private int shelfNumber;
-    private int isbn;
-    private String genre;
+    private int shelfNumber = -1;
+    private int isbn = -1;
+    private String genre = null;
 
     public ShelfDef() {
         super();

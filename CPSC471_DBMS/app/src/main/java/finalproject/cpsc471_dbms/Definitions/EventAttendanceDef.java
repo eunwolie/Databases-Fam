@@ -8,20 +8,22 @@ import android.os.Parcelable;
  */
 
 public class EventAttendanceDef {
-    private int id;
-    private int startTime;
-    private int date;
+    private int id = -1;
+    private int startTime = -1;
+    private int date = -1;
+    private int workID = -1;
 
     public EventAttendanceDef() {
         super();
     }
 
 
-    public EventAttendanceDef(int id, int startTime, int date) {
+    public EventAttendanceDef(int id, int startTime, int date, int workID) {
         super();
         this.id = id;
         this.startTime = startTime;
         this.date = date;
+        this.workID = workID;
     }
 
     /* public EventAttendance(String name) {
@@ -33,6 +35,7 @@ public class EventAttendanceDef {
         this.id = in.readInt();
         this.startTime = in.readInt();
         this.date = in.readInt();
+        this.workID = in.readInt();
     }
 
     public int getId() {
@@ -59,6 +62,13 @@ public class EventAttendanceDef {
         this.date = date;
     }
 
+    public int getWorkID() {
+        return workID;
+    }
+
+    public void setWorkID(int workID) {
+        this.workID = workID;
+    }
 
     @Override
     public String toString() {
@@ -73,6 +83,7 @@ public class EventAttendanceDef {
         parcel.writeInt(getId());
         parcel.writeInt(getStartTime());
         parcel.writeInt(getDate());
+        parcel.writeInt(getWorkID());
     }
 
     public static final Parcelable.Creator<EventAttendanceDef> CREATOR = new Parcelable.Creator<EventAttendanceDef>() {

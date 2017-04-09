@@ -57,7 +57,9 @@ public class UserProfileQueries {
 
         UserDef user = new UserDef();
 
-        user.setName(cursor.getString(cursor.getColumnIndex(UserTable.NAME)));
+        user.setFirstName(cursor.getString(cursor.getColumnIndex(UserTable.FIRST_NAME)));
+        //user.setMinitName(cursor.getString(cursor.getColumnIndex(UserTable.NAME)));
+        user.setLastName(cursor.getString(cursor.getColumnIndex(UserTable.LAST_NAME)));
         user.setUsername(cursor.getString(cursor.getColumnIndex(UserTable.USERNAME)));
         user.setAddress(cursor.getString(cursor.getColumnIndex(UserTable.ADDRESS)));
         user.setPassword(cursor.getString(cursor.getColumnIndex(UserTable.PASSWORD)));
@@ -107,10 +109,36 @@ public class UserProfileQueries {
         return materials;
     }
 
-    // TODO : Finish on-hold material retrieval
-    public MaterialsDef[] getOnHoldMaterial()
+    public List<_HoldDef> getOnHoldMaterial()
     {
-        return new MaterialsDef[5];
+        List<_HoldDef> materials = new ArrayList<>();
+
+        String table = OnHoldTable.TABLE_NAME + " , "
+                + MaterialTable.TABLE_NAME + " , "
+                + UserTable.TABLE_NAME;
+
+        String[] allBooks = new String[]{OnHoldTable.HOLD_DATE,
+                OnHoldTable.END_DATE, MaterialTable.TITLE, MaterialTable._ID};
+        String where = OnHoldTable.ID + "=" + UserTable._ID
+                + " AND "
+                + OnHoldTable.ISBN + "=" + MaterialTable._ID;
+
+        Cursor cursor = db.query(table, allBooks,
+                where, null, null, null, null);
+
+        while (cursor.moveToNext()) {
+            _HoldDef material = new _HoldDef();
+
+            material.setHoldDate(cursor.getInt(cursor.getColumnIndex(OnHoldTable.HOLD_DATE)));
+            material.setEndDate(cursor.getInt(cursor.getColumnIndex(OnHoldTable.END_DATE)));
+            material.setBookTitle(cursor.getString(cursor.getColumnIndex(MaterialTable.TITLE)));
+            material.setIsbn(cursor.getInt(cursor.getColumnIndex(MaterialTable._ID)));
+            materials.add(material);
+        }
+
+        cursor.close();
+
+        return materials;
     }
 
     /**
@@ -122,8 +150,10 @@ public class UserProfileQueries {
     {
         ContentValues values = new ContentValues();
 
-        if (user.getName() != null)
-            values.put(UserTable.NAME, user.getName());
+        if (user.getFirstName() != null)
+            values.put(UserTable.FIRST_NAME, user.getFirstName());
+        if (user.getLastName() != null)
+            values.put(UserTable.LAST_NAME, user.getLastName());
         if (user.getUsername() != null)
             values.put(UserTable.USERNAME, user.getUsername());
         if (user.getAddress() != null)

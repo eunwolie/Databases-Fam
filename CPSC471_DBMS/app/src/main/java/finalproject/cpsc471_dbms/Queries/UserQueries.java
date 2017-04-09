@@ -37,7 +37,7 @@ public class UserQueries {
     {
         ContentValues values = new ContentValues();
         values.put(UserTable._ID, user.getId());
-        values.put(UserTable.NAME, user.getName());
+        values.put(UserTable.FIRST_NAME, user.getFirstName());
         values.put(UserTable.USERNAME, user.getUsername());
         values.put(UserTable.PASSWORD, user.getPassword());
         values.put(UserTable.ADDRESS, user.getAddress());
@@ -56,14 +56,5 @@ public class UserQueries {
     {
         db.delete(UserTable.TABLE_NAME, UserTable._ID + "=?",
                 new String[]{Integer.toString(id)});
-    }
-
-    /**
-     * @param user the id of the desired user
-     */
-    public void deleteUser(UserDef user)
-    {
-        db.delete(UserTable.TABLE_NAME, UserTable._ID + "=?",
-                new String[]{Integer.toString(user.getId())});
     }
 }

@@ -15,9 +15,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 // Likely going to just hardcode shit
 // TODO : Figure out how often need to close database after getWritableDatabase
 // TODO : Add pictures to the material database (use blob and byte[] and byte stream)
-// TODO : Create an ON-HOLD relation, which would have a pick-up date, and
-//          hold-date, and user, and isbn
 // TODO : need to keep track of the rows - use the _COUNT?
+// TODO : Make sure all insert and delete operations return the int/long to see if they work
 
 
 public class _DatabaseHelper extends SQLiteOpenHelper {
@@ -35,10 +34,13 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + EventAttendanceTable.UID + " INTEGER, "
             + EventAttendanceTable.START_TIME + " INTEGER, "
             + EventAttendanceTable.DATE + " INTEGER, "
+            + EventAttendanceTable.HOST_ID + " INTEGER, "
             + "FOREIGN KEY(" + EventAttendanceTable.UID + ") REFERENCES "
             + UserTable.TABLE_NAME + "(" + UserTable._ID + ") " + ", "
             + "FOREIGN KEY(" + EventAttendanceTable.START_TIME + ") REFERENCES "
             + EventTable.TABLE_NAME + "(" + EventTable.START_TIME + ") " + ", "
+            + "FOREIGN KEY(" + EventAttendanceTable.HOST_ID + ") REFERENCES "
+            + EventTable.TABLE_NAME + "(" + EventTable.HOST + ") " + ", "
             + "FOREIGN KEY(" + EventAttendanceTable.DATE + ") REFERENCES "
             + EventTable.TABLE_NAME + "(" + EventTable.DATE + ") )";
 
@@ -62,7 +64,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + BorrowingTable.TABLE_NAME + "("
             + BorrowingTable.BORROW_DATE + " INTEGER, "
             + BorrowingTable.RETURN_DATE + " INTEGER, "
-            + BorrowingTable.OVERDUE_FEE + " INTEGER, "
+            + BorrowingTable.OVERDUE_DAY + " INTEGER, "
             + BorrowingTable.STATUS + " TEXT, "
             + BorrowingTable.ID + " INTEGER, "
             + BorrowingTable.ISBN + " INTEGER, "
@@ -86,7 +88,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + EventTable.START_TIME + " INTEGER, "
             + EventTable.END_TIME  + " INTEGER, "
             + EventTable.DATE + " INTEGER, "
-            + EventTable.TITLE + " TEXT,"
+            + EventTable.TITLE + " TEXT, "
             + EventTable.SID + " INTEGER, "
             + EventTable.HOST + " INTEGER, "
             + "FOREIGN KEY(" + EventTable.SID + ") REFERENCES "
@@ -115,7 +117,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + LanguageTable.TABLE_NAME + "("
             + LanguageTable.LANGUAGE + " TEXT, "
             + LanguageTable.ISBN + " INTEGER, "
-            + "FO REIGN KEY(" + LanguageTable.ISBN  + ") REFERENCES "
+            + "FOREIGN KEY(" + LanguageTable.ISBN  + ") REFERENCES "
             + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") " + ")";
 
     public static final String CREATE_LIBRARIAN_TABLE = "CREATE TABLE "
@@ -126,7 +128,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + StaffTable.TABLE_NAME + "(" + StaffTable._ID + ") " + ")";
 
     public static final String CREATE_MATERIALS_TABLE = "CREATE TABLE "
-            + MaterialTable.DESCRIPTION + "("
+            + MaterialTable.TABLE_NAME + "("
             + MaterialTable.AUTHOR + " TEXT, "
             + MaterialTable.TITLE + " TEXT, "
             + MaterialTable.TYPE + " TEXT, "
@@ -140,37 +142,27 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + ShelfTable.TABLE_NAME + "(" + ShelfTable._ID + ") "
             + ")";
 
-    public static final String CREATE_MIDDLE_NAME_TABLE = "CREATE TABLE "
-            + MiddleNameTable.TABLE_NAME + "("
-            + MiddleNameTable.NAME + " TEXT, "
-            + MiddleNameTable.USER_ID + " INTEGER, "
-            + "FOREIGN KEY(" + MiddleNameTable.USER_ID + ") REFERENCES "
-            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") " + ")";
-
-    public static final String CREATE_NAME_TABLE = "CREATE TABLE "
-            + NameTable.TABLE_NAME + "("
-            + NameTable.FIRST_NAME + " TEXT, "
-            + NameTable.MINIT_NAME + " TEXT, "
-            + NameTable.LAST_NAME + " TEXT, "
-            + NameTable._ID + " INTEGER, "
-            + "FOREIGN KEY(" + NameTable._ID + ") REFERENCES "
-            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") " + ")";
+    public static final String CREATE_ON_HOLD_TABLE = "CREATE TABLE "
+            + OnHoldTable.TABLE_NAME + "("
+            + OnHoldTable.HOLD_DATE + " INTEGER, "
+            + OnHoldTable.END_DATE + " INTEGER, "
+            + OnHoldTable.ID + " INTEGER, "
+            + OnHoldTable.ISBN + " INTEGER, "
+            + "FOREIGN KEY(" + OnHoldTable.ID + ") REFERENCES "
+            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") "
+            + "FOREIGN KEY(" + OnHoldTable.ISBN + ") REFERENCES "
+            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") " + ")";
 
     public static final String CREATE_SECTION_TABLE = "CREATE TABLE "
             + SectionTable.TABLE_NAME + "("
-            + SectionTable.SHELF_NUMBER + " INTEGER, "
-            + SectionTable._ID + "INTEGER NOT NULL PRIMARY KEY"
-            + SectionTable.SHELF_NUMBER + " INTEGER, "
+            + SectionTable._ID + " INTEGER NOT NULL PRIMARY KEY, "
             + SectionTable.FLOOR_NUMBER + " INTEGER, "
-            + "FOREIGN KEY(" + SectionTable.SHELF_NUMBER + ") REFERENCES "
-            + ShelfTable.TABLE_NAME + "(" + ShelfTable._ID + ") , "
             + "FOREIGN KEY(" + SectionTable.FLOOR_NUMBER + ") REFERENCES "
             + FloorTable.TABLE_NAME + "(" + FloorTable._ID + ") )";
 
     public static final String CREATE_SHELF_TABLE = "CREATE TABLE "
             + ShelfTable.TABLE_NAME + "("
             + ShelfTable._ID + " INTEGER NOT NULL PRIMARY KEY, "
-            + ShelfTable.ISBN + " INTEGER, "
             + ShelfTable.GENRE + " TEXT, "
             + "FOREIGN KEY(" + ShelfTable.GENRE + ") REFERENCES "
             + SectionTable.TABLE_NAME + "(" + SectionTable._ID + ") )";
@@ -200,7 +192,8 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
     public static final String CREATE_USER_TABLE = "CREATE TABLE "
             + UserTable.TABLE_NAME + "("
             + UserTable._ID + " INTEGER NOT NULL PRIMARY KEY, "
-            + UserTable.NAME + " TEXT NOT NULL, "
+            + UserTable.FIRST_NAME + " TEXT NOT NULL, "
+            + UserTable.LAST_NAME + " TEXT NOT NULL, "
             + UserTable.ADDRESS + " TEXT, "
             + UserTable.PASSWORD + " TEXT NOT NULL, "
             + UserTable.USERNAME + " TEXT NOT NULL UNIQUE, "
@@ -249,7 +242,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL(CREATE_LANGUAGE_TABLE);
         database.execSQL(CREATE_LIBRARIAN_TABLE);
         database.execSQL(CREATE_MATERIALS_TABLE);
-        database.execSQL(CREATE_MIDDLE_NAME_TABLE);
+        database.execSQL(CREATE_ON_HOLD_TABLE);
         database.execSQL(CREATE_SECTION_TABLE);
         database.execSQL(CREATE_SHELF_TABLE);
         database.execSQL(CREATE_SPONSOR_TABLE);
@@ -257,7 +250,6 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL(CREATE_TYPES_TABLE);
         database.execSQL(CREATE_USER_TABLE);
         database.execSQL(CREATE_VISUAL_TABLE);
-        database.execSQL(CREATE_NAME_TABLE);
     }
 
     public void onUpgrade(SQLiteDatabase database, int version1, int version2) {}

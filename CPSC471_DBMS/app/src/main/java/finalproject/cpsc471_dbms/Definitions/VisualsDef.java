@@ -8,8 +8,8 @@ import android.os.Parcelable;
  */
 
 public class VisualsDef {
-    private int pages;
-    private int isbn;
+    private int pages = -1;
+    private int isbn = -1;
 
     public VisualsDef() {
         super();

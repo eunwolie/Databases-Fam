@@ -8,9 +8,9 @@ import android.os.Parcelable;
  */
 
 public class FloorDef {
-    private int fNumber;
-    private int fComputer;
-    private int workId;
+    private int fNumber = -1;
+    private int fComputer = -1;
+    private int workId = -1;
 
     public FloorDef() {
         super();

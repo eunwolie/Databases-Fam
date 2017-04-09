@@ -8,8 +8,8 @@ import android.os.Parcelable;
  */
 
 public class LibrarianDef {
-    private int deskNo;
-    private int workId;
+    private int deskNo = -1;
+    private int workId = -1;
 
     public LibrarianDef() {
         super();

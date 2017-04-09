@@ -8,9 +8,9 @@ import android.os.Parcelable;
  */
 
 public class SponsorDef {
-    private int sponsorId;
-    private String reason;
-    private String name;
+    private int sponsorId = -1;
+    private String reason = null;
+    private String name = null;
 
     public SponsorDef() {
         super();

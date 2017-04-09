@@ -9,8 +9,8 @@ import android.os.Parcelable;
 
 public class DonationDef {
 
-    private int sId;
-    private int isbn;
+    private int sId = -1;
+    private int isbn = -1;
 
     public DonationDef() {
         super();

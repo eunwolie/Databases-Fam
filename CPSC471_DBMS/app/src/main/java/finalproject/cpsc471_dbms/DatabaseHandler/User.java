@@ -10,68 +10,48 @@ import java.util.ArrayList;
 import java.util.List;
 
 import finalproject.cpsc471_dbms.Constants.UserTable;
-import finalproject.cpsc471_dbms.Constants.VisualTable;
 import finalproject.cpsc471_dbms.Definitions.UserDef;
-import finalproject.cpsc471_dbms.Definitions.VisualsDef;
 
 /**
  * Created by evech on 2017-03-27.
  */
 
 public class User {
-    protected SQLiteDatabase db;
-    private static final String WHERE_KEY_EQUALS = UserTable._ID + "=?";
+    _DatabaseHelper userdbHelper;
+    SQLiteDatabase writeDB;
+    SQLiteDatabase readDB;
+    private Context aContext;
 
-    public User(Context context)
-    {
-        db = new _DatabaseHelper(context).getWritableDatabase();
+    private static final String WHERE_ID_EQUALS = UserTable._ID
+            + " =?";
+
+    public User(Context context) {
+        userdbHelper = _DatabaseHelper.getHelper(aContext);
+        writeDB = userdbHelper.getWritableDatabase();
+        readDB = userdbHelper.getReadableDatabase();
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
-    public void addUser(UserDef user)
-    {
+    public long save(UserDef user) {
         ContentValues values = new ContentValues();
-        values.put(UserTable._ID, user.getId());
         values.put(UserTable.NAME, user.getName());
-        values.put(UserTable.USERNAME, user.getUsername());
-        values.put(UserTable.PASSWORD, user.getPassword());
-        values.put(UserTable.ADDRESS, user.getAddress());
-        values.put(UserTable.PHONE, user.getPhone());
-        db.insert(UserTable.TABLE_NAME, null, values);
+        return writeDB.insert(_DatabaseHelper.CREATE_USER_TABLE, null, values);
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
-    public int updateUser(UserDef user) {
+    public long update(UserDef user) {
         ContentValues values = new ContentValues();
-        values.put(UserTable._ID, user.getId());
         values.put(UserTable.NAME, user.getName());
-        values.put(UserTable.USERNAME, user.getUsername());
-        values.put(UserTable.PASSWORD, user.getPassword());
-        values.put(UserTable.ADDRESS, user.getAddress());
-        values.put(UserTable.PHONE, user.getPhone());
-        // update row
-        int result = db.update(UserTable.TABLE_NAME, values,
-                WHERE_KEY_EQUALS,
+
+        long result = readDB.update(_DatabaseHelper.CREATE_USER_TABLE, values,
+                WHERE_ID_EQUALS,
                 new String[] { String.valueOf(user.getId()) });
         Log.d("Update Result:", "=" + result);
         return result;
-    }
 
-    /**
-     * @param isbn the key of the audio class containing all the information of a new audio material
-     */
-    public int deleteUser(int id) {
-        db.delete(UserTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[]{Integer.toString(id)});
     }
 
     public int deleteUser(UserDef user) {
-        return db.delete(UserTable.TABLE_NAME,
-                WHERE_KEY_EQUALS, new String[] {user.getId() + "" });
+        return writeDB.delete(_DatabaseHelper.CREATE_USER_TABLE,
+                WHERE_ID_EQUALS, new String[] {user.getId() + "" });
     }
 
     public List<UserDef> getUsers() {

@@ -78,54 +78,88 @@ public class EventQueries {
     }
     */
 
-    private void deleteBy(String attribute, String item)
+    /**
+     * @return list of borrowed book information
+     *
+     * Retrieves a user's list of borrowed materials' borrow date, return date,
+     * title, and ISBN.
+     *
+     */
+    private int deleteBy(String attribute, String item)
     {
-        writeDB.delete(EventTable.TABLE_NAME,
+        return writeDB.delete(EventTable.TABLE_NAME,
                 attribute + "=?",
                 new String[]{item});
     }
 
-    public void deleteByStartTime(int startTime)
+    public int deleteByStartTime(int startTime)
     {
-        deleteBy(EventTable.START_TIME, Integer.toString(startTime));
+        return deleteBy(EventTable.START_TIME, Integer.toString(startTime));
     }
 
-    public void deleteByEndTime(int endTime)
+    public int deleteByEndTime(int endTime)
     {
-        deleteBy(EventTable.END_TIME, Integer.toString(endTime));
+        return deleteBy(EventTable.END_TIME, Integer.toString(endTime));
     }
 
-    public void deleteByTitle(String title)
+    public int deleteByTitle(String title)
     {
-        deleteBy(EventTable.TITLE, title);
+
+        return deleteBy(EventTable.TITLE, title);
     }
 
     // TODO : Make other ways to delete by sponsor? Like, by title?
-    public void deleteBySponsor(int sID)
+    public int deleteBySponsor(int sID)
     {
-        deleteBy(EventTable.SID, Integer.toString(sID));
+        return deleteBy(EventTable.SID, Integer.toString(sID));
     }
 
-    public void deleteSpecific(EventDef event)
+    public int deleteSpecific(EventDef event)
     {
         String where = EventTable.HOST + "=? AND "
                 + EventTable.DATE + "=? AND "
                 + EventTable.START_TIME + "=?";
         String[] whereargs = new String[] {Integer.toString(event.getWorkID()),
                 Integer.toString(event.getDate()), Integer.toString(event.getStartTime())};
-        writeDB.delete(EventTable.TABLE_NAME, where, whereargs);
+        return writeDB.delete(EventTable.TABLE_NAME, where, whereargs);
     }
 
-    public void addUserToEvent(EventDef event, UserDef user)
+    public long addUserToEvent(int date, int startTime, int userId)
     {
         String table = EventAttendanceTable.TABLE_NAME + " , " + EventTable.TABLE_NAME;
 
         ContentValues values = new ContentValues();
 
-        values.put(EventAttendanceTable.DATE, event.getDate());
-        values.put(EventAttendanceTable.START_TIME, event.getStartTime());
-        values.put(EventAttendanceTable.UID, user.getId());
+        values.put(EventAttendanceTable.DATE, date);
+        values.put(EventAttendanceTable.START_TIME, startTime);
+        values.put(EventAttendanceTable.UID, userId);
 
-        writeDB.insert(table, null, values);
+        return writeDB.insert(table, null, values);
+    }
+
+    public boolean isInEvent(int userId, EventDef e)
+    {
+        List<EventDef> events = new ArrayList<EventDef>();
+
+        String where = EventAttendanceTable.UID + "=? AND "
+                + EventAttendanceTable.DATE + "=? AND "
+                + EventAttendanceTable.START_TIME + "=?";
+        String[] want = new String[]{Integer.toString(userId),
+                Integer.toString(e.getDate()),
+                Integer.toString(e.getStartTime())};
+
+        Cursor cursor = readDB.query(true, EventAttendanceTable.TABLE_NAME,
+                new String[]{"COUNT(*)"},
+                where, want, null, null, null, null);
+
+        // should be 1 or 0
+        int repeatsInEvent = cursor.getInt(0);
+
+        return (repeatsInEvent == 1);
+    }
+
+    public boolean getHostName(int workId)
+    {
+        return false;
     }
 }

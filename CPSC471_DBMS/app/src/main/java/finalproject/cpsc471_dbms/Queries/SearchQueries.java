@@ -182,7 +182,7 @@ public class SearchQueries {
      */
     public List<MaterialsDef> getGenre(String genre)
     {
-        return getSpecificInfoBy(MaterialTable.GENRE, genre);
+        return getSpecificInfoBy(MaterialTable.GENRE, genre + "%");
     }
 
     // TODO : Partial titles
@@ -192,7 +192,7 @@ public class SearchQueries {
      */
     public List<MaterialsDef> getTitle(String title)
     {
-        return getSpecificInfoBy(MaterialTable.TITLE, title);
+        return getSpecificInfoBy(MaterialTable.TITLE, title + "%");
     }
 
     /**
@@ -210,6 +210,6 @@ public class SearchQueries {
      */
     public List<MaterialsDef> getAuthor(String author)
     {
-        return getSpecificInfoBy(MaterialTable.AUTHOR, author);
+        return getSpecificInfoBy(MaterialTable.AUTHOR, author + "%");
     }
 }

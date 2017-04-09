@@ -8,10 +8,10 @@ import android.os.Parcelable;
  */
 
 public class AuthorDef {
-    private String fName;
-    private String minit;
-    private String lName;
-    private int isbn;
+    private String fName = null;
+    private String minit = null;
+    private String lName = null;
+    private int isbn = -1;
 
     public AuthorDef() {
         super();

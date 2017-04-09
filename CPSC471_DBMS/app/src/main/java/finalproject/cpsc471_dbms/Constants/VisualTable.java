@@ -9,5 +9,6 @@ import android.provider.BaseColumns;
 public class VisualTable implements BaseColumns {
     public static final String TABLE_NAME = "Visual";
     public static final String ISBN = "ISBN";
-    public static final String PAGE_LENGTH = "Page Number";
+    public static final String SHELF_NO = "ShelfNumber";
+    public static final String PAGE_LENGTH = "PageNum";
 }

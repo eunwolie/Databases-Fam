@@ -15,21 +15,19 @@ import android.os.Parcelable;
  */
 
 public class _LocationDef {
-    private int floor;
-    private int section;
-    private int shelf;
-    private int ISBN;
+    private int floor = -1;
+    private int section = -1;
+    private int shelf = -1;
 
     public _LocationDef() {
         super();
     }
 
-    public _LocationDef(int floor, int section, int shelf, int isbn) {
+    public _LocationDef(int floor, int section, int shelf) {
         super();
         this.floor = floor;
         this.section = section;
         this.shelf = shelf;
-        this.ISBN = isbn;
     }
 
     private _LocationDef(Parcel in) {
@@ -37,8 +35,7 @@ public class _LocationDef {
         this.floor = in.readInt();
         this.section = in.readInt();
         this.shelf = in.readInt();
-        this.ISBN = in.readInt();
-    }
+      }
 
     public int getFloor() {
         return floor;
@@ -60,14 +57,6 @@ public class _LocationDef {
         this.shelf = shelf;
     }
 
-    public int getIsbn(){
-        return ISBN;
-    }
-
-    public void setIsbn(int isbn){
-        this.ISBN = isbn;
-    }
-
     public int describeContents() {
         return 0;
     }
@@ -76,7 +65,6 @@ public class _LocationDef {
         parcel.writeInt(getFloor());
         parcel.writeInt(getSection());
         parcel.writeInt(getShelf());
-        parcel.writeInt(ISBN);
     }
 
     public static final Parcelable.Creator<_LocationDef> CREATOR = new Parcelable.Creator<_LocationDef>() {
@@ -93,27 +81,7 @@ public class _LocationDef {
     public String toString() {
         return "floor number:" + floor
                 + ", section number:" + section
-                + ", shelf number:" + shelf
-                + ", isbn:" + ISBN;
+                + ", shelf number:" + shelf;
     }
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ISBN;
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null)
-            return false;
-        if (this == obj)
-            return true;
-        if (getClass() != obj.getClass())
-            return false;
-
-        return (ISBN == ((_LocationDef) obj).ISBN);
-    }
 }

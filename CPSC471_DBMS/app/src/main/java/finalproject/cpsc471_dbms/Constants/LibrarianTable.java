@@ -8,6 +8,6 @@ import android.provider.BaseColumns;
 
 public class LibrarianTable implements BaseColumns {
     public static final String TABLE_NAME = "Librarian";
-    public static final String WORK_ID = "Work ID";
-    public static final String DESKNO = "Desk No";
+    public static final String WORK_ID = "WorkID";
+    public static final String DESKNO = "DeskNo";
 }

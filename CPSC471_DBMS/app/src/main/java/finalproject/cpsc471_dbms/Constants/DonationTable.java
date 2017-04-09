@@ -8,6 +8,6 @@ import android.provider.BaseColumns;
 
 public class DonationTable implements BaseColumns {
     public static final String TABLE_NAME = "Donates";
-    public static final String SID = "SponsorDef ID";
+    public static final String SID = "SponsorID";
     public static final String ISBN = "ISBN";
 }

@@ -36,7 +36,7 @@ public class LoginQueries {
      * username and password match
      *
      */
-    public int correctLogin(String username, int password)
+    public int checkCredentials(String username, int password)
     {
         int id = -1;
 
