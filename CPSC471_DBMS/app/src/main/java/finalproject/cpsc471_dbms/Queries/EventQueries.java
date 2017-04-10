@@ -32,8 +32,6 @@ import finalproject.cpsc471_dbms.Definitions.*;
  *
  */
 
-// TODO : See if there's any elaborate queries we need for events
-
 public class EventQueries {
     private SQLiteDatabase readDB;
     private SQLiteDatabase writeDB;
@@ -119,7 +117,6 @@ public class EventQueries {
     public int deleteByTitle(String title)
     { return deleteBy(EventTable.TITLE, title); }
 
-    // TODO : Make other ways to delete by sponsor? Like, by title?
     public int deleteBySponsor(int sID)
     {
         return deleteBy(EventTable.SID, Integer.toString(sID));

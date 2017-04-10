@@ -40,9 +40,11 @@ public class SearchQueries {
     public static final String ASC = "ASC";
 
     private String[] all = new String[] {
-            MaterialTable._ID, MaterialTable.TITLE, MaterialTable.AUTHOR, MaterialTable.COMPANY,
-            MaterialTable.GENRE, MaterialTable.DESCRIPTION, MaterialTable.LANGUAGE,
-            MaterialTable.TYPE, MaterialTable.YEAR_CREATED, MaterialTable.SHELF_NO };
+            MaterialTable._ID, MaterialTable.TITLE, MaterialTable.COMPANY,
+            MaterialTable.GENRE, MaterialTable.DESCRIPTION, MaterialTable.TYPE,
+            MaterialTable.YEAR_CREATED, MaterialTable.SHELF_NO,
+            AuthorTable.FIRST_NAME, AuthorTable.MINIT_NAME, AuthorTable.LAST_NAME,
+            LanguageTable.LANGUAGE};
 
     public SearchQueries(Context context)
     {
@@ -54,27 +56,48 @@ public class SearchQueries {
      * @return List of desired materials
      *
      */
-    private List<MaterialsDef> getInfo(Cursor cursor)
+    private List<MaterialsDef> getBasicInfo(Cursor cursor)
     {
         List<MaterialsDef> materials = new ArrayList<MaterialsDef>();
+
+        int isbn = -1;
 
         while (cursor.moveToNext()) {
             MaterialsDef material = new MaterialsDef();
 
-            material.setAuthor(cursor.getString(cursor.getColumnIndex(MaterialTable.AUTHOR)));
-            material.setTitle(cursor.getString(cursor.getColumnIndex(MaterialTable.TITLE)));
-            material.setType(cursor.getString(cursor.getColumnIndex(MaterialTable.TYPE)));
-            material.setIsbn(cursor.getInt(cursor.getColumnIndex(MaterialTable._ID)));
-            material.setGenre(cursor.getString(cursor.getColumnIndex(MaterialTable.GENRE)));
-            material.setYearOfCreation(cursor.getInt(cursor.getColumnIndex(MaterialTable.YEAR_CREATED)));
-            material.setLanguage(cursor.getString(cursor.getColumnIndex(MaterialTable.LANGUAGE)));
-            material.setCompany(cursor.getString(cursor.getColumnIndex(MaterialTable.COMPANY)));
-            material.setShelf(cursor.getInt(cursor.getColumnIndex(MaterialTable.SHELF_NO)));
+            if ((cursor.getInt(cursor.getColumnIndex(MaterialTable._ID))) != isbn) {
+                isbn = cursor.getInt(cursor.getColumnIndex(MaterialTable._ID));
+                //material.setAuthor(cursor.getString(cursor.getColumnIndex(MaterialTable.AUTHOR)));
+                material.setTitle(cursor.getString(cursor.getColumnIndex(MaterialTable.TITLE)));
+                material.setType(cursor.getString(cursor.getColumnIndex(MaterialTable.TYPE)));
+                material.setIsbn(isbn);
+                material.setGenre(cursor.getString(cursor.getColumnIndex(MaterialTable.GENRE)));
+                material.setYearOfCreation(cursor.getInt(cursor.getColumnIndex(MaterialTable.YEAR_CREATED)));
+                //material.setLanguage(cursor.getString(cursor.getColumnIndex(MaterialTable.LANGUAGE)));
+                material.setCompany(cursor.getString(cursor.getColumnIndex(MaterialTable.COMPANY)));
+                material.setShelf(cursor.getInt(cursor.getColumnIndex(MaterialTable.SHELF_NO)));
+
+            }
+
             materials.add(material);
         }
 
         return materials;
     }
+
+    private List<MaterialsDef> getAuthorInfo(Cursor cursor, List<MaterialsDef> m)
+    {
+        do
+        for (MaterialsDef md : m)
+        {
+
+        }
+    }
+
+    private List<MaterialsDef> getLanguageInfo(Cursor cursor, List<MaterialsDef> m)
+    {}
+
+    //private List<MaterialsDef> getTypeInfo(){Cursor cursor}
 
     /**
      * @param attribute Retrieve items based on the order of this item
@@ -85,10 +108,15 @@ public class SearchQueries {
     {
         List<MaterialsDef> materials = new ArrayList<MaterialsDef>();
 
-        Cursor cursor = db.query(MaterialTable.TABLE_NAME, all,
-                null, null, null, null, attribute + " " + order);
+        String table = MaterialTable.TABLE_NAME + " , "
+                + AuthorTable.TABLE_NAME + " , "
+                + LanguageTable.TABLE_NAME;
 
-        materials = getInfo(cursor);
+        Cursor cursor = db.query(table, all,
+                null, null, null, MaterialTable._ID, attribute + " " + order);
+
+        materials = getBasicInfo(cursor);
+
 
         cursor.close();
 

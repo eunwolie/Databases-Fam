@@ -10,66 +10,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 import finalproject.cpsc471_dbms.Constants.UserTable;
-import finalproject.cpsc471_dbms.Constants.VisualTable;
 import finalproject.cpsc471_dbms.Definitions.UserDef;
-import finalproject.cpsc471_dbms.Definitions.VisualsDef;
 
 /**
  * Created by evech on 2017-03-27.
  */
 
 public class User {
-    protected SQLiteDatabase db;
-    private static final String WHERE_KEY_EQUALS = UserTable._ID + "=?";
+    _DatabaseHelper userdbHelper;
+    SQLiteDatabase writeDB;
+    SQLiteDatabase readDB;
+    private Context aContext;
 
-    public User(Context context)
-    {
-        db = new _DatabaseHelper(context).getWritableDatabase();
+    private static final String WHERE_ID_EQUALS = UserTable._ID
+            + " =?";
+
+    public User(Context context) {
+        userdbHelper = _DatabaseHelper.getHelper(aContext);
+        writeDB = userdbHelper.getWritableDatabase();
+        readDB = userdbHelper.getReadableDatabase();
     }
 
-    public void addUser(UserDef user)
-    {
+    public long add(UserDef user) {
         ContentValues values = new ContentValues();
         values.put(UserTable._ID, user.getId());
+        values.put(UserTable.USERNAME, user.getUsername());
+        values.put(UserTable.PASSWORD, user.getUsername());
         values.put(UserTable.FIRST_NAME, user.getFirstName());
         values.put(UserTable.LAST_NAME, user.getLastName());
-        values.put(UserTable.USERNAME, user.getUsername());
-        values.put(UserTable.PASSWORD, user.getPassword());
         values.put(UserTable.ADDRESS, user.getAddress());
         values.put(UserTable.PHONE, user.getPhone());
-        db.insert(UserTable.TABLE_NAME, null, values);
+
+        return writeDB.insert(UserTable.TABLE_NAME, null, values);
     }
 
-    public int updateUser(UserDef user) {
+    public long update(UserDef user) {
         ContentValues values = new ContentValues();
         values.put(UserTable._ID, user.getId());
+        values.put(UserTable.USERNAME, user.getUsername());
+        values.put(UserTable.PASSWORD, user.getUsername());
         values.put(UserTable.FIRST_NAME, user.getFirstName());
         values.put(UserTable.LAST_NAME, user.getLastName());
-        values.put(UserTable.USERNAME, user.getUsername());
-        values.put(UserTable.PASSWORD, user.getPassword());
         values.put(UserTable.ADDRESS, user.getAddress());
         values.put(UserTable.PHONE, user.getPhone());
-        // update row
-        int result = db.update(UserTable.TABLE_NAME, values,
-                WHERE_KEY_EQUALS,
+
+        long result = writeDB.update(UserTable.TABLE_NAME, values,
+                WHERE_ID_EQUALS,
                 new String[] { String.valueOf(user.getId()) });
-        Log.d("Update Result:", "=" + result);
         return result;
+
     }
 
-    public int deleteUser(int id) {
-        return db.delete(UserTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[]{Integer.toString(id)});
-    }
-
-    public int deleteUser(UserDef user) {
-        return db.delete(UserTable.TABLE_NAME,
-                WHERE_KEY_EQUALS, new String[] {user.getId() + "" });
+    public int delete(UserDef user) {
+        return writeDB.delete(_DatabaseHelper.CREATE_USER_TABLE,
+                WHERE_ID_EQUALS, new String[] {user.getId() + "" });
     }
 
     public List<UserDef> getUsers() {
         List<UserDef> users = new ArrayList<UserDef>();
-        Cursor cursor = db.query(UserTable.TABLE_NAME,
+        Cursor cursor = readDB.query(_DatabaseHelper.CREATE_USER_TABLE,
                 new String[] { UserTable._ID,
                         UserTable.FIRST_NAME}, null, null, null, null,
                 null);
@@ -90,29 +89,46 @@ public class User {
         List<UserDef> users = getTempUser();
 
         for (UserDef use : users) {
-            ContentValues values = new ContentValues();
-            values.put(UserTable.FIRST_NAME, use.getFirstName());
-            db.insert(_DatabaseHelper.CREATE_USER_TABLE, null, values);
+            add(use);
         }
     }
 
-    private List<UserDef> getTempUser()
-    {
+    private List<UserDef> getTempUser() {
         List<UserDef> users = new ArrayList<UserDef>();
 
-        String r1 = "Nelson Wong";
-        String r2 = "M Eve P";
-        String r3 = "Erican Handeldis";
-        String r4 = "Wilyam Right";
-        String r5 = "Fera Shells";
-        String r6 = "Spencer is Cute";
+        int id = 9005;
+        String[] firstNames = new String[]{
+                "Spencer", "Farrah", "Eve", "William", "Erica", "Aerjay" };
+        String[] lastNames = new String[]{
+                "IsCute", "Urmeneta", "Chen", "Hong", "Aguete", "Italia" };
 
-        users.add(new UserDef(1, r1));
-        users.add(new UserDef(2, r2));
-        users.add(new UserDef(3, r3));
-        users.add(new UserDef(4, r4));
-        users.add(new UserDef(5, r5));
-        users.add(new UserDef(6, r6));
+        // TODO : MAKE SURE USERNAMES HAVE ACCEPTABLE CHARACTERS
+        String[] usernames = new String[]{
+                "theCutest", "noWillToLive", "admin", "_oneMoreDay", "erica.a", "NoOneCares"};
+        String[] address = new String[]{
+                "143 Farrah's Heart Avenue", "404 Spencer's Pants Road",
+                "Angel Boulevard", "Tina's Puke", "Anime Con", "Marlborough's Ghetto"
+        };
+        String[] passwords = new String[]{
+                "password", "ilovespencer", "STOP_3dw4rd5puns", "tinalovesme", "imAspyshh", "putangIN4mo"
+        };
+
+        // TODO: FIGURE OUT HOW TO STORE NUMBERS
+        int[] phoneNums = new int[]{
+                6322348, 911, 3123121, 696969, 4412341, 2070111
+        };
+        String[] emails = new String[]{
+                "spencer.manzon@yahi.com", "farrah.urmeneta@jeemail.com",
+                "eve.chen@gg.ca", "william.hong@hottestmail.com",
+                "erica.aguete@inlook.com", "aerjay.italia@youcloud.com"
+        };
+
+        for (int i = 0; i < firstNames.length; i++)
+        {
+            users.add(new UserDef(id, firstNames[i], lastNames[i],
+                    usernames[i], address[i], passwords[i], phoneNums[i], new byte[]{}, emails[i]));
+            id++;
+        }
 
         return users;
     }

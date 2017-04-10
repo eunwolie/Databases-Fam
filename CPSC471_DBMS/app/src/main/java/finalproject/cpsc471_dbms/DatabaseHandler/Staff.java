@@ -2,60 +2,103 @@ package finalproject.cpsc471_dbms.DatabaseHandler;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import finalproject.cpsc471_dbms.Constants.BorrowingTable;
 import finalproject.cpsc471_dbms.Constants.StaffTable;
-import finalproject.cpsc471_dbms.Constants.UserTable;
+import finalproject.cpsc471_dbms.Definitions.BorrowingDef;
 import finalproject.cpsc471_dbms.Definitions.StaffDef;
-import finalproject.cpsc471_dbms.Definitions.UserDef;
 
 /**
  * Created by evech on 2017-03-24.
  */
 
 public class Staff {
-    protected SQLiteDatabase db;
     private static final String WHERE_KEY_EQUALS = StaffTable._ID + "=?";
+    private SQLiteDatabase db;
+    private Context context;
 
-    public Staff(Context context)
-    {
+    public Staff(Context context) {
+        this.context = context;
+    }
+
+    public void add(StaffDef x) {
+        ContentValues values = new ContentValues();
+        values.put(StaffTable._ID, x.getWorkId());
+        values.put(StaffTable.SSN, x.getSsn());
+        values.put(StaffTable.USER_ID, x.getUId());
+        values.put(StaffTable.SALARY, x.getSalary());
+
         db = new _DatabaseHelper(context).getWritableDatabase();
-    }
-
-    public void addStaff(StaffDef staff)
-    {
-        ContentValues values = new ContentValues();
-        values.put(StaffTable._ID, staff.getWorkId());
-        values.put(StaffTable.SALARY, staff.getSalary());
-        values.put(StaffTable.SSN, staff.getSsn());
-        values.put(StaffTable.USER_ID, staff.getUId());
         db.insert(StaffTable.TABLE_NAME, null, values);
+        db.close();
     }
 
-    public int updateStaff(StaffDef staff) {
-        ContentValues values = new ContentValues();
-        values.put(StaffTable._ID, staff.getWorkId());
-        values.put(StaffTable.SALARY, staff.getSalary());
-        values.put(StaffTable.SSN, staff.getSsn());
-        values.put(StaffTable.USER_ID, staff.getUId());
-        // update row
-        int result = db.update(StaffTable.TABLE_NAME, values,
+    public StaffDef get(int wid) {
+        db = new _DatabaseHelper(context).getReadableDatabase();
+
+        Cursor cur = db.query(StaffTable.TABLE_NAME,
+                new String[] {
+                        StaffTable._ID,
+                        StaffTable.SSN,
+                        StaffTable.USER_ID,
+                        StaffTable.SALARY},
                 WHERE_KEY_EQUALS,
-                new String[] { String.valueOf(staff.getWorkId()) });
-        Log.d("Update Result:", "=" + result);
-        return result;
+                new String[] {wid+""},
+                null,null,null,null);
+        if(cur!=null)
+            cur.moveToFirst();
+        StaffDef x = new StaffDef(
+                Integer.parseInt(cur.getString(0)),
+                Integer.parseInt(cur.getString(1)),
+                Integer.parseInt(cur.getString(2)),
+                Integer.parseInt(cur.getString(3)));
+        return x;
     }
 
-    public int deleteStaff(int id) {
-        return db.delete(StaffTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[]{Integer.toString(id)});
+    public int update(StaffDef x) {
+        db = new _DatabaseHelper(context).getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(StaffTable._ID, x.getWorkId());
+        values.put(StaffTable.SSN, x.getSsn());
+        values.put(StaffTable.USER_ID, x.getUId());
+        values.put(StaffTable.SALARY, x.getSalary());
+        // update row
+        return db.update(BorrowingTable.TABLE_NAME, values,
+                WHERE_KEY_EQUALS,
+                new String[] { x.getWorkId()+"" });
     }
 
-    public int deleteStaff(StaffDef staff) {
-        return db.delete(StaffTable.TABLE_NAME,
-                WHERE_KEY_EQUALS, new String[] {staff.getWorkId() + "" });
+    public void delete(StaffDef x) {
+        db = new _DatabaseHelper(context).getWritableDatabase();
+
+        db.delete(StaffTable.TABLE_NAME, WHERE_KEY_EQUALS,
+                new String[] {x.getWorkId()+""});
+        db.close();
+    }
+
+    public void loadEntities() {
+        // This populates the list momentarily
+        List<StaffDef> list = genEntities();
+
+        for (StaffDef x : list) {
+            add(x);
+        }
+    }
+
+    private List<StaffDef> genEntities() {
+        List<StaffDef> list = new ArrayList<>();
+
+        list.add(new StaffDef(7005, 79678, 9006, 100));
+        list.add(new StaffDef(7006, 21324, 9007, 900));
+
+        return list;
     }
 
 }

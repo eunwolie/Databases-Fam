@@ -2,68 +2,100 @@ package finalproject.cpsc471_dbms.DatabaseHandler;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import finalproject.cpsc471_dbms.Constants.BorrowingTable;
 import finalproject.cpsc471_dbms.Constants.ShelfTable;
-import finalproject.cpsc471_dbms.Constants.StaffTable;
+import finalproject.cpsc471_dbms.Definitions.BorrowingDef;
 import finalproject.cpsc471_dbms.Definitions.ShelfDef;
-import finalproject.cpsc471_dbms.Definitions.StaffDef;
 
 /**
  * Created by evech on 2017-03-24.
  */
 
 public class Shelf{
-    protected SQLiteDatabase db;
-    private static final String WHERE_KEY_EQUALS = ShelfTable.SHELF_NO + "=?";
+    private static final String WHERE_KEY_EQUALS = ShelfTable._ID + "=?";
+    private SQLiteDatabase db;
+    private Context context;
 
-    public Shelf(Context context)
-    {
+    public Shelf(Context context) {
+        this.context = context;
+    }
+
+    public long add(ShelfDef x) {
+        ContentValues values = new ContentValues();
+        values.put(ShelfTable._ID, x.getShelfNumber());
+        values.put(ShelfTable.GENRE, x.getGenre());
+
         db = new _DatabaseHelper(context).getWritableDatabase();
-    }
-
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
-    public void addShelf(ShelfDef shelf)
-    {
-        ContentValues values = new ContentValues();
-        values.put(ShelfTable.ISBN, shelf.getIsbn());
-        values.put(ShelfTable.GENRE, shelf.getGenre());
-        values.put(ShelfTable.SHELF_NO, shelf.getShelfNumber());
-        db.insert(ShelfTable.TABLE_NAME, null, values);
-    }
-
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
-    public int updateShelf(ShelfDef shelf) {
-        ContentValues values = new ContentValues();
-        values.put(ShelfTable.ISBN, shelf.getIsbn());
-        values.put(ShelfTable.GENRE, shelf.getGenre());
-        values.put(ShelfTable.SHELF_NO, shelf.getShelfNumber());
-        // update row
-        int result = db.update(ShelfTable.TABLE_NAME, values,
-                WHERE_KEY_EQUALS,
-                new String[] { String.valueOf(shelf.getShelfNumber()});
-        Log.d("Update Result:", "=" + result);
+        long result = db.insert(BorrowingTable.TABLE_NAME, null, values);
+        db.close();
         return result;
     }
 
-    /**
-     * @param isbn the key of the audio class containing all the information of a new audio material
-     */
-    // idk how this works either
-    public int deleteShelf(int no) {
-        db.delete(ShelfTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[]{String.valueOf(no)});
+    public ShelfDef get(int shid) {
+        db = new _DatabaseHelper(context).getReadableDatabase();
+
+        Cursor cur = db.query(BorrowingTable.TABLE_NAME,
+                new String[] {
+                        ShelfTable.GENRE,
+                        ShelfTable._ID},
+                WHERE_KEY_EQUALS,
+                new String[] {shid+""},
+                null,null,null,null);
+        if(cur!=null)
+            cur.moveToFirst();
+        ShelfDef x = new ShelfDef(
+                cur.getString(0),
+                Integer.parseInt(cur.getString(1)));
+        return x;
     }
 
-    public int deleteShelf(ShelfDef shelf) {
-        return db.delete(ShelfTable.TABLE_NAME,
-                WHERE_KEY_EQUALS, new String[] {shelf.getShelfNumber() + "" });
+    public long update(ShelfDef x) {
+        db = new _DatabaseHelper(context).getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(ShelfTable._ID, x.getShelfNumber());
+        values.put(ShelfTable.GENRE, x.getGenre());
+        // update row
+        return db.update(ShelfTable.TABLE_NAME, values,
+                WHERE_KEY_EQUALS,
+                new String[] { x.getShelfNumber()+"" });
     }
 
+    public void delete(ShelfDef x) {
+        db = new _DatabaseHelper(context).getWritableDatabase();
+
+        db.delete(BorrowingTable.TABLE_NAME, WHERE_KEY_EQUALS,
+                new String[] {x.getShelfNumber()+""});
+        db.close();
+    }
+
+    public void loadEntities() {
+        // This populates the list momentarily
+        List<ShelfDef> list = genEntities();
+
+        for (ShelfDef x : list) {
+            add(x);
+        }
+    }
+
+    private List<ShelfDef> genEntities() {
+        List<ShelfDef> list = new ArrayList<>();
+
+        list.add(new ShelfDef("fantasy", 1));
+        list.add(new ShelfDef("horror", 2));
+        list.add(new ShelfDef("humour", 3));
+        list.add(new ShelfDef("humour", 4));
+        list.add(new ShelfDef("biography", 5));
+        list.add(new ShelfDef("biography", 6));
+
+
+        return list;
+    }
 }

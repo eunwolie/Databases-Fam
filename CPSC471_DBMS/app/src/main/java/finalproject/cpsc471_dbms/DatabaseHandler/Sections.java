@@ -2,67 +2,99 @@ package finalproject.cpsc471_dbms.DatabaseHandler;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import finalproject.cpsc471_dbms.Constants.BorrowingTable;
 import finalproject.cpsc471_dbms.Constants.SectionTable;
-import finalproject.cpsc471_dbms.Constants.StaffTable;
+import finalproject.cpsc471_dbms.Definitions.BorrowingDef;
 import finalproject.cpsc471_dbms.Definitions.SectionDef;
-import finalproject.cpsc471_dbms.Definitions.StaffDef;
 
 /**
  * Created by evech on 2017-03-25.
  */
 
 public class Sections {
-    protected SQLiteDatabase db;
     private static final String WHERE_KEY_EQUALS = SectionTable._ID + "=?";
+    private SQLiteDatabase db;
+    private Context context;
 
-    public Sections(Context context)
-    {
+    public Sections(Context context) {
+        this.context = context;
+    }
+
+    public long add(SectionDef x) {
+        ContentValues values = new ContentValues();
+        values.put(SectionTable._ID, x.getGenre());
+        values.put(SectionTable.FLOOR_NUMBER, x.getfNo());
+
         db = new _DatabaseHelper(context).getWritableDatabase();
+        return db.insert(SectionTable.TABLE_NAME, null, values);
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
-    public void addSection(SectionDef sec)
-    {
-        ContentValues values = new ContentValues();
-        values.put(SectionTable._ID, sec.getGenre());
-        values.put(SectionTable.SHELF_NUMBER, sec.getsNo());
-        values.put(SectionTable.FLOOR_NUMBER, sec.getfNo());
-        db.insert(SectionTable.TABLE_NAME, null, values);
-    }
+    public SectionDef get(String genre) {
+        db = new _DatabaseHelper(context).getReadableDatabase();
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
-    public int updateSection(SectionDef sec) {
-        ContentValues values = new ContentValues();
-        values.put(SectionTable._ID, sec.getGenre());
-        values.put(SectionTable.SHELF_NUMBER, sec.getsNo());
-        values.put(SectionTable.FLOOR_NUMBER, sec.getfNo());
-        // update row
-        int result = db.update(SectionTable.TABLE_NAME, values,
+        Cursor cur = db.query(SectionTable.TABLE_NAME,
+                new String[] {
+                        SectionTable._ID,
+                        SectionTable.FLOOR_NUMBER,
+                },
                 WHERE_KEY_EQUALS,
-                new String[] { String.valueOf(sec.getGenre()) });
-        Log.d("Update Result:", "=" + result);
-        return result;
+                new String[] {genre},
+                null,null,null,null);
+        if(cur!=null)
+            cur.moveToFirst();
+        SectionDef x = new SectionDef(
+                cur.getString(0),
+                Integer.parseInt(cur.getString(1)));
+        return x;
     }
 
-    /**
-     * @param isbn the key of the audio class containing all the information of a new audio material
-     */
-    public int deleteSection(String genre) {
+    public int update(SectionDef x) {
+        db = new _DatabaseHelper(context).getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(SectionTable._ID, x.getGenre());
+        values.put(SectionTable.FLOOR_NUMBER, x.getfNo());
+
+        // update row
+        return db.update(SectionTable.TABLE_NAME, values,
+                WHERE_KEY_EQUALS,
+                new String[] { x.getGenre()+"" });
+    }
+
+    public void delete(SectionDef x) {
+        db = new _DatabaseHelper(context).getWritableDatabase();
+
         db.delete(SectionTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[]{genre});
+                new String[] {x.getGenre()+""});
+        db.close();
     }
 
-    public int deleteSection(SectionDef sec) {
-        return db.delete(SectionTable.TABLE_NAME,
-                WHERE_KEY_EQUALS, new String[] {sec.getGenre() + "" });
+    public void loadEntities() {
+        // This populates the list momentarily
+        List<SectionDef> list = genEntities();
+
+        for (SectionDef x : list) {
+            add(x);
+        }
     }
 
+    private List<SectionDef> genEntities() {
+        List<SectionDef> list = new ArrayList<>();
+
+        list.add(new SectionDef("fantasy",1));
+        list.add(new SectionDef("horror",1));
+        list.add(new SectionDef("humour",2));
+        list.add(new SectionDef("humour",3));
+        list.add(new SectionDef("biography",4));
+        list.add(new SectionDef("biography",5));
+
+        return list;
+    }
 }

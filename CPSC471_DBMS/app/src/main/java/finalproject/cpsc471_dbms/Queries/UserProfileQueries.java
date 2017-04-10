@@ -21,7 +21,7 @@ import java.util.List;
  *
  */
 
-// TODO : Handle multivalued attribute (name, phone?, address?)
+// TODO : Handle multivalued attribute (name, )
 
 public class UserProfileQueries {
     private SQLiteDatabase db;

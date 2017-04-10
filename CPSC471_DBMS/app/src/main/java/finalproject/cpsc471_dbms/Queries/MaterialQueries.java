@@ -13,8 +13,6 @@ import finalproject.cpsc471_dbms.Definitions.*;
  * Created by farra on 2017-04-05.
  */
 
-// TODO : Handle multivalued attribute (language and author)
-
 public class MaterialQueries {
     SQLiteDatabase writeDB;
     SQLiteDatabase readDB;
@@ -24,52 +22,10 @@ public class MaterialQueries {
         readDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public int update(MaterialsDef material) {
-        ContentValues values = new ContentValues();
-
-        if (material.getIsbn() != -1)
-            values.put(MaterialTable._ID, material.getIsbn());
-        if (material.getTitle() != null)
-            values.put(MaterialTable.TITLE, material.getTitle());
-        if (material.getDescription() != null)
-            values.put(MaterialTable.DESCRIPTION, material.getDescription());
-        if (material.getAuthor() != null)
-            values.put(MaterialTable.AUTHOR, material.getAuthor());
-        if (material.getType() != null)
-            values.put(MaterialTable.TYPE, material.getType());
-        if (material.getGenre() != null)
-            values.put(MaterialTable.GENRE, material.getGenre());
-        if (material.getYearOfCreation() != -1)
-            values.put(MaterialTable.YEAR_CREATED, material.getYearOfCreation());
-        if (material.getLanguage() != null)
-            values.put(MaterialTable.LANGUAGE, material.getLanguage());
-        if (material.getCompany() != null)
-            values.put(MaterialTable.COMPANY, material.getCompany());
-        if (material.getImage() != null)
-            values.put(MaterialTable.IMAGE, material.getImage());
-        if (material.getShelf() != -1)
-            values.put(MaterialTable.SHELF_NO, material.getShelf());
-
-        return writeDB.update(MaterialTable.TABLE_NAME, values,
-                MaterialTable._ID + "=?",
-                new String[]{Integer.toString(material.getIsbn())});
-    }
-
     public void insert(MaterialsDef material) {
         ContentValues values = new ContentValues();
 
-        values.put(MaterialTable._ID, material.getIsbn());
-        values.put(MaterialTable.TITLE, material.getTitle());
-        values.put(MaterialTable.DESCRIPTION, material.getDescription());
-        values.put(MaterialTable.AUTHOR, material.getAuthor());
-        values.put(MaterialTable.TYPE, material.getType());
-        values.put(MaterialTable.GENRE, material.getGenre());
-        values.put(MaterialTable.YEAR_CREATED, material.getYearOfCreation());
-        values.put(MaterialTable.LANGUAGE, material.getLanguage());
-        values.put(MaterialTable.COMPANY, material.getCompany());
-        values.put(MaterialTable.SHELF_NO, material.getShelf());
 
-        writeDB.insert(MaterialTable.TABLE_NAME, null, values);
     }
 
     public void delete(int ISBN) {
@@ -77,7 +33,6 @@ public class MaterialQueries {
                 new String[]{Integer.toString(ISBN)});
     }
 
-    // TODO : Delete ISBN from _LocationDef
     public _LocationDef getLocation(int ISBN) {
         _LocationDef location = new _LocationDef();
 
@@ -91,7 +46,6 @@ public class MaterialQueries {
                 + SectionTable._ID + "=" + ShelfTable.GENRE + " AND "
                 + FloorTable._ID + "=" + SectionTable.FLOOR_NUMBER;
 
-        // TODO : NEED TO FIX THIS ACCORDING TO MULTIPLE BOOKS IN SHELVES
         Cursor cursor = readDB.query(tables, want,
                 where,
                 new String[]{Integer.toString(ISBN)},

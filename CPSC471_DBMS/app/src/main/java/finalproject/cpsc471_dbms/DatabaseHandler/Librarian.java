@@ -2,12 +2,18 @@ package finalproject.cpsc471_dbms.DatabaseHandler;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import finalproject.cpsc471_dbms.Constants.BorrowingTable;
 import finalproject.cpsc471_dbms.Constants.LibrarianTable;
 import finalproject.cpsc471_dbms.Constants.MaterialTable;
+import finalproject.cpsc471_dbms.Definitions.BorrowingDef;
 import finalproject.cpsc471_dbms.Definitions.LibrarianDef;
 import finalproject.cpsc471_dbms.Definitions.MaterialsDef;
 
@@ -16,51 +22,76 @@ import finalproject.cpsc471_dbms.Definitions.MaterialsDef;
  */
 
 public class Librarian {
-    protected SQLiteDatabase db;
     private static final String WHERE_KEY_EQUALS = LibrarianTable.WORK_ID + "=?";
+    private SQLiteDatabase db;
+    private Context context;
 
-    public Librarian(Context context)
-    {
-        db = new _DatabaseHelper(context).getWritableDatabase();
+    public Librarian(Context context) {
+        this.context = context;
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
-    public void addLib(LibrarianDef x)
-    {
+    public long add(LibrarianDef x) {
         ContentValues values = new ContentValues();
-        values.put(LibrarianTable._ID, x.getWorkId());
+        values.put(LibrarianTable.WORK_ID, x.getWorkId());
         values.put(LibrarianTable.DESKNO, x.getdeskNo());
-        db.insert(LibrarianTable.TABLE_NAME, null, values);
+
+        db = new _DatabaseHelper(context).getWritableDatabase();
+        return db.insert(LibrarianTable.TABLE_NAME, null, values);
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
-    public int updateLib(LibrarianDef x) {
+    public LibrarianDef get(int wid) {
+        db = new _DatabaseHelper(context).getReadableDatabase();
+
+        Cursor cur = db.query(BorrowingTable.TABLE_NAME,
+                new String[] {
+                        LibrarianTable.WORK_ID,
+                        LibrarianTable.DESKNO
+                       },
+                WHERE_KEY_EQUALS,
+                new String[] {wid+""},
+                null,null,null,null);
+        if(cur!=null)
+            cur.moveToFirst();
+        LibrarianDef x = new LibrarianDef(
+                Integer.parseInt(cur.getString(0)),
+                Integer.parseInt(cur.getString(1)));
+        return x;
+    }
+
+    public int update(LibrarianDef x) {
+        db = new _DatabaseHelper(context).getWritableDatabase();
+
         ContentValues values = new ContentValues();
-        values.put(LibrarianTable._ID, x.getWorkId());
+        values.put(LibrarianTable.WORK_ID, x.getWorkId());
         values.put(LibrarianTable.DESKNO, x.getdeskNo());
         // update row
-        int result = db.update(LibrarianTable.TABLE_NAME, values,
+        return db.update(BorrowingTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
-                new String[] { String.valueOf(x.getWorkId()) });
-        Log.d("Update Result:", "=" + result);
-        return result;
+                new String[] { x.getWorkId()+"" });
     }
 
-    /**
-     * @param isbn the key of the audio class containing all the information of a new audio material
-     */
-    public int deleteLib(int wid) {
-        db.delete(LibrarianTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[]{wid+""});
+    public void delete(LibrarianDef x) {
+        db = new _DatabaseHelper(context).getWritableDatabase();
+
+        db.delete(BorrowingTable.TABLE_NAME, WHERE_KEY_EQUALS,
+                new String[] {x.getWorkId()+""});
+        db.close();
     }
 
-    public int deleteLib(LibrarianDef x) {
-        return db.delete(LibrarianTable.TABLE_NAME,
-                WHERE_KEY_EQUALS, new String[] {x.getWorkId() + "" });
+    public void loadEntities() {
+        // This populates the list momentarily
+        List<LibrarianDef> list = genEntities();
+
+        for (LibrarianDef x : list) {
+            add(x);
+        }
     }
 
+    private List<LibrarianDef> genEntities() {
+        List<LibrarianDef> list = new ArrayList<>();
+
+        list.add(new LibrarianDef(7006,104));
+
+        return list;
+    }
 }

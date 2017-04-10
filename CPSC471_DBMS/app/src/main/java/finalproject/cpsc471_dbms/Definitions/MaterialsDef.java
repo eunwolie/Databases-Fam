@@ -3,18 +3,20 @@ package finalproject.cpsc471_dbms.Definitions;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 /**
  * Created by evech on 2017-03-24.
  */
 
 public class MaterialsDef implements Parcelable{
-    private String author = null;
+    private List<AuthorDef> author = null;
     private String title = null;
     private String type = null;
     private int isbn = -1;;
     private String genre = null;
     private int yearOfCreation = -1;;
-    private String language = null;
+    private List<String> language = null;
     private String company = null;
     private String description = null;
     private int shelf = -1;
@@ -29,8 +31,8 @@ public class MaterialsDef implements Parcelable{
         this.title = title;
     }
 
-    public MaterialsDef(String description, String author, String title, String type, int isbn,
-                        String genre, int yearOfCreation, String language, String company,
+    public MaterialsDef(String description, List<AuthorDef> author, String title, String type, int isbn,
+                        String genre, int yearOfCreation, List<String> language, String company,
                         int shelf, byte[] image){
         super();
         this.description = description;
@@ -49,13 +51,11 @@ public class MaterialsDef implements Parcelable{
     private MaterialsDef(Parcel in) {
         super();
         this.description = in.readString();
-        this.author = in.readString();
         this.title = in.readString();
         this.type = in.readString();
         this.isbn = in.readInt();
         this.genre = in.readString();
         this.yearOfCreation = in.readInt();
-        this.language = in.readString();
         this.company = in.readString();
         this.shelf = in.readInt();
     }
@@ -64,11 +64,11 @@ public class MaterialsDef implements Parcelable{
 
     public void setDescription(String description) { this.description = description; }
 
-    public String getAuthor() {
+    public List<AuthorDef> getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(List<AuthorDef> author) {
         this.author = author;
     }
 
@@ -112,11 +112,11 @@ public class MaterialsDef implements Parcelable{
         this.yearOfCreation = yearOfCreation;
     }
 
-    public String getLanguage() {
+    public List<String> getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language) {
+    public void setLanguage(List<String> language) {
         this.language = language;
     }
 
@@ -151,11 +151,9 @@ public class MaterialsDef implements Parcelable{
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(getIsbn());
         parcel.writeInt(getYearOfCreation());
-        parcel.writeString(getAuthor());
         parcel.writeString(getTitle());
         parcel.writeString(getType());
         parcel.writeString(getGenre());
-        parcel.writeString(getLanguage());
         parcel.writeString(getCompany());
         parcel.writeInt(getShelf());
     }
@@ -178,7 +176,6 @@ public class MaterialsDef implements Parcelable{
                 + ", ISBN:" + isbn
                 + ", Genre:" + genre
                 + ", Year of Creation:" + yearOfCreation
-                + ", Language:" + language
                 + ", Company:" + company;
     }
 

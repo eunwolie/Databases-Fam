@@ -3,6 +3,7 @@ package finalproject.cpsc471_dbms.Facades;
 import android.content.Context;
 
 import finalproject.cpsc471_dbms.Constants.*;
+import finalproject.cpsc471_dbms.DatabaseHandler.User;
 import finalproject.cpsc471_dbms.Queries.*;
 import finalproject.cpsc471_dbms.Definitions.*;
 import java.util.*;
@@ -14,6 +15,7 @@ import java.util.*;
 public class LoginFacade {
 
     private LoginQueries lq;
+    private User u;
 
     public LoginFacade(Context context)
     {
@@ -40,4 +42,8 @@ public class LoginFacade {
 
     public boolean isEmailUnique(String email)
     { return lq.emailExists(email); }
+
+    public void createAccount(UserDef ud)
+    { u.add(ud); }
+
 }

@@ -20,6 +20,8 @@ public class MaterialFacade {
     private MaterialQueries mq;
     private Materials m;
 
+    private static int materialID = 500;
+
     public MaterialFacade(Context context)
     {
         s = new SearchQueries(context);
@@ -27,14 +29,16 @@ public class MaterialFacade {
         m = new Materials(context);
     }
 
+    public static void incrementID(){ materialID++; }
+
     public void insertMaterial(MaterialsDef md)
-    { m.addMaterial(md); }
+    { m.add(md); }
 
     public int deleteMaterial(int ISBN)
-    { return m.deleteMaterial(ISBN); }
+    { return m.delete(ISBN); }
 
     public int updateMaterial(MaterialsDef md)
-    { return mq.update(md); }
+    { return m.update(md); }
 
     // physically available
     public boolean materialIsAvailable(int ISBN)

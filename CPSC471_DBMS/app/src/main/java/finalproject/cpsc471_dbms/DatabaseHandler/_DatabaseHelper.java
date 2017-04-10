@@ -21,13 +21,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class _DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "LibraryDatabase";
 
-    public static final String CREATE_ADDRESS_TABLE = "CREATE TABLE "
-            + AddressTable.TABLE_NAME + "("
-            + AddressTable.ADDRESS + " TEXT, "
-            + AddressTable.USER_ID + " INTEGER, "
-            + "FOREIGN KEY(" + AddressTable.USER_ID + ") REFERENCES "
-            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") ON DELETE CASCADE )";
-
     public static final String CREATE_ATTENDS_TABLE = "CREATE TABLE "
             + EventAttendanceTable.TABLE_NAME + "("
             + EventAttendanceTable.UID + " INTEGER, "
@@ -129,13 +122,11 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String CREATE_MATERIALS_TABLE = "CREATE TABLE "
             + MaterialTable.TABLE_NAME + "("
-            + MaterialTable.AUTHOR + " TEXT, "
             + MaterialTable.TITLE + " TEXT, "
             + MaterialTable.TYPE + " TEXT, "
             + MaterialTable._ID + " INTEGER PRIMARY KEY, "
             + MaterialTable.GENRE + " TEXT,"
             + MaterialTable.YEAR_CREATED + " INTEGER, "
-            + MaterialTable.LANGUAGE + " TEXT, "
             + MaterialTable.COMPANY + " TEXT, "
             + MaterialTable.IMAGE + " BLOB, "
             + MaterialTable.SHELF_NO + " INTEGER, "
@@ -234,7 +225,6 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         database.execSQL(CREATE_ATTENDS_TABLE);
-        database.execSQL(CREATE_ADDRESS_TABLE);
         database.execSQL(CREATE_AUDIO_TABLE);
         database.execSQL(CREATE_AUTHORS_TABLE);
         database.execSQL(CREATE_BORROWS_TABLE);
@@ -256,4 +246,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void onUpgrade(SQLiteDatabase database, int version1, int version2) {}
+
+    public void onDestroy()
+    {}
 }

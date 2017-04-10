@@ -36,11 +36,11 @@ public class EventFacade {
     { return eq.setImage(title, image); }
 
     public void addEvent(EventDef ev)
-    { e.addEvent(ev); }
+    { e.add(ev); }
 
     // IF YOU WANT MORE DELETING VARIATIONS, TELL ME
-    public int deleteEvent(EventDef ev)
-    { return e.deleteEvent(ev.getDate(), ev.getStartTime(), ev.getWorkID()); }
+    public long deleteEvent(EventDef ev)
+    { return e.delete(ev); }
 
     public void updateEvent(EventDef ev)
     {
