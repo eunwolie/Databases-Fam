@@ -15,12 +15,13 @@ public class EventDef {
     private int sponsorID = -1;
     private int workID = -1;
     private String description = null;
+    private byte[] image = null;
 
     public EventDef() {
         super();
     }
 
-    public EventDef(int startTime, int endTime, int date, String title, int sponsorID, int workID, String description) {
+    public EventDef(int startTime, int endTime, int date, String title, int sponsorID, int workID, String description, byte[] image) {
         super();
         this.startTime = startTime;
         this.endTime = endTime;
@@ -29,6 +30,7 @@ public class EventDef {
         this.sponsorID = sponsorID;
         this.workID = workID;
         this.description = description;
+        this.image = image;
     }
 
     public EventDef(int date, String title) {
@@ -89,6 +91,14 @@ public class EventDef {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     @Override

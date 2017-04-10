@@ -19,5 +19,6 @@ public class MaterialTable implements BaseColumns {
     // TODO : Make a table because books might have different languages (unfortunately)
     public static final String LANGUAGE = "Language";
     public static final String COMPANY = "Company";
+    public static final String IMAGE = "Image";
     public static final String SHELF_NO = "ShelfNumber";
 }

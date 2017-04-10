@@ -16,6 +16,7 @@ public class EventTable implements BaseColumns {
     public static final String END_TIME = "EndTime";
     public static final String DATE = "Date";
     public static final String TITLE = "EventName";
+    public static final String IMAGE = "Image";
     public static final String SID = "SponsorID";
     public static final String HOST = "WorkID";
 }

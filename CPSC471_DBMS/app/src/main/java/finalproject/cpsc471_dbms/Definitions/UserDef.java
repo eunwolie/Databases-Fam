@@ -16,6 +16,8 @@ public class UserDef {
     private String address = null;
     private String password = null;
     private int phone = -1;
+    private byte[] image = null;
+    private String email = null;
 
     public UserDef() {
         super();
@@ -27,7 +29,8 @@ public class UserDef {
         this.firstName = name;
     }
 
-    public UserDef(int id, String firstName, String lastName, String username, String address, String password, int phone) {
+    public UserDef(int id, String firstName, String lastName, String username,
+                   String address, String password, int phone, byte[] image, String email) {
         super();
         this.id = id;
         this.firstName = firstName;
@@ -36,6 +39,8 @@ public class UserDef {
         this.address = address;
         this.password = password;
         this.phone = phone;
+        this.image = image;
+        this.email = email;
     }
 
     public UserDef(String firstName, String lastName, String username, String address, String password) {
@@ -55,6 +60,7 @@ public class UserDef {
         this.password = in.readString();
         this.username = in.readString();
         this.phone = in.readInt();
+        this.email = in.readString();
     }
 
     public int getId() {
@@ -113,6 +119,18 @@ public class UserDef {
         this.password = password;
     }
 
+    public byte[] getImage() { return image; }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) { this.email = email; }
+
     public int describeContents() {
         return 0;
     }
@@ -125,6 +143,7 @@ public class UserDef {
         parcel.writeString(getAddress());
         parcel.writeString(getUsername());
         parcel.writeString(getPassword());
+        parcel.writeString(getEmail());
     }
 
     public static final Parcelable.Creator<UserDef> CREATOR = new Parcelable.Creator<UserDef>() {

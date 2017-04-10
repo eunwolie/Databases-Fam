@@ -10,61 +10,74 @@ import java.util.ArrayList;
 import java.util.List;
 
 import finalproject.cpsc471_dbms.Constants.UserTable;
+import finalproject.cpsc471_dbms.Constants.VisualTable;
 import finalproject.cpsc471_dbms.Definitions.UserDef;
+import finalproject.cpsc471_dbms.Definitions.VisualsDef;
 
 /**
  * Created by evech on 2017-03-27.
  */
 
 public class User {
-    _DatabaseHelper userdbHelper;
-    SQLiteDatabase writeDB;
-    SQLiteDatabase readDB;
-    private Context aContext;
+    protected SQLiteDatabase db;
+    private static final String WHERE_KEY_EQUALS = UserTable._ID + "=?";
 
-    private static final String WHERE_ID_EQUALS = UserTable._ID
-            + " =?";
-
-    public User(Context context) {
-        userdbHelper = _DatabaseHelper.getHelper(aContext);
-        writeDB = userdbHelper.getWritableDatabase();
-        readDB = userdbHelper.getReadableDatabase();
+    public User(Context context)
+    {
+        db = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public long save(UserDef user) {
+    public void addUser(UserDef user)
+    {
         ContentValues values = new ContentValues();
-        values.put(UserTable.NAME, user.getName());
-        return writeDB.insert(_DatabaseHelper.CREATE_USER_TABLE, null, values);
+        values.put(UserTable._ID, user.getId());
+        values.put(UserTable.FIRST_NAME, user.getFirstName());
+        values.put(UserTable.LAST_NAME, user.getLastName());
+        values.put(UserTable.USERNAME, user.getUsername());
+        values.put(UserTable.PASSWORD, user.getPassword());
+        values.put(UserTable.ADDRESS, user.getAddress());
+        values.put(UserTable.PHONE, user.getPhone());
+        db.insert(UserTable.TABLE_NAME, null, values);
     }
 
-    public long update(UserDef user) {
+    public int updateUser(UserDef user) {
         ContentValues values = new ContentValues();
-        values.put(UserTable.NAME, user.getName());
-
-        long result = readDB.update(_DatabaseHelper.CREATE_USER_TABLE, values,
-                WHERE_ID_EQUALS,
+        values.put(UserTable._ID, user.getId());
+        values.put(UserTable.FIRST_NAME, user.getFirstName());
+        values.put(UserTable.LAST_NAME, user.getLastName());
+        values.put(UserTable.USERNAME, user.getUsername());
+        values.put(UserTable.PASSWORD, user.getPassword());
+        values.put(UserTable.ADDRESS, user.getAddress());
+        values.put(UserTable.PHONE, user.getPhone());
+        // update row
+        int result = db.update(UserTable.TABLE_NAME, values,
+                WHERE_KEY_EQUALS,
                 new String[] { String.valueOf(user.getId()) });
         Log.d("Update Result:", "=" + result);
         return result;
+    }
 
+    public int deleteUser(int id) {
+        return db.delete(UserTable.TABLE_NAME, WHERE_KEY_EQUALS,
+                new String[]{Integer.toString(id)});
     }
 
     public int deleteUser(UserDef user) {
-        return writeDB.delete(_DatabaseHelper.CREATE_USER_TABLE,
-                WHERE_ID_EQUALS, new String[] {user.getId() + "" });
+        return db.delete(UserTable.TABLE_NAME,
+                WHERE_KEY_EQUALS, new String[] {user.getId() + "" });
     }
 
     public List<UserDef> getUsers() {
         List<UserDef> users = new ArrayList<UserDef>();
-        Cursor cursor = readDB.query(_DatabaseHelper.CREATE_USER_TABLE,
+        Cursor cursor = db.query(UserTable.TABLE_NAME,
                 new String[] { UserTable._ID,
-                        UserTable.NAME}, null, null, null, null,
+                        UserTable.FIRST_NAME}, null, null, null, null,
                 null);
 
         while (cursor.moveToNext()) {
             UserDef u = new UserDef();
             u.setId(cursor.getInt(0));
-            u.setName(cursor.getString(1));
+            u.setFirstName(cursor.getString(1));
             users.add(u);
         }
 
@@ -78,8 +91,8 @@ public class User {
 
         for (UserDef use : users) {
             ContentValues values = new ContentValues();
-            values.put(UserTable.NAME, use.getName());
-            writeDB.insert(_DatabaseHelper.CREATE_USER_TABLE, null, values);
+            values.put(UserTable.FIRST_NAME, use.getFirstName());
+            db.insert(_DatabaseHelper.CREATE_USER_TABLE, null, values);
         }
     }
 

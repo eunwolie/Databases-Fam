@@ -25,9 +25,6 @@ public class Donation {
         db = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
     public void addDonation(DonationDef don) {
         ContentValues values = new ContentValues();
         values.put(DonationTable.SID, don.getsId());
@@ -35,9 +32,6 @@ public class Donation {
         db.insert(DonationTable.TABLE_NAME, null, values);
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
     public int updateDonation (DonationDef don) {
         ContentValues values = new ContentValues();
         values.put(DonationTable.SID, don.getsId());
@@ -50,39 +44,13 @@ public class Donation {
         return result;
     }
 
-    /**
-     * @param isbn the key of the audio class containing all the information of a new audio material
-     */
     public int deleteDonation(int sid, int isbn) {
-        db.delete(DonationTable.TABLE_NAME, WHERE_KEY_EQUALS,
+        return db.delete(DonationTable.TABLE_NAME, WHERE_KEY_EQUALS,
                 new String[]{Integer.toString(sid), Integer.toString(isbn)});
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
     public int deleteDonation(DonationDef don) {
         return db.delete(DonationTable.TABLE_NAME,
                 WHERE_KEY_EQUALS, new String[] {don.getsId() + "",don.getIsbn()+""});
     }
-
-
-    /*
-    protected SQLiteDatabase database;
-    private _DatabaseHelper dataHelper;
-    private Context aContext;
-
-    public Donation(Context context) {
-        this.aContext = context;
-        dataHelper = _DatabaseHelper.getHelper(aContext);
-        open();
-
-    }
-
-    public void open() throws SQLException {
-        if(dataHelper == null)
-            dataHelper = _DatabaseHelper.getHelper(aContext);
-        database = dataHelper.getWritableDatabase();
-    }
-    */
 }

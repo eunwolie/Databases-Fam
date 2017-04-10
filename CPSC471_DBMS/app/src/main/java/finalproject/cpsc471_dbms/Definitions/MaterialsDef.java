@@ -18,6 +18,7 @@ public class MaterialsDef implements Parcelable{
     private String company = null;
     private String description = null;
     private int shelf = -1;
+    private byte[] image = null;
 
     public MaterialsDef() {
         super();
@@ -28,7 +29,9 @@ public class MaterialsDef implements Parcelable{
         this.title = title;
     }
 
-    public MaterialsDef(String description, String author, String title, String type, int isbn, String genre, int yearOfCreation, String language, String company, int shelf){
+    public MaterialsDef(String description, String author, String title, String type, int isbn,
+                        String genre, int yearOfCreation, String language, String company,
+                        int shelf, byte[] image){
         super();
         this.description = description;
         this.author = author;
@@ -40,6 +43,7 @@ public class MaterialsDef implements Parcelable{
         this.language = language;
         this.company = company;
         this.shelf = shelf;
+        this.image = image;
     }
 
     private MaterialsDef(Parcel in) {
@@ -122,6 +126,14 @@ public class MaterialsDef implements Parcelable{
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public int getShelf() {

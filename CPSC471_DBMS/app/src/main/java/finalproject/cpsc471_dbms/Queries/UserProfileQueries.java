@@ -24,10 +24,9 @@ import java.util.List;
 // TODO : Handle multivalued attribute (name, phone?, address?)
 
 public class UserProfileQueries {
-    SQLiteDatabase db;
-    SQLiteDatabase writeDB;
-
-    int userID;
+    private SQLiteDatabase db;
+    private SQLiteDatabase writeDB;
+    private int userID;
 
     public UserProfileQueries(Context context, int userID)
     {
@@ -49,25 +48,62 @@ public class UserProfileQueries {
         cursor.close();
     }
 
+    public StaffDef getStaffInfo()
+    {
+        Cursor cursor = db.query(StaffTable.TABLE_NAME,
+                null,
+                StaffTable.USER_ID + "=?",
+                new String[]{Integer.toString(userID)},
+                null, null, null, null);
+
+        StaffDef staff = new StaffDef();
+
+        if (cursor.moveToNext()) {
+            staff.setSalary(cursor.getInt(cursor.getColumnIndex(StaffTable.SALARY)));
+            staff.setSsn(cursor.getInt(cursor.getColumnIndex(StaffTable.SSN)));
+            staff.setWorkId(cursor.getInt(cursor.getColumnIndex(StaffTable.USER_ID)));
+
+            cursor.close();
+        }
+        return staff;
+    }
+
     public UserDef getUserInfo()
     {
         Cursor cursor = getUserCursor();
 
-        cursor.moveToNext();
-
         UserDef user = new UserDef();
 
-        user.setFirstName(cursor.getString(cursor.getColumnIndex(UserTable.FIRST_NAME)));
-        //user.setMinitName(cursor.getString(cursor.getColumnIndex(UserTable.NAME)));
-        user.setLastName(cursor.getString(cursor.getColumnIndex(UserTable.LAST_NAME)));
-        user.setUsername(cursor.getString(cursor.getColumnIndex(UserTable.USERNAME)));
-        user.setAddress(cursor.getString(cursor.getColumnIndex(UserTable.ADDRESS)));
-        user.setPassword(cursor.getString(cursor.getColumnIndex(UserTable.PASSWORD)));
-        user.setPhone(cursor.getInt(cursor.getColumnIndex(UserTable.PHONE)));
+        if (cursor.moveToNext()) {
+            user.setFirstName(cursor.getString(cursor.getColumnIndex(UserTable.FIRST_NAME)));
+            //user.setMinitName(cursor.getString(cursor.getColumnIndex(UserTable.NAME)));
+            user.setLastName(cursor.getString(cursor.getColumnIndex(UserTable.LAST_NAME)));
+            user.setUsername(cursor.getString(cursor.getColumnIndex(UserTable.USERNAME)));
+            user.setAddress(cursor.getString(cursor.getColumnIndex(UserTable.ADDRESS)));
+            user.setPassword(cursor.getString(cursor.getColumnIndex(UserTable.PASSWORD)));
+            user.setPhone(cursor.getInt(cursor.getColumnIndex(UserTable.PHONE)));
 
-        closeUserCursor(cursor);
+            closeUserCursor(cursor);
+        }
 
         return user;
+    }
+
+    public int getTotalFees()
+    {
+        Cursor cursor = db.query(BorrowingTable.TABLE_NAME,
+                new String[]{"COUNT(*)"},
+                BorrowingTable.ID + "=? AND " + BorrowingTable.OVERDUE_DAY + ">=?",
+                new String[]{Integer.toString(userID), "1"}, null, null, null);
+
+        int days = 0;
+
+        if (cursor.moveToNext()) {
+            days = cursor.getInt(0);
+            cursor.close();
+        }
+
+        return days;
     }
 
     /**
@@ -89,10 +125,13 @@ public class UserProfileQueries {
                 BorrowingTable.RETURN_DATE, MaterialTable.TITLE, MaterialTable._ID};
         String where = BorrowingTable.ID + "=" + UserTable._ID
                 + " AND "
-                + BorrowingTable.ISBN + "=" + MaterialTable._ID;
+                + BorrowingTable.ISBN + "=" + MaterialTable._ID
+                + " AND "
+                + BorrowingTable.OVERDUE_DAY + "=? AND"
+                + UserTable._ID + "=?";
 
         Cursor cursor = db.query(table, allBooks,
-                where, null, null, null, null);
+                where, new String[]{Integer.toString(userID), "0"}, null, null, null);
 
         while (cursor.moveToNext()) {
             _BorrowedDef material = new _BorrowedDef();
@@ -141,6 +180,40 @@ public class UserProfileQueries {
         return materials;
     }
 
+    public List<_OverdueDef> getOverdueMaterial()
+    {
+        List<_OverdueDef> materials = new ArrayList<>();
+
+        String table = BorrowingTable.TABLE_NAME + " , "
+                + MaterialTable.TABLE_NAME + " , "
+                + UserTable.TABLE_NAME;
+
+        String[] allBooks = new String[]{BorrowingTable.BORROW_DATE,
+                BorrowingTable.RETURN_DATE, MaterialTable.TITLE, MaterialTable._ID};
+        String where = BorrowingTable.ID + "=" + UserTable._ID
+                + " AND "
+                + BorrowingTable.ISBN + "=" + MaterialTable._ID
+                + " AND "
+                + BorrowingTable.OVERDUE_DAY + ">? AND "
+                + UserTable._ID + "=?";
+
+        Cursor cursor = db.query(table, allBooks,
+                where, new String[]{Integer.toString(userID), "0"}, null, null, null);
+
+        while (cursor.moveToNext()) {
+            _OverdueDef material = new _OverdueDef();
+
+            material.setBookTitle(cursor.getString(cursor.getColumnIndex(MaterialTable.TITLE)));
+            material.setIsbn(cursor.getInt(cursor.getColumnIndex(MaterialTable._ID)));
+            material.setDaysLate(cursor.getInt(cursor.getColumnIndex(BorrowingTable.OVERDUE_DAY)));
+            materials.add(material);
+        }
+
+        cursor.close();
+
+        return materials;
+    }
+
     /**
      * @param user the user that will be update
      *
@@ -162,11 +235,40 @@ public class UserProfileQueries {
             values.put(UserTable.PASSWORD, user.getPassword());
         if (user.getPhone() != -1)
             values.put(UserTable.PHONE, user.getPhone());
+        if (user.getImage() != null)
+            values.put(UserTable.IMAGE, user.getImage());
+        if (user.getEmail() != null)
+            values.put(UserTable.EMAIL, user.getEmail());
 
         String where = UserTable._ID + "=?";
 
         writeDB.update(UserTable.TABLE_NAME, values, where,
                 new String[]{Integer.toString(user.getId())});
+    }
+
+    public long addImage(byte[] image)
+    {
+        ContentValues values = new ContentValues();
+        values.put(UserTable.IMAGE, image);
+
+        return writeDB.update(UserTable.TABLE_NAME, values,
+                UserTable._ID + "=?", new String[]{Integer.toString(userID)});
+    }
+
+    public byte[] getImage()
+    {
+        Cursor cursor = db.query(UserTable.TABLE_NAME, new String[]{UserTable.IMAGE},
+                UserTable._ID + "=?", new String[]{Integer.toString(userID)},
+                null, null, null);
+
+        byte[] image = null;
+
+        if (cursor.moveToNext())
+            image = cursor.getBlob(0);
+
+        cursor.close();
+
+        return image;
     }
 
 }

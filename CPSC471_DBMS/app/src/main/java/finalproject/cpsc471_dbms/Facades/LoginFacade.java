@@ -1,5 +1,7 @@
 package finalproject.cpsc471_dbms.Facades;
 
+import android.content.Context;
+
 import finalproject.cpsc471_dbms.Constants.*;
 import finalproject.cpsc471_dbms.Queries.*;
 import finalproject.cpsc471_dbms.Definitions.*;
@@ -11,11 +13,31 @@ import java.util.*;
 
 public class LoginFacade {
 
+    private LoginQueries lq;
+
+    public LoginFacade(Context context)
+    {
+        lq = new LoginQueries(context);
+    }
+
     /**
-     *  Account creation and login stuff
-     * update users
+     * @param username
+     * @param password
+     * @return UserID if it is the correct user, -1 otherwise
+     *
+     * Makes query in database to check if the corresponding
+     * username and password exist
+     *
      */
+    public int getUserID(String username, String password)
+    { return lq.checkCredentials(username, password); }
 
+    public boolean isUserRegular(int uID)
+    { return lq.isRegular(uID); }
 
+    public boolean isUsernameUnique(String username)
+    { return lq.usernameExists(username); }
 
+    public boolean isEmailUnique(String email)
+    { return lq.emailExists(email); }
 }

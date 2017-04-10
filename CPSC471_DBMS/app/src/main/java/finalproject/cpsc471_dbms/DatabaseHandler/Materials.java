@@ -10,52 +10,71 @@ import java.util.ArrayList;
 import java.util.List;
 
 import finalproject.cpsc471_dbms.Constants.MaterialTable;
+import finalproject.cpsc471_dbms.Constants.SectionTable;
 import finalproject.cpsc471_dbms.Definitions.MaterialsDef;
+import finalproject.cpsc471_dbms.Definitions.SectionDef;
 
 /**
  * Created by evech on 2017-03-27.
  */
 
 public class Materials extends MaterialsDef {
-    private static final String WHERE_ISBN_EQUALS = MaterialTable._ID
-            + " =?";
+    protected SQLiteDatabase db;
+    private static final String WHERE_KEY_EQUALS = MaterialTable._ID + "=?";
 
-    _DatabaseHelper materialdbHelper;
-    SQLiteDatabase writeDB;
-    SQLiteDatabase readDB;
-
-    public Materials(Context context) {
-        materialdbHelper = _DatabaseHelper.getHelper(context);
-        writeDB = materialdbHelper.getWritableDatabase();
-        readDB = materialdbHelper.getWritableDatabase();
+    public Materials(Context context)
+    {
+        db = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public long save(MaterialsDef materials) {
+    public void addMaterial(MaterialsDef x)
+    {
         ContentValues values = new ContentValues();
-        values.put(MaterialTable.TITLE, materials.getTitle());
-        return writeDB.insert(_DatabaseHelper.CREATE_MATERIALS_TABLE, null, values);
+        values.put(MaterialTable._ID, x.getIsbn());
+        values.put(MaterialTable.DESCRIPTION, x.getDescription());
+        values.put(MaterialTable.AUTHOR, x.getAuthor());
+        values.put(MaterialTable.TITLE, x.getTitle());
+        values.put(MaterialTable.TYPE, x.getType());
+        values.put(MaterialTable.GENRE, x.getGenre());
+        values.put(MaterialTable.YEAR_CREATED, x.getYearOfCreation());
+        db.insert(MaterialTable.TABLE_NAME, null, values);
     }
 
-    public long update(MaterialsDef materials) {
+    public int updateMaterial(MaterialsDef x) {
         ContentValues values = new ContentValues();
-        values.put(MaterialTable.TITLE, materials.getTitle());
-
-        long result = readDB.update(_DatabaseHelper.CREATE_MATERIALS_TABLE, values,
-                WHERE_ISBN_EQUALS,
-                new String[] { String.valueOf(materials.getIsbn()) });
+        values.put(MaterialTable._ID, x.getIsbn());
+        values.put(MaterialTable.DESCRIPTION, x.getDescription());
+        values.put(MaterialTable.AUTHOR, x.getAuthor());
+        values.put(MaterialTable.TITLE, x.getTitle());
+        values.put(MaterialTable.TYPE, x.getType());
+        values.put(MaterialTable.GENRE, x.getGenre());
+        values.put(MaterialTable.YEAR_CREATED, x.getYearOfCreation());
+        values.put(MaterialTable.IMAGE, x.getImage());
+        // update row
+        int result = db.update(MaterialTable.TABLE_NAME, values,
+                WHERE_KEY_EQUALS,
+                new String[] { String.valueOf(x.getIsbn()) });
         Log.d("Update Result:", "=" + result);
         return result;
-
     }
 
-    public int deleteMaterials(MaterialsDef materials) {
-        return writeDB.delete(_DatabaseHelper.CREATE_MATERIALS_TABLE,
-                WHERE_ISBN_EQUALS, new String[] {materials.getIsbn() + "" });
+    /**
+     * @param isbn the key of the audio class containing all the information of a new audio material
+     */
+    public int deleteMaterial(int isbn) {
+        return db.delete(MaterialTable.TABLE_NAME, WHERE_KEY_EQUALS,
+                new String[]{isbn+""});
     }
 
+    public int deleteMaterial(MaterialsDef x) {
+        return db.delete(MaterialTable.TABLE_NAME,
+                WHERE_KEY_EQUALS, new String[] {x.getIsbn() + "" });
+    }
+
+    // TODO :
     public List<MaterialsDef> getMaterials() {
         List<MaterialsDef> materials = new ArrayList<MaterialsDef>();
-        Cursor cursor = readDB.query(_DatabaseHelper.CREATE_MATERIALS_TABLE,
+        Cursor cursor = db.query(MaterialTable.TABLE_NAME,
                 new String[] { MaterialTable._ID,
                         MaterialTable.TITLE }, null, null, null, null,
                 null);
@@ -90,7 +109,7 @@ public class Materials extends MaterialsDef {
         for (MaterialsDef mat : material) {
             ContentValues values = new ContentValues();
             values.put(MaterialTable.TITLE, mat.getTitle());
-            writeDB.insert(_DatabaseHelper.CREATE_MATERIALS_TABLE, null, values);
+            db.insert(MaterialTable.TABLE_NAME, null, values);
         }
     }
 }

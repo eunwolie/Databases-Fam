@@ -19,12 +19,12 @@ public class MaterialQueries {
     SQLiteDatabase writeDB;
     SQLiteDatabase readDB;
 
-    public MaterialQueries(Context context, int isbn) {
+    public MaterialQueries(Context context) {
         writeDB = new _DatabaseHelper(context).getWritableDatabase();
         readDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public void update(MaterialsDef material) {
+    public int update(MaterialsDef material) {
         ContentValues values = new ContentValues();
 
         if (material.getIsbn() != -1)
@@ -45,10 +45,12 @@ public class MaterialQueries {
             values.put(MaterialTable.LANGUAGE, material.getLanguage());
         if (material.getCompany() != null)
             values.put(MaterialTable.COMPANY, material.getCompany());
+        if (material.getImage() != null)
+            values.put(MaterialTable.IMAGE, material.getImage());
         if (material.getShelf() != -1)
             values.put(MaterialTable.SHELF_NO, material.getShelf());
 
-        writeDB.update(MaterialTable.TABLE_NAME, values,
+        return writeDB.update(MaterialTable.TABLE_NAME, values,
                 MaterialTable._ID + "=?",
                 new String[]{Integer.toString(material.getIsbn())});
     }
@@ -128,5 +130,28 @@ public class MaterialQueries {
         cursor.close();
 
         return (num == 0);
+    }
+
+    public long addImage(int isbn, byte[] image)
+    {
+        ContentValues values = new ContentValues();
+        values.put(MaterialTable.IMAGE, image);
+
+        return writeDB.update(MaterialTable.TABLE_NAME, values,
+                MaterialTable._ID + "=?", new String[]{Integer.toString(isbn)});
+    }
+
+    public byte[] getImage(int isbn)
+    {
+        Cursor cursor = readDB.query(MaterialTable.TABLE_NAME, new String[]{MaterialTable.IMAGE},
+                MaterialTable._ID + "=?", new String[]{Integer.toString(isbn)},
+                null, null, null);
+
+        byte[] image = null;
+
+        if (cursor.moveToNext())
+            image = cursor.getBlob(0);
+
+        return image;
     }
 }

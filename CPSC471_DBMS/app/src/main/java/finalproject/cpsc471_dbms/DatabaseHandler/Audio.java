@@ -47,17 +47,11 @@ public class Audio {
         return result;
     }
 
-    /**
-     * @param isbn the key of the audio class containing all the information of a new audio material
-     */
     public int deleteAudio(int isbn) {
-        db.delete(AudioTable.TABLE_NAME, WHERE_KEY_EQUALS,
+        return db.delete(AudioTable.TABLE_NAME, WHERE_KEY_EQUALS,
                 new String[]{isbn+""});
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
     public int deleteAudio(AudioDef x) {
         return db.delete(AudioTable.TABLE_NAME,
                 WHERE_KEY_EQUALS, new String[] {x.getIsbn() + "" });

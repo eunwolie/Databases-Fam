@@ -57,4 +57,6 @@ public class UserQueries {
         db.delete(UserTable.TABLE_NAME, UserTable._ID + "=?",
                 new String[]{Integer.toString(id)});
     }
+
+
 }

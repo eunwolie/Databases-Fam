@@ -81,7 +81,7 @@ public class SearchQueries {
      * @param order asc/desc
      * @return List of desired items
      */
-    private List<MaterialsDef> getInfoBy(String attribute, String order)
+    public List<MaterialsDef> getInfoBy(String attribute, String order)
     {
         List<MaterialsDef> materials = new ArrayList<MaterialsDef>();
 
@@ -100,7 +100,7 @@ public class SearchQueries {
      * @param id attribute == id
      * @return a list of materials where attribute == id
      */
-    private List<MaterialsDef> getSpecificInfoBy(String attribute, String id)
+    public List<MaterialsDef> getSpecificInfoBy(String attribute, String id)
     {
         List<MaterialsDef> materials;
 
@@ -113,103 +113,5 @@ public class SearchQueries {
         cursor.close();
 
         return materials;
-    }
-
-    /**
-     * @param order Either ascending "ASC" or descending "DESC"
-     * @return List of materials ordered by title
-     *
-     */
-    public List<MaterialsDef> getByTitle(String order)
-    {
-        if (order.equalsIgnoreCase(ASC))
-            return getInfoBy(MaterialTable.TITLE, ASC);
-        else if (order.equalsIgnoreCase(DESC))
-            return getInfoBy(MaterialTable.TITLE, DESC);
-        else
-            return null;
-            //throw new Exception("Does not exist");
-    }
-
-    /**
-     * @param order Either ascending "ASC" or descending "DESC"
-     * @return List of materials ordered by author
-     *
-     */
-    public List<MaterialsDef> getByAuthor(String order)
-    {
-        if (order.equalsIgnoreCase(ASC))
-            return getInfoBy(MaterialTable.AUTHOR, ASC);
-        else if (order.equalsIgnoreCase(DESC))
-            return getInfoBy(MaterialTable.AUTHOR, DESC);
-        else
-            return null;
-    }
-
-    /**
-     * @param order Either ascending "ASC" or descending "DESC"
-     * @return List of materials ordered by genre
-     *
-     */
-    public List<MaterialsDef> getByGenre(String order)
-    {
-        if (order.equalsIgnoreCase(ASC))
-            return getInfoBy(MaterialTable.GENRE, ASC);
-        else if (order.equalsIgnoreCase(DESC))
-            return getInfoBy(MaterialTable.GENRE, DESC);
-        else
-            return null;
-    }
-
-    /**
-     * @param order Either ascending "ASC" or descending "DESC"
-     * @return List of materials ordered by year of creation
-     *
-     */
-    public List<MaterialsDef> getByDate(String order)
-    {
-        if (order.equalsIgnoreCase(ASC))
-            return getInfoBy(MaterialTable.YEAR_CREATED, ASC);
-        else if (order.equalsIgnoreCase(DESC))
-            return getInfoBy(MaterialTable.YEAR_CREATED, DESC);
-        else
-            return null;
-    }
-
-    /**
-     * @param genre Desired genre that we're specifying
-     * @return list of materials with that genre
-     */
-    public List<MaterialsDef> getGenre(String genre)
-    {
-        return getSpecificInfoBy(MaterialTable.GENRE, genre + "%");
-    }
-
-    // TODO : Partial titles
-    /**
-     * @param title Desired title that we're specifying
-     * @return list of materials with that title
-     */
-    public List<MaterialsDef> getTitle(String title)
-    {
-        return getSpecificInfoBy(MaterialTable.TITLE, title + "%");
-    }
-
-    /**
-     * @param ISBN Desired ISBN that we're specifying
-     * @return list of materials with that ISBN
-     */
-    public List<MaterialsDef> getISBN(int ISBN)
-    {
-        return getSpecificInfoBy(MaterialTable._ID, Integer.toString(ISBN));
-    }
-
-    /**
-     * @param author Desired author that we're specifying
-     * @return list of materials with that author
-     */
-    public List<MaterialsDef> getAuthor(String author)
-    {
-        return getSpecificInfoBy(MaterialTable.AUTHOR, author + "%");
     }
 }

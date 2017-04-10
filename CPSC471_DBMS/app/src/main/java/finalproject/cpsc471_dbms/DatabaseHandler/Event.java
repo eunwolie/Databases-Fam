@@ -24,9 +24,6 @@ public class Event {
         db = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
     public void addEvent(EventDef x) {
         ContentValues values = new ContentValues();
         values.put(EventTable.DESCRIPTION, x.getDescription());
@@ -39,18 +36,22 @@ public class Event {
         db.insert(EventTable.TABLE_NAME, null, values);
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
     public int updateEvent(EventDef x) {
         ContentValues values = new ContentValues();
-        values.put(EventTable.DESCRIPTION, x.getDescription());
-        values.put(EventTable.START_TIME, x.getStartTime());
-        values.put(EventTable.END_TIME, x.getEndTime());
-        values.put(EventTable.DATE, x.getDate());
-        values.put(EventTable.TITLE, x.getTitle());
-        values.put(EventTable.SID, x.getSponsorID());
-        values.put(EventTable.HOST, x.getWorkID());
+        if (x.getDescription() != null)
+            values.put(EventTable.DESCRIPTION, x.getDescription());
+        if (x.getStartTime() != -1)
+            values.put(EventTable.START_TIME, x.getStartTime());
+        if (x.getEndTime() != -1)
+            values.put(EventTable.END_TIME, x.getEndTime());
+        if (x.getDate() != -1)
+            values.put(EventTable.DATE, x.getDate());
+        if (x.getTitle() != null)
+            values.put(EventTable.TITLE, x.getTitle());
+        if (x.getSponsorID() != -1)
+            values.put(EventTable.SID, x.getSponsorID());
+        if (x.getWorkID() != -1)
+            values.put(EventTable.HOST, x.getWorkID());
         // update row
         int result = db.update(EventTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
@@ -59,20 +60,15 @@ public class Event {
         return result;
     }
 
-    /**
-     * @param isbn the key of the audio class containing all the information of a new audio material
-     */
     public int deleteEvent(int start, int date, int wid) {
-        db.delete(EventTable.TABLE_NAME, WHERE_KEY_EQUALS,
+        return db.delete(EventTable.TABLE_NAME, WHERE_KEY_EQUALS,
                 new String[]{start+"",date+"",wid+""});
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
     public int deleteEvent(EventDef x) {
         return db.delete(EventTable.TABLE_NAME,
-                WHERE_KEY_EQUALS, new String[] {x.getId() + "" });
+                WHERE_KEY_EQUALS,
+                new String[] {x.getStartTime()+"", x.getDate()+"", x.getWorkID()+"" });
     }
 
 

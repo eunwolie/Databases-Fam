@@ -14,7 +14,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 // TODO : How the fuck are we going to do domain if it's not supported??
 // Likely going to just hardcode shit
 // TODO : Figure out how often need to close database after getWritableDatabase
-// TODO : Add pictures to the material database (use blob and byte[] and byte stream)
 // TODO : need to keep track of the rows - use the _COUNT?
 // TODO : Make sure all insert and delete operations return the int/long to see if they work
 
@@ -27,7 +26,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + AddressTable.ADDRESS + " TEXT, "
             + AddressTable.USER_ID + " INTEGER, "
             + "FOREIGN KEY(" + AddressTable.USER_ID + ") REFERENCES "
-            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") " + ")";
+            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_ATTENDS_TABLE = "CREATE TABLE "
             + EventAttendanceTable.TABLE_NAME + "("
@@ -38,18 +37,18 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + "FOREIGN KEY(" + EventAttendanceTable.UID + ") REFERENCES "
             + UserTable.TABLE_NAME + "(" + UserTable._ID + ") " + ", "
             + "FOREIGN KEY(" + EventAttendanceTable.START_TIME + ") REFERENCES "
-            + EventTable.TABLE_NAME + "(" + EventTable.START_TIME + ") " + ", "
+            + EventTable.TABLE_NAME + "(" + EventTable.START_TIME + ") ON DELETE CASCADE, "
             + "FOREIGN KEY(" + EventAttendanceTable.HOST_ID + ") REFERENCES "
-            + EventTable.TABLE_NAME + "(" + EventTable.HOST + ") " + ", "
+            + EventTable.TABLE_NAME + "(" + EventTable.HOST + ") ON DELETE CASCADE, "
             + "FOREIGN KEY(" + EventAttendanceTable.DATE + ") REFERENCES "
-            + EventTable.TABLE_NAME + "(" + EventTable.DATE + ") )";
+            + EventTable.TABLE_NAME + "(" + EventTable.DATE + ") ON DELETE CASCADE )";
 
     public static final String CREATE_AUDIO_TABLE = "CREATE TABLE "
             + AudioTable.TABLE_NAME + "("
             + AudioTable.LENGTH + " INTEGER, "
             + AudioTable.ISBN + " INTEGER, "
             + "FOREIGN KEY(" + AudioTable.ISBN  + ") REFERENCES "
-            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") )";
+            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_AUTHORS_TABLE = "CREATE TABLE "
             + AuthorTable.TABLE_NAME + "("
@@ -58,7 +57,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + AuthorTable.MINIT_NAME + " TEXT, "
             + AuthorTable.ISBN + " INTEGER, "
             + "FOREIGN KEY(" + AuthorTable.ISBN  + ") REFERENCES "
-            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") )";
+            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_BORROWS_TABLE = "CREATE TABLE "
             + BorrowingTable.TABLE_NAME + "("
@@ -69,18 +68,18 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + BorrowingTable.ID + " INTEGER, "
             + BorrowingTable.ISBN + " INTEGER, "
             + "FOREIGN KEY(" + BorrowingTable.ID + ") REFERENCES "
-            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") " + ", "
+            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") ON DELETE CASCADE, "
             + "FOREIGN KEY(" + BorrowingTable.ISBN + ") REFERENCES "
-            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") )";
+            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_DONATE_TABLE = "CREATE TABLE "
             + DonationTable.TABLE_NAME + "("
             + DonationTable.SID + " INTEGER, "
             + DonationTable.ISBN + " INTEGER, "
             + "FOREIGN KEY(" + DonationTable.SID + ") REFERENCES "
-            + SponsorTable.TABLE_NAME + "(" + SponsorTable._ID + ") " + ", "
+            + SponsorTable.TABLE_NAME + "(" + SponsorTable._ID + ") ON DELETE CASCADE, "
             + "FOREIGN KEY(" + DonationTable.ISBN + ") REFERENCES "
-            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") " + ")";
+            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_EVENT_TABLE = "CREATE TABLE "
             + EventTable.TABLE_NAME + "("
@@ -89,12 +88,13 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + EventTable.END_TIME  + " INTEGER, "
             + EventTable.DATE + " INTEGER, "
             + EventTable.TITLE + " TEXT, "
+            + EventTable.IMAGE + " BLOB, "
             + EventTable.SID + " INTEGER, "
             + EventTable.HOST + " INTEGER, "
             + "FOREIGN KEY(" + EventTable.SID + ") REFERENCES "
-            + SponsorTable.TABLE_NAME + "(" + SponsorTable._ID + ") , "
+            + SponsorTable.TABLE_NAME + "(" + SponsorTable._ID + ") ON DELETE CASCADE, "
             + "FOREIGN KEY(" + EventTable.HOST + ") REFERENCES "
-            + StaffTable.TABLE_NAME + "(" + StaffTable._ID + ") )";
+            + StaffTable.TABLE_NAME + "(" + StaffTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_FLOOR_TABLE = "CREATE TABLE "
             + FloorTable.TABLE_NAME + "("
@@ -102,30 +102,30 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + FloorTable.COMPUTERS + " INTEGER, "
             + FloorTable.WORK_ID + " INTEGER, "
             + "FOREIGN KEY(" + FloorTable.WORK_ID + ") REFERENCES "
-            + LibrarianTable.TABLE_NAME + "(" + LibrarianTable.DESKNO + ") )";
+            + LibrarianTable.TABLE_NAME + "(" + LibrarianTable.DESKNO + ") ON DELETE CASCADE )";
 
     public static final String CREATE_HELPS_TABLE = "CREATE TABLE "
             + LibHelpTable.TABLE_NAME + "("
             + LibHelpTable.WORK_ID + " INTEGER, "
             + LibHelpTable.USER_ID + " INTEGER, "
             + "FOREIGN KEY(" + LibHelpTable.WORK_ID + ") REFERENCES "
-            +  LibrarianTable.TABLE_NAME + "(" + StaffTable._ID + ") " + ", "
+            +  LibrarianTable.TABLE_NAME + "(" + StaffTable._ID + ") ON DELETE CASCADE, "
             + "FOREIGN KEY(" + LibHelpTable.USER_ID + ") REFERENCES "
-            +  UserTable.TABLE_NAME + "(" + UserTable._ID + ") " + ")";
+            +  UserTable.TABLE_NAME + "(" + UserTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_LANGUAGE_TABLE = "CREATE TABLE "
             + LanguageTable.TABLE_NAME + "("
             + LanguageTable.LANGUAGE + " TEXT, "
             + LanguageTable.ISBN + " INTEGER, "
             + "FOREIGN KEY(" + LanguageTable.ISBN  + ") REFERENCES "
-            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") " + ")";
+            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_LIBRARIAN_TABLE = "CREATE TABLE "
             + LibrarianTable.TABLE_NAME + "("
             + LibrarianTable.DESKNO + " INTEGER, "
             + LibrarianTable.WORK_ID + " INTEGER, "
             + "FOREIGN KEY(" + LibrarianTable.WORK_ID  + ") REFERENCES "
-            + StaffTable.TABLE_NAME + "(" + StaffTable._ID + ") " + ")";
+            + StaffTable.TABLE_NAME + "(" + StaffTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_MATERIALS_TABLE = "CREATE TABLE "
             + MaterialTable.TABLE_NAME + "("
@@ -137,10 +137,10 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + MaterialTable.YEAR_CREATED + " INTEGER, "
             + MaterialTable.LANGUAGE + " TEXT, "
             + MaterialTable.COMPANY + " TEXT, "
+            + MaterialTable.IMAGE + " BLOB, "
             + MaterialTable.SHELF_NO + " INTEGER, "
             + "FOREIGN KEY(" + MaterialTable.SHELF_NO + ") REFERENCES "
-            + ShelfTable.TABLE_NAME + "(" + ShelfTable._ID + ") "
-            + ")";
+            + ShelfTable.TABLE_NAME + "(" + ShelfTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_ON_HOLD_TABLE = "CREATE TABLE "
             + OnHoldTable.TABLE_NAME + "("
@@ -149,23 +149,23 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + OnHoldTable.ID + " INTEGER, "
             + OnHoldTable.ISBN + " INTEGER, "
             + "FOREIGN KEY(" + OnHoldTable.ID + ") REFERENCES "
-            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") "
+            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") ON DELETE CASCADE, "
             + "FOREIGN KEY(" + OnHoldTable.ISBN + ") REFERENCES "
-            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") " + ")";
+            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_SECTION_TABLE = "CREATE TABLE "
             + SectionTable.TABLE_NAME + "("
             + SectionTable._ID + " INTEGER NOT NULL PRIMARY KEY, "
             + SectionTable.FLOOR_NUMBER + " INTEGER, "
             + "FOREIGN KEY(" + SectionTable.FLOOR_NUMBER + ") REFERENCES "
-            + FloorTable.TABLE_NAME + "(" + FloorTable._ID + ") )";
+            + FloorTable.TABLE_NAME + "(" + FloorTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_SHELF_TABLE = "CREATE TABLE "
             + ShelfTable.TABLE_NAME + "("
             + ShelfTable._ID + " INTEGER NOT NULL PRIMARY KEY, "
             + ShelfTable.GENRE + " TEXT, "
             + "FOREIGN KEY(" + ShelfTable.GENRE + ") REFERENCES "
-            + SectionTable.TABLE_NAME + "(" + SectionTable._ID + ") )";
+            + SectionTable.TABLE_NAME + "(" + SectionTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_SPONSOR_TABLE = "CREATE TABLE "
             + SponsorTable.TABLE_NAME + "("
@@ -180,24 +180,27 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + StaffTable.SSN + " INTEGER NOT NULL UNIQUE, "
             + StaffTable.USER_ID + " INTEGER, "
             + "FOREIGN KEY(" + StaffTable.USER_ID + ") REFERENCES "
-            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") )";
+            + UserTable.TABLE_NAME + "(" + UserTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_TYPES_TABLE = "CREATE TABLE "
             + TypesTable.TABLE_NAME + "("
             + TypesTable.NAME + " TEXT, "
             + TypesTable.ISBN + " INTEGER, "
             + "FOREIGN KEY(" + TypesTable.ISBN + ") REFERENCES "
-            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") " + ")";
+            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") ON DELETE CASCADE )";
 
+    // may need birthday??
     public static final String CREATE_USER_TABLE = "CREATE TABLE "
             + UserTable.TABLE_NAME + "("
             + UserTable._ID + " INTEGER NOT NULL PRIMARY KEY, "
+            + UserTable.EMAIL + " TEXT UNIQUE, "
             + UserTable.FIRST_NAME + " TEXT NOT NULL, "
             + UserTable.LAST_NAME + " TEXT NOT NULL, "
             + UserTable.ADDRESS + " TEXT, "
             + UserTable.PASSWORD + " TEXT NOT NULL, "
             + UserTable.USERNAME + " TEXT NOT NULL UNIQUE, "
             + UserTable.PHONE + " INTEGER "
+            + UserTable.IMAGE + " BLOB "
             + ")";
 
     public static final String CREATE_VISUAL_TABLE = "CREATE TABLE "
@@ -206,7 +209,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + VisualTable.PAGE_LENGTH + " INTEGER NOT NULL, "
             + VisualTable.ISBN + " INTEGER, "
             + "FOREIGN KEY(" + VisualTable.ISBN  + ") REFERENCES "
-            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") " + ")";
+            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") ON DELETE CASCADE )";
 
     private static _DatabaseHelper state;
 

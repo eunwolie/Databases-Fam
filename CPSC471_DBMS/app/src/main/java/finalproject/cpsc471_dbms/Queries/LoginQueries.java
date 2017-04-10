@@ -27,6 +27,38 @@ public class LoginQueries {
         readDB = new _DatabaseHelper(context).getReadableDatabase();
     }
 
+    public boolean usernameExists(String username)
+    {
+        Cursor cursor = readDB.query(true, UserTable.TABLE_NAME,
+                new String[]{"COUNT(" + UserTable.USERNAME + ")"},
+                UserTable.USERNAME + "=?",
+                new String[]{username},
+                null, null, null, null);
+
+        if (cursor.moveToNext())
+        {
+            cursor.close();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean emailExists(String email)
+    {
+        Cursor cursor = readDB.query(true, UserTable.TABLE_NAME,
+                new String[]{"COUNT(" + UserTable.EMAIL + ")"},
+                UserTable.EMAIL + "=?",
+                new String[]{email},
+                null, null, null, null);
+
+        if (cursor.moveToNext())
+        {
+            cursor.close();
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @param username
      * @param password
@@ -36,13 +68,13 @@ public class LoginQueries {
      * username and password match
      *
      */
-    public int checkCredentials(String username, int password)
+    public int checkCredentials(String username, String password)
     {
         int id = -1;
 
         String[] want = new String[] {UserTable._ID};
         String where = UserTable.USERNAME + "=? AND " + UserTable.PASSWORD + "=?";
-        String[] selectArgs = new String[]{username, Integer.toString(password)};
+        String[] selectArgs = new String[]{username, password};
 
         Cursor cursor = readDB.query(UserTable.TABLE_NAME, want, where, selectArgs,
                 null, null, null );

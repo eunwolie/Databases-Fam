@@ -31,9 +31,6 @@ public class Author {
         db = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
     public void addAuthor(AuthorDef author) {
         ContentValues values = new ContentValues();
         values.put(AuthorTable.FIRST_NAME, author.getfName());
@@ -43,9 +40,6 @@ public class Author {
         db.insert(AuthorTable.TABLE_NAME, null, values);
     }
 
-    /**
-     * @param audio the audio class containing all the information of a new audio material
-     */
     // idk about this one
     public int updateAuthor (AuthorDef x) {
         ContentValues values = new ContentValues();
@@ -61,11 +55,8 @@ public class Author {
         return result;
     }
 
-    /**
-     * @param isbn the key of the audio class containing all the information of a new audio material
-     */
     public int deleteAuthor(String fname, String minit, String lname) {
-        db.delete(AuthorTable.TABLE_NAME, WHERE_KEY_EQUALS,
+        return db.delete(AuthorTable.TABLE_NAME, WHERE_KEY_EQUALS,
                 new String[]{fname, minit, lname});
     }
 
@@ -78,24 +69,4 @@ public class Author {
                 new String[]{x.getfName(), x.getMinit(), x.getlName()});
     }
 
-
-
-
-    /*protected SQLiteDatabase database;
-    private _DatabaseHelper dataHelper;
-    private Context aContext;
-
-    public Author(Context context) {
-        this.aContext = context;
-        dataHelper = _DatabaseHelper.getHelper(aContext);
-        open();
-
-    }
-
-    public void open() throws SQLException {
-        if(dataHelper == null)
-            dataHelper = _DatabaseHelper.getHelper(aContext);
-        database = dataHelper.getWritableDatabase();
-    }
-    */
 }
