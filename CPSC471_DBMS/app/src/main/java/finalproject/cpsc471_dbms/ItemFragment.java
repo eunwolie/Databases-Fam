@@ -30,8 +30,6 @@ public class ItemFragment extends Fragment  {
         itemImage = (ImageView) view.findViewById(R.id.itemImage);
         itemName = (TextView) view.findViewById(R.id.itemName);
 
-
-
         return view;
     }
 }

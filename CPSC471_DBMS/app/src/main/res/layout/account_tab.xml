@@ -2,96 +2,110 @@
 
 <!--This Scrollview contains the profile and descriptions for an individual.
     Also contains all the sections: On Hold, Checked Out, Overdue.-->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_spacer"
     android:background="@color/backgroundColour">
 
-    <!--Not sure how big the buttons will be for the books in the fragments.
-        Also I'll make the divider more aesthetic one day.-->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="normal"
+        android:src="@drawable/ic_person_24dp"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_gravity="bottom|end" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!--THE IMAGE IS A PLACEHOLDER CHILL-->
-        <ImageView
-            android:id="@+id/accImage"
-            android:layout_width="124dp"
-            android:layout_height="124dp"
-            android:scaleType="centerCrop"
-            android:layout_gravity="center"
-            android:src="@drawable/cpl_logo"
-            android:layout_marginTop="@dimen/activity_spacer"
-            android:layout_marginBottom="@dimen/activity_spacer"/>
-
-        <!--Placeholder name string-->
-        <TextView
-            android:id="@+id/accName"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Name: thrasher"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:layout_marginBottom="@dimen/activity_spacer"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/activity_spacer">
 
-        <!--Placeholder id string-->
-        <TextView
-            android:id="@+id/accID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ID: 69202"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:layout_marginBottom="@dimen/activity_spacer"/>
+            <!--THE IMAGE IS A PLACEHOLDER CHILL-->
 
-        <TextView
-            android:id="@+id/accEID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Employee ID: 1453"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:visibility="visible"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/accImage"
+                android:orientation="vertical"
+                android:layout_centerVertical="true">
 
-        <!--Divider for layout. Optional.-->
-        <!--
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorAccent"
-            android:layout_marginBottom="@dimen/activity_spacer"/> -->
+                <TextView
+                    android:id="@+id/accID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID: 69202"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/accEID"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Employee ID: 1453"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/accName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name: thrasher"
+                    android:textSize="16sp"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/accImage"
+                android:layout_width="124dp"
+                android:layout_height="124dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/cpl_logo"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+
+        </RelativeLayout>
 
         <!--Section for items on hold.-->
         <fragment
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:name="finalproject.cpsc471_dbms.SectionFragment"
             android:id="@+id/onHoldSection"
             tools:layout="@layout/section_fragment"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_weight="1"/>
 
         <!--Section for items checked out.-->
         <fragment
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:name="finalproject.cpsc471_dbms.SectionFragment"
             android:id="@+id/checkedOutSection"
             tools:layout="@layout/section_fragment"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_weight="1"/>
 
         <!--Section for items overdue.-->
         <fragment
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:name="finalproject.cpsc471_dbms.SectionFragment"
             android:id="@+id/overdueSection"
             tools:layout="@layout/section_fragment"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 
-</ScrollView>
+</android.support.design.widget.CoordinatorLayout>

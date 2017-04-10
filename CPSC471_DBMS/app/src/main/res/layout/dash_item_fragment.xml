@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark">
+    android:background="#FF99BB">
 
     <ImageView
         android:layout_width="match_parent"
@@ -13,8 +13,8 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Event Button"
+        android:text="Learn More"
         android:textColor="@color/white"
-        android:background="@drawable/app_button_bg"/>
+        android:background="@drawable/app_button_bg" />
 
 </LinearLayout>

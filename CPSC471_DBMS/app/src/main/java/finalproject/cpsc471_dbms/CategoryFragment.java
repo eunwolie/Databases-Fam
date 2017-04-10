@@ -1,7 +1,9 @@
 package finalproject.cpsc471_dbms;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,35 +27,18 @@ import java.util.List;
 
 public class CategoryFragment extends Fragment{
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.category_tab, container, false);
 
         //code for this fragment goes here
+        final FloatingActionButton addItemButton = (FloatingActionButton) view.findViewById(R.id.addItemButton);
         final EditText searchEditText = (EditText) view.findViewById(R.id.searchEditText);
         final ImageButton settingsButton = (ImageButton) view.findViewById(R.id.settingsButton);
         final LinearLayout catSettings = (LinearLayout) view.findViewById(R.id.catSettings);
-        /* final Spinner languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
-
-        List<String> languages = new ArrayList<>();
-        languages.add("English");
-        languages.add("French");
-        languages.add("Spanish");
-
-        ArrayAdapter<String> languageAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, languages);
-        languageAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        languageSpinner.setAdapter(languageAdapter);
-
-        languageSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String lang = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getContext(), "Language: " + lang, Toast.LENGTH_SHORT).show();
-            }
-        }); */
-
-        //do stuff with the searchedittext, settingsButton and catsettings
 
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +51,17 @@ public class CategoryFragment extends Fragment{
             }
         });
 
+        //------------------- The following code is for the floating add item button. -------------------
+
+        addItemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), AddItemActivity.class));
+            }
+        });
+
+        //------------- The following code is for the actual items in the category listing. -------------
+        /*
         Item[] itemList = {new Item("cpl_logo.png", "Genre"), new Item("cpl_logo.png", "Author"), new Item("cpl_logo.png", "Availability")};
         ListAdapter categoryAdapter = new ItemRowAdapter(this.getContext(), itemList);
         ListView categoryList = (ListView) view.findViewById(R.id.categoryList);
@@ -75,11 +71,16 @@ public class CategoryFragment extends Fragment{
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String itemDes = parent.getItemAtPosition(position).toString();
-                        Toast.makeText(parent.getContext(), itemDes, Toast.LENGTH_SHORT).show();
+                        if (position == 0) {
+                            Intent intent = new Intent(getContext(), EventViewActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Intent intent = new Intent(getContext(), MaterialViewActivity.class);
+                            startActivity(intent);
+                        }
                     }
                 }
-        );
+        ); */
 
         return view;
     }

@@ -12,10 +12,10 @@
         android:text="PLACEHOLDER"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="16sp"
         android:layout_marginStart="@dimen/activity_spacer"/>
 
-    <!--Currently is an empty ListView that isn't finished implementation yet.-->
+    <!--Currently is an empty ListView that isn't finished implementation yet.
     <ListView
         android:id="@+id/sectionList"
         android:layout_width="match_parent"
@@ -24,6 +24,6 @@
 
 
 
-    </ListView>
+    </ListView> -->
 
 </LinearLayout>

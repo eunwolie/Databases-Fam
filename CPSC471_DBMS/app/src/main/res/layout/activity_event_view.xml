@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/tool_bar" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:src="@drawable/cpl_logo"
+        android:layout_marginBottom="@dimen/activity_spacer"
+        android:layout_marginStart="@dimen/activity_spacer"
+        android:layout_marginEnd="@dimen/activity_spacer"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus enim nulla, non pharetra ante mattis quis. Etiam urna elit, aliquam vitae accumsan a, varius consectetur tortor."
+        android:layout_marginBottom="@dimen/activity_spacer"
+        android:layout_marginStart="@dimen/activity_spacer"
+        android:layout_marginEnd="@dimen/activity_spacer"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Join Event"
+        android:layout_marginStart="@dimen/activity_spacer"
+        android:layout_marginEnd="@dimen/activity_spacer"/>
+
+</LinearLayout>

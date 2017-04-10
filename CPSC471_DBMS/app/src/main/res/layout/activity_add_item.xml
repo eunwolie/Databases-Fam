@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/tool_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/activity_spacer">
+
+            <Spinner
+                android:id="@+id/typeSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/activity_spacer"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/titleET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Title"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textColorHint="@color/colorPrimary"
+                android:background="@drawable/app_edit_text_bg"
+                android:textColor="@color/textColour"
+                android:ems="12"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/sizer"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_spacer"/>
+
+            <EditText
+                android:id="@+id/isbnET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="ISBN"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textColorHint="@color/colorPrimary"
+                android:background="@drawable/app_edit_text_bg"
+                android:textColor="@color/textColour"
+                android:ems="12"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/sizer"
+                android:layout_marginTop="@dimen/activity_spacer"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/durationET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Duration (Minutes)"
+                android:inputType="numberDecimal"
+                android:textAlignment="center"
+                android:textColorHint="@color/colorPrimary"
+                android:background="@drawable/app_edit_text_bg"
+                android:textColor="@color/textColour"
+                android:ems="12"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/sizer"
+                android:layout_marginTop="@dimen/activity_spacer"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:visibility="gone"/>
+
+            <EditText
+                android:id="@+id/authorET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Author"
+                android:inputType="textPersonName"
+                android:textAlignment="center"
+                android:textColorHint="@color/colorPrimary"
+                android:background="@drawable/app_edit_text_bg"
+                android:textColor="@color/textColour"
+                android:ems="12"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/sizer"
+                android:layout_marginTop="@dimen/activity_spacer"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+            <Spinner
+                android:id="@+id/languageSpinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/activity_spacer"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/genreET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Genre"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textColorHint="@color/colorPrimary"
+                android:background="@drawable/app_edit_text_bg"
+                android:textColor="@color/textColour"
+                android:ems="12"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/sizer"
+                android:layout_marginTop="@dimen/activity_spacer"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/publisherET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Publisher"
+                android:inputType="text"
+                android:textAlignment="center"
+                android:textColorHint="@color/colorPrimary"
+                android:background="@drawable/app_edit_text_bg"
+                android:textColor="@color/textColour"
+                android:ems="12"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/sizer"
+                android:layout_marginTop="@dimen/activity_spacer"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+            <EditText
+                android:id="@+id/yrPubET"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Year Published"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textColorHint="@color/colorPrimary"
+                android:background="@drawable/app_edit_text_bg"
+                android:textColor="@color/textColour"
+                android:ems="12"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:padding="@dimen/sizer"
+                android:layout_marginTop="@dimen/activity_spacer"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+            <Button
+                android:id="@+id/addItemButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/addItem"
+                android:textColor="@color/white"
+                android:background="@drawable/app_button_bg"
+                android:layout_marginTop="@dimen/activity_spacer"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
