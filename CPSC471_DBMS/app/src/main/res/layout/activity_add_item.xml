@@ -20,6 +20,15 @@
             android:orientation="vertical"
             android:layout_marginTop="@dimen/activity_spacer">
 
+            <ImageButton
+                android:id="@+id/itemImage"
+                android:layout_width="152dp"
+                android:layout_height="152dp"
+                android:scaleType="centerCrop"
+                android:background="@color/backgroundColour"
+                android:src="@drawable/cpl_logo"
+                android:layout_gravity="center"/>
+
             <Spinner
                 android:id="@+id/typeSpinner"
                 android:layout_width="wrap_content"

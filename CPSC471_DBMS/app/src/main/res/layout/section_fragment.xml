@@ -4,7 +4,8 @@
 <!--This fragment is the title and contains a list of all the materials in a segment.-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/activity_spacer">
 
     <!--Text to be changed for each section of the account tab.-->
     <TextView
@@ -12,18 +13,16 @@
         android:text="PLACEHOLDER"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginStart="@dimen/activity_spacer"/>
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_margin="@dimen/activity_spacer"/>
 
-    <!--Currently is an empty ListView that isn't finished implementation yet.
     <ListView
         android:id="@+id/sectionList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none">
 
-
-
-    </ListView> -->
+    </ListView>
 
 </LinearLayout>

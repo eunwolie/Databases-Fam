@@ -9,6 +9,7 @@
 
     <!--This block is for the password input, centered in the screen-->
     <EditText
+        android:id="@+id/passwordEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -22,7 +23,6 @@
         android:layout_gravity="center"
         android:padding="@dimen/activity_spacer"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:id="@+id/passwordEdit"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
@@ -30,6 +30,7 @@
     password input ID is used for the relative layout, so it must
     be declared first, instead of in order from top to bottom. -->
     <EditText
+        android:id="@+id/usernameEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -40,7 +41,6 @@
         android:textColor="@color/textColour"
         android:ems="10"
         android:layout_gravity="center"
-        android:id="@+id/usernameEdit"
         android:layout_above="@id/passwordEdit"
         android:padding="@dimen/activity_spacer"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -76,7 +76,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Don't have an account? Create one!"
-        android:textSize="10sp"
+        android:textSize="12sp"
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
         android:background="@color/backgroundColour"
         android:textColor="@color/colorAccent"
         android:layout_below="@+id/loginButton"
