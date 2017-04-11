@@ -21,32 +21,23 @@ import finalproject.cpsc471_dbms.Definitions.MaterialsDef;
  * Created by evech on 2017-03-25.
  */
 
-public class Librarian {
+public class Librarian extends IHandler<LibrarianDef, LibrarianTable>{
     private static final String WHERE_KEY_EQUALS = LibrarianTable.WORK_ID + "=?";
-    private SQLiteDatabase db;
-    private Context context;
 
     public Librarian(Context context) {
-        this.context = context;
+        writeDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public long add(LibrarianDef x) {
-        ContentValues values = new ContentValues();
-        values.put(LibrarianTable.WORK_ID, x.getWorkId());
-        values.put(LibrarianTable.DESKNO, x.getdeskNo());
-
-        db = new _DatabaseHelper(context).getWritableDatabase();
-        return db.insert(LibrarianTable.TABLE_NAME, null, values);
+    protected void innerAdd(LibrarianDef l, ContentValues values)
+    {
+        values.put(LibrarianTable.WORK_ID, l.getWorkId());
+        values.put(LibrarianTable.DESKNO, l.getdeskNo());
     }
 
+    // TODO : FIX LIBRARIAN GET
     public LibrarianDef get(int wid) {
-        db = new _DatabaseHelper(context).getReadableDatabase();
-
-        Cursor cur = db.query(BorrowingTable.TABLE_NAME,
-                new String[] {
-                        LibrarianTable.WORK_ID,
-                        LibrarianTable.DESKNO
-                       },
+        Cursor cur = writeDB.query(BorrowingTable.TABLE_NAME,
+                new String[] { LibrarianTable.WORK_ID, LibrarianTable.DESKNO },
                 WHERE_KEY_EQUALS,
                 new String[] {wid+""},
                 null,null,null,null);
@@ -59,35 +50,19 @@ public class Librarian {
     }
 
     public int update(LibrarianDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(LibrarianTable.WORK_ID, x.getWorkId());
         values.put(LibrarianTable.DESKNO, x.getdeskNo());
         // update row
-        return db.update(BorrowingTable.TABLE_NAME, values,
+        return writeDB.update(BorrowingTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
                 new String[] { x.getWorkId()+"" });
     }
 
-    public void delete(LibrarianDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
+    public int delete(int id)
+    { return delete(new String[]{Integer.toString(id)}); }
 
-        db.delete(BorrowingTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[] {x.getWorkId()+""});
-        db.close();
-    }
-
-    public void loadEntities() {
-        // This populates the list momentarily
-        List<LibrarianDef> list = genEntities();
-
-        for (LibrarianDef x : list) {
-            add(x);
-        }
-    }
-
-    private List<LibrarianDef> genEntities() {
+    protected List<LibrarianDef> genEntities() {
         List<LibrarianDef> list = new ArrayList<>();
 
         list.add(new LibrarianDef(7006,104));

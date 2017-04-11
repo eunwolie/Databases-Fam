@@ -9,18 +9,16 @@ import android.os.Parcelable;
 
 public class ShelfDef {
     private int shelfNumber = -1;
-    private int isbn = -1;
     private String genre = null;
 
     public ShelfDef() {
         super();
     }
 
-    public ShelfDef(String genre, int shelfNumber, int isbn) {
+    public ShelfDef(String genre, int shelfNumber) {
         super();
         this.genre = genre;
         this.shelfNumber = shelfNumber;
-        this.isbn = isbn;
     }
 
     public ShelfDef(String genre) {
@@ -30,16 +28,7 @@ public class ShelfDef {
     private ShelfDef(Parcel in) {
         super();
         this.shelfNumber = in.readInt();
-        this.isbn = in.readInt();
         this.genre = in.readString();
-    }
-
-    public int getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(int isbn) {
-        this.isbn = isbn;
     }
 
     public int getShelfNumber() {
@@ -63,7 +52,6 @@ public class ShelfDef {
     }
 
     public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(getIsbn());
         parcel.writeInt(getShelfNumber());
         parcel.writeString(getGenre());
     }
@@ -80,13 +68,12 @@ public class ShelfDef {
 
     @Override
     public String toString() {
-        return "genre:" + genre + ", isbn:" + isbn + ", shelf number:" + shelfNumber;
+        return "genre:" + genre + ", shelf number:" + shelfNumber;
     }
 
     //public int getHashCode(int i);
     //public int getHashCode(String i);
 
-    // TODO : Need to adjust genre because it's the pk but it ain't a number
     @Override
     public int hashCode() {
         final int prime = 31;

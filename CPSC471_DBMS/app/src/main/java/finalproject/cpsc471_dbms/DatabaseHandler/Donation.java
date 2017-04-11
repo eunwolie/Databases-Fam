@@ -16,83 +16,60 @@ import finalproject.cpsc471_dbms.Definitions.DonationDef;
  * Created by evech on 2017-03-25.
  */
 
-public class Donation {
-    private static final String WHERE_KEY_EQUALS = DonationTable.ISBN + "=?";
-    private SQLiteDatabase db;
-    private Context context;
+public class Donation extends IHandler<DonationDef, DonationTable>{
+    private static final String WHERE_KEY_EQUALS = DonationTable.SID + "=?";
 
     public Donation(Context context) {
-        this.context = context;
+        writeDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public long add(DonationDef x) {
-        ContentValues values = new ContentValues();
-        values.put(DonationTable.SID, x.getsId());
-        values.put(DonationTable.ISBN, x.getIsbn());
-
-        db = new _DatabaseHelper(context).getWritableDatabase();
-        long result = db.insert(DonationTable.TABLE_NAME, null, values);
-        db.close();
-        return result;
+    protected void innerAdd(DonationDef d, ContentValues values)
+    {
+        values.put(DonationTable.SID, d.getsId());
+        values.put(DonationTable.ISBN, d.getIsbn());
     }
 
-    public DonationDef get(int isbn) {
-        db = new _DatabaseHelper(context).getReadableDatabase();
+    public DonationDef get(int SID) {
 
-        Cursor cur = db.query(DonationTable.TABLE_NAME,
-                new String[] {
-                        DonationTable.SID,
-                        DonationTable.ISBN},
+        Cursor cur = writeDB.query(DonationTable.TABLE_NAME,
+                new String[] {DonationTable.AMOUNT_DONATED},
                 WHERE_KEY_EQUALS,
-                new String[] {isbn+""},
+                new String[] {Integer.toString(SID)},
                 null,null,null,null);
-        if(cur!=null)
-            cur.moveToFirst();
-        DonationDef x = new DonationDef(
-                Integer.parseInt(cur.getString(0)),
-                Integer.parseInt(cur.getString(1)));
-        return x;
+
+        DonationDef d = new DonationDef();
+
+        if(cur.moveToNext()) {
+            d.setBookAmount(cur.getInt(cur.getColumnIndex(DonationTable.AMOUNT_DONATED)));
+            d.setId(SID);
+            cur.close();
+        }
+        return d;
     }
 
     public long update(DonationDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
+        // retrieve the original book record
+        DonationDef d = get(x.getsId());
 
+        // update by incrementing the amount of books accordingly
         ContentValues values = new ContentValues();
-        values.put(DonationTable.SID, x.getsId());
-        values.put(DonationTable.ISBN, x.getIsbn());
-        // update row
-        return db.update(DonationTable.TABLE_NAME, values,
+        values.put(DonationTable.AMOUNT_DONATED, x.getBookAmount() + d.getBookAmount());
+        return writeDB.update(DonationTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
                 new String[] { x.getIsbn()+"" });
     }
 
-    public long delete(DonationDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
-
-        long result = db.delete(DonationTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[] {x.getIsbn()+""});
-        db.close();
-        return result;
+    public int delete(int SID) {
+        return delete(new String[]{Integer.toString(SID)});
     }
 
-    public void loadEntities() {
-        // This populates the list momentarily
-        List<DonationDef> list = genEntities();
-
-        for (DonationDef x : list) {
-            add(x);
-        }
-    }
-
-    private List<DonationDef> genEntities() {
+    protected List<DonationDef> genEntities() {
         List<DonationDef> list = new ArrayList<>();
 
-        list.add(new DonationDef(5001,1111));
-        list.add(new DonationDef(5002,1112));
-        list.add(new DonationDef(5003,1113));
-        list.add(new DonationDef(5003, 1114));
-        list.add(new DonationDef(5004,1115));
-        list.add(new DonationDef(5006,1116));
+        int[] bookAmounts = new int[]{2,1,3,200,14,9};
+
+        for (int i = 0; i < bookAmounts.length; i++)
+            list.add(new DonationDef(5000 + i, 1110 + i, bookAmounts[i]));
 
         return list;
     }

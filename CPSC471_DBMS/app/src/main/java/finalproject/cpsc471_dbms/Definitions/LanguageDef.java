@@ -82,6 +82,7 @@ public class LanguageDef {
         if (getClass() != obj.getClass())
             return false;
 
-        return (isbn != ((LanguageDef) obj).isbn);
+        return (isbn == ((LanguageDef) obj).isbn
+            && language.equalsIgnoreCase(((LanguageDef) obj).language));
     }
 }

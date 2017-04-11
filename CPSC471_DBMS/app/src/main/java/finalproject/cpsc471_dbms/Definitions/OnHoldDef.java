@@ -12,8 +12,12 @@ import android.os.Parcelable;
  */
 
 public class OnHoldDef {
+    public final static String ARRIVED = "arrived";
+    public final static String WAITING = "waiting";
+
     private int holdDate = -1;
     private int endDate = -1;
+    private String status = null;
     private int id = -1;
     private int isbn = -1;
 
@@ -21,10 +25,11 @@ public class OnHoldDef {
         super();
     }
 
-    public OnHoldDef(int holdDate, int endDate, int id, int isbn) {
+    public OnHoldDef(int holdDate, int endDate, String status, int id, int isbn) {
         super();
         this.holdDate = holdDate;
         this.endDate = endDate;
+        this.status = status;
         this.id = id;
         this.isbn = isbn;
     }
@@ -33,6 +38,7 @@ public class OnHoldDef {
         super();
         this.holdDate = in.readInt();
         this.endDate = in.readInt();
+        this.status = in.readString();
         this.id = in.readInt();
         this.isbn = in.readInt();
     }
@@ -53,6 +59,14 @@ public class OnHoldDef {
         this.endDate = endDate;
     }
 
+    public String getStatus(){
+        return status;
+    }
+
+    public void setStatus(String status){
+        this.status = status;
+    }
+
     public int getIsbn(){
         return isbn;
     }
@@ -70,6 +84,7 @@ public class OnHoldDef {
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(getHoldDate());
         parcel.writeInt(getEndDate());
+        parcel.writeString(getStatus());
         parcel.writeInt(getId());
         parcel.writeInt(getIsbn());
     }
@@ -86,7 +101,8 @@ public class OnHoldDef {
 
     @Override
     public String toString() {
-        return "Hold date:" + holdDate + ", Hold end date:" + endDate + ", isbn:" + isbn + ", ID:" + id;
+        return "Hold date:" + holdDate + ", Hold end date:" + endDate
+                + ", status:" + status + ", isbn:" + isbn + ", ID:" + id;
     }
 
     @Override

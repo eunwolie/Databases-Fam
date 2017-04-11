@@ -2,75 +2,98 @@ package finalproject.cpsc471_dbms.Facades;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import finalproject.cpsc471_dbms.DatabaseHandler.*;
 
 /**
  * Created by farra on 2017-04-08.
+ *
+ * Populates the main list
+ *
  */
 
 public class MainFacade {
 
     private Context context;
 
+    private List<IBasicHandler> handlers;
+
     public MainFacade(Context context)
     {
+        handlers = new ArrayList<>();
         this.context = context;
     }
 
     private void createUsers()
     {
-        (new User(context)).loadUsers();
-        (new Staff(context)).loadEntities();
-        (new Librarian(context)).loadEntities();
+        handlers.add(new User(context));
+        handlers.add(new Staff(context));
+        handlers.add(new Librarian(context));
     }
 
     private void createLocations()
     {
-
-        // create floor
-        // create section
-        // create shelf
+        handlers.add(new Floor(context));
+        handlers.add(new Sections(context));
+        handlers.add(new Shelf(context));
     }
 
     private void createMaterials()
     {
-        // create material
-        // create audio
-        // create visual
-        // create author
+        handlers.add(new Materials(context));
+        handlers.add(new Audio(context));
+        handlers.add(new Visuals(context));
+        handlers.add(new Author(context));
     }
 
     private void createEvents()
     {
-        // create events
+        handlers.add(new Event(context));
     }
 
     private void createSponsors()
     {
-        // create sponsor
+        handlers.add(new Sponsor(context));
     }
 
     private void createMaterialRelations()
     {
-        // create borrowing relations
-        // create on hold relations
+        handlers.add(new Borrows(context));
+        handlers.add(new Holds(context));
     }
 
     private void createEventRelations()
     {
-        // create donation relations
-        // create event attendance relations
-        // create libHelp relation
+        handlers.add(new Donation(context));
+        handlers.add(new EventAttendance(context));
+        handlers.add(new Helps(context));
+    }
+
+    public void getTestLists()
+    {
+        createUsers();
+        createMaterials();
+        /*
+        createLocations();
+        createEvents();
+        createSponsors();
+        createMaterialRelations();
+        createEventRelations();
+        */
     }
 
     public void populateLists()
     {
-        createUsers();
-        createEvents();
-        createMaterials();
-        createSponsors();
-        createMaterialRelations();
-        createEventRelations();
+        for (IBasicHandler i : handlers)
+            i.generate();
+    }
+
+    public void close()
+    {
+        for (IBasicHandler i : handlers)
+            i.close();
     }
 
 

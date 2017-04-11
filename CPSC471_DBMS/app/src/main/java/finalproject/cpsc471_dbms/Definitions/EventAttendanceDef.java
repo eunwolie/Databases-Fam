@@ -26,10 +26,6 @@ public class EventAttendanceDef {
         this.workID = workID;
     }
 
-    /* public EventAttendance(String name) {
-        this.name = name;
-    } */
-
     private EventAttendanceDef(Parcel in) {
         super();
         this.id = in.readInt();

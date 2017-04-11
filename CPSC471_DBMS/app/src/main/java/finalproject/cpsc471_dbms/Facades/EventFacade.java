@@ -27,7 +27,7 @@ public class EventFacade {
     { return eq.getAllEventInfo(); }
 
     public EventDef getEvent(EventDef ev)
-    { return eq.getEventInfo(ev.getDate(), ev.getStartTime(), ev.getWorkID()); }
+    { return e.get(ev.getWorkID(), ev.getDate(), ev.getStartTime()); }
 
     public byte[] getEventImage(String title)
     { return eq.getImage(title); }
@@ -38,10 +38,10 @@ public class EventFacade {
     public void addEvent(EventDef ev)
     { e.add(ev); }
 
-    // IF YOU WANT MORE DELETING VARIATIONS, TELL ME
     public long deleteEvent(EventDef ev)
     { return e.delete(ev); }
 
+    // IF UPDATE EVENT, PEOPLE HAVE TO RE-GO FOR IT
     public void updateEvent(EventDef ev)
     {
         deleteEvent(ev);
@@ -59,4 +59,10 @@ public class EventFacade {
 
     public int getAttendeeAmount(EventDef e)
     { return eq.eventAttendeeAmount(e); }
+
+    public void close()
+    {
+        eq.close();
+        e.close();
+    }
 }

@@ -22,39 +22,23 @@ import finalproject.cpsc471_dbms.Definitions.DonationDef;
  * Created by evech on 2017-03-25.
  */
 
-public class Author {
+public class Author extends IBasicHandler<AuthorDef, AuthorTable>{
     private static final String WHERE_KEY_EQUALS = AuthorTable.ISBN + "=?";
-    private SQLiteDatabase db;
-    private Context context;
 
-    public Author(Context context) {
-        this.context = context;
+    public Author(Context context) {   
+        writeDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public long add(AuthorDef x) {
-        ContentValues values = new ContentValues();
-        values.put(AuthorTable.FIRST_NAME, x.getfName());
-        values.put(AuthorTable.MINIT_NAME, x.getMinit());
-        values.put(AuthorTable.LAST_NAME, x.getlName());
-        values.put(AuthorTable.ISBN, x.getIsbn());
-
-        db = new _DatabaseHelper(context).getWritableDatabase();
-        long result = db.insert(AuthorTable.TABLE_NAME, null, values);
-        db.close();
-        return result;
+    protected void innerAdd(AuthorDef a, ContentValues values)
+    {
+        values.put(AuthorTable.FIRST_NAME, a.getfName());
+        values.put(AuthorTable.MINIT_NAME, a.getMinit());
+        values.put(AuthorTable.LAST_NAME, a.getlName());
+        values.put(AuthorTable.ISBN, a.getIsbn());
     }
 
-    public void loadEntities() {
-
-        // This populates the list momentarily
-        List<AuthorDef> list = genEntities();
-
-        for (AuthorDef x : list) {
-            add(x);
-        }
-    }
-
-    private List<AuthorDef> genEntities() {
+    // TODO : CHECK IF BOOKS EXIST
+    protected List<AuthorDef> genEntities() {
         List<AuthorDef> list = new ArrayList<>();
 
         list.add(new AuthorDef("a","b","c",1111));

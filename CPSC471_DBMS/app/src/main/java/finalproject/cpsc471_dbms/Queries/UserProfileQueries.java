@@ -21,9 +21,7 @@ import java.util.List;
  *
  */
 
-// TODO : Handle multivalued attribute (name, )
-
-public class UserProfileQueries {
+public class UserProfileQueries extends IQueries{
     private SQLiteDatabase db;
     private SQLiteDatabase writeDB;
     private int userID;
@@ -48,26 +46,6 @@ public class UserProfileQueries {
         cursor.close();
     }
 
-    public StaffDef getStaffInfo()
-    {
-        Cursor cursor = db.query(StaffTable.TABLE_NAME,
-                null,
-                StaffTable.USER_ID + "=?",
-                new String[]{Integer.toString(userID)},
-                null, null, null, null);
-
-        StaffDef staff = new StaffDef();
-
-        if (cursor.moveToNext()) {
-            staff.setSalary(cursor.getInt(cursor.getColumnIndex(StaffTable.SALARY)));
-            staff.setSsn(cursor.getInt(cursor.getColumnIndex(StaffTable.SSN)));
-            staff.setWorkId(cursor.getInt(cursor.getColumnIndex(StaffTable.USER_ID)));
-
-            cursor.close();
-        }
-        return staff;
-    }
-
     public UserDef getUserInfo()
     {
         Cursor cursor = getUserCursor();
@@ -76,7 +54,6 @@ public class UserProfileQueries {
 
         if (cursor.moveToNext()) {
             user.setFirstName(cursor.getString(cursor.getColumnIndex(UserTable.FIRST_NAME)));
-            //user.setMinitName(cursor.getString(cursor.getColumnIndex(UserTable.NAME)));
             user.setLastName(cursor.getString(cursor.getColumnIndex(UserTable.LAST_NAME)));
             user.setUsername(cursor.getString(cursor.getColumnIndex(UserTable.USERNAME)));
             user.setAddress(cursor.getString(cursor.getColumnIndex(UserTable.ADDRESS)));
@@ -214,37 +191,46 @@ public class UserProfileQueries {
         return materials;
     }
 
-    /**
-     * @param user the user that will be update
-     *
-     * Updates a specific user
-     */
-    public void update(UserDef user)
+    public boolean hasAlreadyApproved(int uID, int wID)
     {
-        ContentValues values = new ContentValues();
+        String where = LibHelpTable.USER_ID + "=? AND "
+                + LibHelpTable.WORK_ID + "=?";
+        String[] whereArgs = new String[]{
+                Integer.toString(uID), Integer.toString(wID)
+        };
 
-        if (user.getFirstName() != null)
-            values.put(UserTable.FIRST_NAME, user.getFirstName());
-        if (user.getLastName() != null)
-            values.put(UserTable.LAST_NAME, user.getLastName());
-        if (user.getUsername() != null)
-            values.put(UserTable.USERNAME, user.getUsername());
-        if (user.getAddress() != null)
-            values.put(UserTable.ADDRESS, user.getAddress());
-        if (user.getPassword() != null)
-            values.put(UserTable.PASSWORD, user.getPassword());
-        if (user.getPhone() != -1)
-            values.put(UserTable.PHONE, user.getPhone());
-        if (user.getImage() != null)
-            values.put(UserTable.IMAGE, user.getImage());
-        if (user.getEmail() != null)
-            values.put(UserTable.EMAIL, user.getEmail());
+        Cursor cursor = writeDB.query(LibHelpTable.TABLE_NAME,
+                new String[]{"COUNT(*)"}, where, whereArgs,
+                null, null, null, null);
 
-        String where = UserTable._ID + "=?";
+        boolean hasApproved = false;
 
-        writeDB.update(UserTable.TABLE_NAME, values, where,
-                new String[]{Integer.toString(user.getId())});
+        if (cursor.moveToNext()) hasApproved = true;
+
+        cursor.close();
+
+        return hasApproved;
     }
+
+    // ONLY USE IF A STAFF
+    public int countApproval(StaffDef s)
+    {
+        Cursor cursor = writeDB.query(LibHelpTable.TABLE_NAME,
+                new String[]{"COUNT(*)"},
+                LibHelpTable.WORK_ID + "=?",
+                new String[]{Integer.toString(s.getWorkId())},
+                null, null, null, null);
+
+        int approval = 0;
+
+        if (cursor.moveToNext())
+            approval = cursor.getInt(0);
+
+        cursor.close();
+
+        return approval;
+    }
+
 
     public long addImage(byte[] image)
     {

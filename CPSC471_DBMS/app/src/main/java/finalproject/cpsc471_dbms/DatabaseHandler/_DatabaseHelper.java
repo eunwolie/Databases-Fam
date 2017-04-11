@@ -11,11 +11,17 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 // DECIDED TO PLACE KEYS OF 1 INTO N
 
-// TODO : How the fuck are we going to do domain if it's not supported??
-// Likely going to just hardcode shit
-// TODO : Figure out how often need to close database after getWritableDatabase
-// TODO : need to keep track of the rows - use the _COUNT?
-// TODO : Make sure all insert and delete operations return the int/long to see if they work
+/*
+ TODO : How the fuck are we going to do domain if it's not supported??
+ TODO : HOW TO HANDLE DATES?
+ TODO : POPULATE LISTS (enlist William's help later)
+ TODO : APPEND DEFAULT VALUES TO CREATE TABLE
+ TODO : ADD OUTSIDE LIBRARY SUPPORT
+
+ THINK : BOOK ROOM
+ THINK : ADD LIBRARY CARD TO PHONE
+ THINK : NOTIFICATION?
+ */
 
 
 public class _DatabaseHelper extends SQLiteOpenHelper {
@@ -67,6 +73,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String CREATE_DONATE_TABLE = "CREATE TABLE "
             + DonationTable.TABLE_NAME + "("
+            + DonationTable.AMOUNT_DONATED + " INTEGER, "
             + DonationTable.SID + " INTEGER, "
             + DonationTable.ISBN + " INTEGER, "
             + "FOREIGN KEY(" + DonationTable.SID + ") REFERENCES "
@@ -123,9 +130,9 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
     public static final String CREATE_MATERIALS_TABLE = "CREATE TABLE "
             + MaterialTable.TABLE_NAME + "("
             + MaterialTable.TITLE + " TEXT, "
-            + MaterialTable.TYPE + " TEXT, "
             + MaterialTable._ID + " INTEGER PRIMARY KEY, "
-            + MaterialTable.GENRE + " TEXT,"
+            + MaterialTable.GENRE + " TEXT NOT NULL,"
+            + MaterialTable.TYPE + " TEXT NOT NULL,"
             + MaterialTable.YEAR_CREATED + " INTEGER, "
             + MaterialTable.COMPANY + " TEXT, "
             + MaterialTable.IMAGE + " BLOB, "
@@ -137,6 +144,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + OnHoldTable.TABLE_NAME + "("
             + OnHoldTable.HOLD_DATE + " INTEGER, "
             + OnHoldTable.END_DATE + " INTEGER, "
+            + OnHoldTable.STATUS + " TEXT, "
             + OnHoldTable.ID + " INTEGER, "
             + OnHoldTable.ISBN + " INTEGER, "
             + "FOREIGN KEY(" + OnHoldTable.ID + ") REFERENCES "
@@ -180,7 +188,6 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + "FOREIGN KEY(" + TypesTable.ISBN + ") REFERENCES "
             + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") ON DELETE CASCADE )";
 
-    // may need birthday??
     public static final String CREATE_USER_TABLE = "CREATE TABLE "
             + UserTable.TABLE_NAME + "("
             + UserTable._ID + " INTEGER NOT NULL PRIMARY KEY, "
@@ -190,15 +197,15 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + UserTable.ADDRESS + " TEXT, "
             + UserTable.PASSWORD + " TEXT NOT NULL, "
             + UserTable.USERNAME + " TEXT NOT NULL UNIQUE, "
-            + UserTable.PHONE + " INTEGER "
+            + UserTable.PHONE + " INTEGER, "
             + UserTable.IMAGE + " BLOB "
             + ")";
 
     public static final String CREATE_VISUAL_TABLE = "CREATE TABLE "
             + VisualTable.TABLE_NAME + "("
-            + VisualTable.SHELF_NO + " INTEGER, "
             + VisualTable.PAGE_LENGTH + " INTEGER NOT NULL, "
-            + VisualTable.ISBN + " INTEGER, "
+            + VisualTable.HAS_EBOOK + " INTEGER NOT NULL, "
+            + VisualTable.ISBN + " INTEGER NOT NULL, "
             + "FOREIGN KEY(" + VisualTable.ISBN  + ") REFERENCES "
             + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") ON DELETE CASCADE )";
 
@@ -246,7 +253,4 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void onUpgrade(SQLiteDatabase database, int version1, int version2) {}
-
-    public void onDestroy()
-    {}
 }

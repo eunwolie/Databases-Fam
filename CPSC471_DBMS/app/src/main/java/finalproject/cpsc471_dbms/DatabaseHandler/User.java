@@ -16,85 +16,62 @@ import finalproject.cpsc471_dbms.Definitions.UserDef;
  * Created by evech on 2017-03-27.
  */
 
-public class User {
-    _DatabaseHelper userdbHelper;
-    SQLiteDatabase writeDB;
-    SQLiteDatabase readDB;
-    private Context aContext;
-
-    private static final String WHERE_ID_EQUALS = UserTable._ID
-            + " =?";
+public class User extends IHandler<UserDef, UserTable>{
+    private static final String WHERE_ID_EQUALS = UserTable._ID + "=?";
+    private static int userID = 0;
 
     public User(Context context) {
-        userdbHelper = _DatabaseHelper.getHelper(aContext);
-        writeDB = userdbHelper.getWritableDatabase();
-        readDB = userdbHelper.getReadableDatabase();
+        writeDB = _DatabaseHelper.getHelper(context).getWritableDatabase();
     }
 
-    public long add(UserDef user) {
-        ContentValues values = new ContentValues();
-        values.put(UserTable._ID, user.getId());
+    protected void innerAdd(UserDef user, ContentValues values)
+    {
+        values.put(UserTable._ID, userID);
         values.put(UserTable.USERNAME, user.getUsername());
         values.put(UserTable.PASSWORD, user.getUsername());
         values.put(UserTable.FIRST_NAME, user.getFirstName());
         values.put(UserTable.LAST_NAME, user.getLastName());
         values.put(UserTable.ADDRESS, user.getAddress());
         values.put(UserTable.PHONE, user.getPhone());
+        values.put(UserTable.IMAGE, user.getImage());
+        values.put(UserTable.EMAIL, user.getEmail());
+        values.put(UserTable.IMAGE, user.getImage());
 
-        return writeDB.insert(UserTable.TABLE_NAME, null, values);
+        // set the userID within the system
+        userID++;
     }
+
+    public int delete(int id)
+    { return delete(new String[]{Integer.toString(id)}); }
 
     public long update(UserDef user) {
+
         ContentValues values = new ContentValues();
-        values.put(UserTable._ID, user.getId());
-        values.put(UserTable.USERNAME, user.getUsername());
-        values.put(UserTable.PASSWORD, user.getUsername());
-        values.put(UserTable.FIRST_NAME, user.getFirstName());
-        values.put(UserTable.LAST_NAME, user.getLastName());
-        values.put(UserTable.ADDRESS, user.getAddress());
-        values.put(UserTable.PHONE, user.getPhone());
 
-        long result = writeDB.update(UserTable.TABLE_NAME, values,
-                WHERE_ID_EQUALS,
-                new String[] { String.valueOf(user.getId()) });
-        return result;
+        if (user.getFirstName() != null)
+            values.put(UserTable.FIRST_NAME, user.getFirstName());
+        if (user.getLastName() != null)
+            values.put(UserTable.LAST_NAME, user.getLastName());
+        if (user.getAddress() != null)
+            values.put(UserTable.ADDRESS, user.getAddress());
+        if (user.getPassword() != null)
+            values.put(UserTable.PASSWORD, user.getPassword());
+        if (user.getPhone() != -1)
+            values.put(UserTable.PHONE, user.getPhone());
+        if (user.getImage() != null)
+            values.put(UserTable.IMAGE, user.getImage());
+        if (user.getEmail() != null)
+            values.put(UserTable.EMAIL, user.getEmail());
+
+        String where = UserTable._ID + "=?";
+
+        return writeDB.update(UserTable.TABLE_NAME, values, where,
+                new String[]{Integer.toString(user.getId())});
 
     }
 
-    public int delete(UserDef user) {
-        return writeDB.delete(_DatabaseHelper.CREATE_USER_TABLE,
-                WHERE_ID_EQUALS, new String[] {user.getId() + "" });
-    }
-
-    public List<UserDef> getUsers() {
-        List<UserDef> users = new ArrayList<UserDef>();
-        Cursor cursor = readDB.query(_DatabaseHelper.CREATE_USER_TABLE,
-                new String[] { UserTable._ID,
-                        UserTable.FIRST_NAME}, null, null, null, null,
-                null);
-
-        while (cursor.moveToNext()) {
-            UserDef u = new UserDef();
-            u.setId(cursor.getInt(0));
-            u.setFirstName(cursor.getString(1));
-            users.add(u);
-        }
-
-        cursor.close();
-
-        return users;
-    }
-
-    public void loadUsers() {
-        List<UserDef> users = getTempUser();
-
-        for (UserDef use : users) {
-            add(use);
-        }
-    }
-
-    private List<UserDef> getTempUser() {
-        List<UserDef> users = new ArrayList<UserDef>();
+    protected List<UserDef> genEntities() {
+        List<UserDef> users = new ArrayList<>();
 
         int id = 9005;
         String[] firstNames = new String[]{
@@ -104,7 +81,7 @@ public class User {
 
         // TODO : MAKE SURE USERNAMES HAVE ACCEPTABLE CHARACTERS
         String[] usernames = new String[]{
-                "theCutest", "noWillToLive", "admin", "_oneMoreDay", "erica.a", "NoOneCares"};
+                "theCutest", "noWillToLive", "admin", "oneMoreDay", "ericaa", "NoOneCares"};
         String[] address = new String[]{
                 "143 Farrah's Heart Avenue", "404 Spencer's Pants Road",
                 "Angel Boulevard", "Tina's Puke", "Anime Con", "Marlborough's Ghetto"

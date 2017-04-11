@@ -3,20 +3,26 @@ package finalproject.cpsc471_dbms.Definitions;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by evech on 2017-03-24.
  */
 
-public class MaterialsDef implements Parcelable{
+public class MaterialsDef{
+    public static final String VISUAL_TYPE = "visual";
+    public static final String AUDIO_TYPE = "audio";
+    public static final String BOTH_TYPE = "both";
+
     private List<AuthorDef> author = null;
     private String title = null;
     private String type = null;
     private int isbn = -1;;
     private String genre = null;
+    private List<TypeDef> typeInfo = null;
     private int yearOfCreation = -1;;
-    private List<String> language = null;
+    private List<LanguageDef> language = null;
     private String company = null;
     private String description = null;
     private int shelf = -1;
@@ -24,21 +30,19 @@ public class MaterialsDef implements Parcelable{
 
     public MaterialsDef() {
         super();
+        author = new ArrayList<>();
+        language = new ArrayList<>();
     }
 
-    public MaterialsDef(String title) {
-        super();
-        this.title = title;
-    }
-
-    public MaterialsDef(String description, List<AuthorDef> author, String title, String type, int isbn,
-                        String genre, int yearOfCreation, List<String> language, String company,
-                        int shelf, byte[] image){
+    public MaterialsDef(String description, List<AuthorDef> author, String title, String type,
+                        List<TypeDef> typeInfo, int isbn, String genre, int yearOfCreation,
+                        List<LanguageDef> language, String company, int shelf, byte[] image){
         super();
         this.description = description;
         this.author = author;
         this.title = title;
         this.type = type;
+        this.typeInfo = typeInfo;
         this.isbn = isbn;
         this.genre = genre;
         this.yearOfCreation = yearOfCreation;
@@ -88,6 +92,10 @@ public class MaterialsDef implements Parcelable{
         this.type = type;
     }
 
+    public List<TypeDef> getTypeInfo() { return typeInfo; }
+
+    public void setTypeInfo(List<TypeDef> typeInfo) { this.typeInfo = typeInfo; }
+
     public int getIsbn() {
         return isbn;
     }
@@ -112,11 +120,11 @@ public class MaterialsDef implements Parcelable{
         this.yearOfCreation = yearOfCreation;
     }
 
-    public List<String> getLanguage() {
+    public List<LanguageDef> getLanguage() {
         return language;
     }
 
-    public void setLanguage(List<String> language) {
+    public void setLanguage(List<LanguageDef> language) {
         this.language = language;
     }
 
@@ -142,12 +150,10 @@ public class MaterialsDef implements Parcelable{
 
     public void setShelf(int shelf) { this.shelf = shelf; }
 
-    @Override
     public int describeContents() {
         return 0;
     }
 
-    @Override
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(getIsbn());
         parcel.writeInt(getYearOfCreation());

@@ -6,7 +6,7 @@ import android.provider.BaseColumns;
  * Created by farra on 2017-04-02.
  */
 
-public class UserTable implements BaseColumns {
+public class UserTable extends ITable implements BaseColumns {
     public static final String TABLE_NAME = "User";
     public static final String _ID = "ID";
     public static final String EMAIL = "Email";

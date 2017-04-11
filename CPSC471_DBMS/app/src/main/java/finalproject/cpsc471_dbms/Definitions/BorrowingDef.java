@@ -8,6 +8,9 @@ import android.os.Parcelable;
  */
 
 public class BorrowingDef {
+    public final static String OVERDUE = "overdue";
+    public final static String REGULAR = "not overdue";
+
     private int borrowDate = -1;
     private int returnDate = -1;
     private int overdueDay = -1;
@@ -61,6 +64,12 @@ public class BorrowingDef {
 
     public void setOverdueDay(int overdueDay){
         this.overdueDay = overdueDay;
+    }
+
+    public String getStatus() { return status; }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getIsbn(){

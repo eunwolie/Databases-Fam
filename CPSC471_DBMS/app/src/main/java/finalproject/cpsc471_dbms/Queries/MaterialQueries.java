@@ -13,9 +13,9 @@ import finalproject.cpsc471_dbms.Definitions.*;
  * Created by farra on 2017-04-05.
  */
 
-public class MaterialQueries {
-    SQLiteDatabase writeDB;
-    SQLiteDatabase readDB;
+public class MaterialQueries extends IQueries{
+    private SQLiteDatabase writeDB;
+    private SQLiteDatabase readDB;
 
     public MaterialQueries(Context context) {
         writeDB = new _DatabaseHelper(context).getWritableDatabase();
@@ -64,7 +64,6 @@ public class MaterialQueries {
         return location;
     }
 
-    // TODO : Fix the result
     public boolean isAvailable(int isbn)
     {
         String table = BorrowingTable.TABLE_NAME + " , " + OnHoldTable.TABLE_NAME
@@ -79,11 +78,13 @@ public class MaterialQueries {
                 new String[]{Integer.toString(isbn), Integer.toString(isbn), Integer.toString(isbn)},
                 null, null, null);
 
-        int num = cursor.getInt(0);
+        boolean available = false;
+
+        if (cursor.moveToNext()) available = true;
 
         cursor.close();
 
-        return (num == 0);
+        return available;
     }
 
     public long addImage(int isbn, byte[] image)
@@ -105,6 +106,8 @@ public class MaterialQueries {
 
         if (cursor.moveToNext())
             image = cursor.getBlob(0);
+
+        cursor.close();
 
         return image;
     }

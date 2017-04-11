@@ -46,4 +46,10 @@ public class LoginFacade {
     public void createAccount(UserDef ud)
     { u.add(ud); }
 
+    public void close()
+    {
+        lq.close();
+        u.close();
+    }
+
 }

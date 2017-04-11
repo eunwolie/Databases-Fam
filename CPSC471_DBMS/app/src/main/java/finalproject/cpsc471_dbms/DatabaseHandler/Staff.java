@@ -18,81 +18,65 @@ import finalproject.cpsc471_dbms.Definitions.StaffDef;
  * Created by evech on 2017-03-24.
  */
 
-public class Staff {
+public class Staff extends IHandler<StaffDef, StaffTable>{
     private static final String WHERE_KEY_EQUALS = StaffTable._ID + "=?";
-    private SQLiteDatabase db;
-    private Context context;
 
     public Staff(Context context) {
-        this.context = context;
+        writeDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public void add(StaffDef x) {
-        ContentValues values = new ContentValues();
+    protected void innerAdd(StaffDef x, ContentValues values)
+    {
         values.put(StaffTable._ID, x.getWorkId());
         values.put(StaffTable.SSN, x.getSsn());
         values.put(StaffTable.USER_ID, x.getUId());
         values.put(StaffTable.SALARY, x.getSalary());
-
-        db = new _DatabaseHelper(context).getWritableDatabase();
-        db.insert(StaffTable.TABLE_NAME, null, values);
-        db.close();
     }
 
-    public StaffDef get(int wid) {
-        db = new _DatabaseHelper(context).getReadableDatabase();
+    public int delete(int workID)
+    { return delete(new String[]{Integer.toString(workID)}); }
 
-        Cursor cur = db.query(StaffTable.TABLE_NAME,
-                new String[] {
-                        StaffTable._ID,
-                        StaffTable.SSN,
-                        StaffTable.USER_ID,
-                        StaffTable.SALARY},
-                WHERE_KEY_EQUALS,
-                new String[] {wid+""},
-                null,null,null,null);
-        if(cur!=null)
-            cur.moveToFirst();
-        StaffDef x = new StaffDef(
-                Integer.parseInt(cur.getString(0)),
-                Integer.parseInt(cur.getString(1)),
-                Integer.parseInt(cur.getString(2)),
-                Integer.parseInt(cur.getString(3)));
-        return x;
+    private StaffDef get(String where, String[] whereArgs)
+    {
+        Cursor cursor = writeDB.query(StaffTable.TABLE_NAME,
+                null, where,
+                whereArgs,
+                null, null, null, null);
+
+        StaffDef staff = new StaffDef();
+
+        if (cursor.moveToNext()) {
+            staff.setWorkId(cursor.getInt(cursor.getColumnIndex(StaffTable._ID)));
+            staff.setSalary(cursor.getInt(cursor.getColumnIndex(StaffTable.SALARY)));
+            staff.setSsn(cursor.getInt(cursor.getColumnIndex(StaffTable.SSN)));
+            staff.setUId(cursor.getInt(cursor.getColumnIndex(StaffTable.USER_ID)));
+
+            cursor.close();
+        }
+        return staff;
+    }
+
+    public StaffDef getByUID(int uid)
+    {
+        return get(StaffTable.USER_ID + "=?", new String[]{Integer.toString(uid)});
+    }
+
+    public StaffDef getByWID(int wid)
+    {
+        return get(WHERE_KEY_EQUALS, new String[]{Integer.toString(wid)});
     }
 
     public int update(StaffDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
-
         ContentValues values = new ContentValues();
-        values.put(StaffTable._ID, x.getWorkId());
-        values.put(StaffTable.SSN, x.getSsn());
-        values.put(StaffTable.USER_ID, x.getUId());
         values.put(StaffTable.SALARY, x.getSalary());
         // update row
-        return db.update(BorrowingTable.TABLE_NAME, values,
+        return writeDB.update(BorrowingTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
                 new String[] { x.getWorkId()+"" });
     }
 
-    public void delete(StaffDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
 
-        db.delete(StaffTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[] {x.getWorkId()+""});
-        db.close();
-    }
-
-    public void loadEntities() {
-        // This populates the list momentarily
-        List<StaffDef> list = genEntities();
-
-        for (StaffDef x : list) {
-            add(x);
-        }
-    }
-
-    private List<StaffDef> genEntities() {
+    protected List<StaffDef> genEntities() {
         List<StaffDef> list = new ArrayList<>();
 
         list.add(new StaffDef(7005, 79678, 9006, 100));

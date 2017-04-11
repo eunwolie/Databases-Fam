@@ -18,85 +18,43 @@ import finalproject.cpsc471_dbms.Definitions.EventAttendanceDef;
  * Created by evech on 2017-03-25.
  */
 
-public class EventAttendance {
+public class EventAttendance extends IHandler<EventAttendanceDef, EventAttendanceTable>{
     private static final String WHERE_KEY_EQUALS =
             EventAttendanceTable.UID + "=? AND" +
             EventAttendanceTable.DATE + "=? AND " +
             EventAttendanceTable.START_TIME + "=?";
-    private SQLiteDatabase db;
-    private Context context;
+    private SQLiteDatabase writeDB;
 
     public EventAttendance(Context context) {
-        this.context = context;
+        writeDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public long add(EventAttendanceDef x) {
-        ContentValues values = new ContentValues();
-        values.put(EventAttendanceTable.UID, x.getId());
-        values.put(EventAttendanceTable.DATE, x.getDate());
-        values.put(EventAttendanceTable.HOST_ID, x.getWorkID());
-        values.put(EventAttendanceTable.START_TIME, x.getStartTime());
-
-        db = new _DatabaseHelper(context).getWritableDatabase();
-        long result = db.insert(EventAttendanceTable.TABLE_NAME, null, values);
-        db.close();
-        return result;
+    public void innerAdd(EventAttendanceDef e, ContentValues values)
+    {
+        values.put(EventAttendanceTable.UID, e.getId());
+        values.put(EventAttendanceTable.DATE, e.getDate());
+        values.put(EventAttendanceTable.HOST_ID, e.getWorkID());
+        values.put(EventAttendanceTable.START_TIME, e.getStartTime());
     }
 
-    public EventAttendanceDef get(int uid, int date, int startTime) {
-        db = new _DatabaseHelper(context).getReadableDatabase();
+    public void delete(EventAttendanceDef e)
+    { delete(new String[] {Integer.toString(e.getId()),
+            Integer.toString(e.getDate()), Integer.toString(e.getStartTime())}); }
 
-        Cursor cur = db.query(BorrowingTable.TABLE_NAME,
-                new String[] {
-                        EventAttendanceTable.UID,
-                        EventAttendanceTable.DATE,
-                        EventAttendanceTable.HOST_ID,
-                        EventAttendanceTable.START_TIME},
-                WHERE_KEY_EQUALS,
-                new String[] {uid+"", date+"", startTime+""},
-                null,null,null,null);
-        if(cur!=null)
-            cur.moveToFirst();
-        EventAttendanceDef x = new EventAttendanceDef(
-                Integer.parseInt(cur.getString(0)),
-                Integer.parseInt(cur.getString(1)),
-                Integer.parseInt(cur.getString(2)),
-                Integer.parseInt(cur.getString(3)));
-        return x;
-    }
 
+    // TODO : WHEN DELETE AND ADD NEW EVENT, COPY ALL OF THE ENTRIES INTO A NEW TABLE
     public int update(EventAttendanceDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
-
         ContentValues values = new ContentValues();
-        values.put(EventAttendanceTable.UID, x.getId());
         values.put(EventAttendanceTable.DATE, x.getDate());
         values.put(EventAttendanceTable.HOST_ID, x.getWorkID());
         values.put(EventAttendanceTable.START_TIME, x.getStartTime());
         // update row
-        return db.update(EventAttendanceTable.TABLE_NAME, values,
+        return writeDB.update(EventAttendanceTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
                 new String[] { x.getId()+"" });
     }
 
-    public void delete(EventAttendanceDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
-
-        db.delete(EventAttendanceTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[] {x.getId()+"", x.getDate()+"", x.getStartTime()+""});
-        db.close();
-    }
-
-    public void loadEntities() {
-        // This populates the list momentarily
-        List<EventAttendanceDef> list = genEntities();
-
-        for (EventAttendanceDef x : list) {
-            add(x);
-        }
-    }
-
-    private List<EventAttendanceDef> genEntities() {
+    protected List<EventAttendanceDef> genEntities() {
         List<EventAttendanceDef> list = new ArrayList<>();
 
         list.add(new EventAttendanceDef(9001,900, 421, 7001));

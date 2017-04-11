@@ -18,74 +18,31 @@ import finalproject.cpsc471_dbms.Definitions.ShelfDef;
  * Created by evech on 2017-03-24.
  */
 
-public class Shelf{
+public class Shelf extends IHandler<ShelfDef, ShelfTable>{
     private static final String WHERE_KEY_EQUALS = ShelfTable._ID + "=?";
-    private SQLiteDatabase db;
-    private Context context;
 
     public Shelf(Context context) {
-        this.context = context;
+        writeDB = (new _DatabaseHelper(context)).getWritableDatabase();
     }
 
-    public long add(ShelfDef x) {
-        ContentValues values = new ContentValues();
-        values.put(ShelfTable._ID, x.getShelfNumber());
-        values.put(ShelfTable.GENRE, x.getGenre());
-
-        db = new _DatabaseHelper(context).getWritableDatabase();
-        long result = db.insert(BorrowingTable.TABLE_NAME, null, values);
-        db.close();
-        return result;
-    }
-
-    public ShelfDef get(int shid) {
-        db = new _DatabaseHelper(context).getReadableDatabase();
-
-        Cursor cur = db.query(BorrowingTable.TABLE_NAME,
-                new String[] {
-                        ShelfTable.GENRE,
-                        ShelfTable._ID},
-                WHERE_KEY_EQUALS,
-                new String[] {shid+""},
-                null,null,null,null);
-        if(cur!=null)
-            cur.moveToFirst();
-        ShelfDef x = new ShelfDef(
-                cur.getString(0),
-                Integer.parseInt(cur.getString(1)));
-        return x;
+    protected void innerAdd(ShelfDef s, ContentValues values)
+    {
+        values.put(ShelfTable._ID, s.getShelfNumber());
+        values.put(ShelfTable.GENRE, s.getGenre());
     }
 
     public long update(ShelfDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
-
         ContentValues values = new ContentValues();
-        values.put(ShelfTable._ID, x.getShelfNumber());
         values.put(ShelfTable.GENRE, x.getGenre());
-        // update row
-        return db.update(ShelfTable.TABLE_NAME, values,
+        return writeDB.update(ShelfTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
                 new String[] { x.getShelfNumber()+"" });
     }
 
-    public void delete(ShelfDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
+    public int delete(int id)
+    { return delete(new String[]{Integer.toString(id)}); }
 
-        db.delete(BorrowingTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[] {x.getShelfNumber()+""});
-        db.close();
-    }
-
-    public void loadEntities() {
-        // This populates the list momentarily
-        List<ShelfDef> list = genEntities();
-
-        for (ShelfDef x : list) {
-            add(x);
-        }
-    }
-
-    private List<ShelfDef> genEntities() {
+    protected List<ShelfDef> genEntities() {
         List<ShelfDef> list = new ArrayList<>();
 
         list.add(new ShelfDef("fantasy", 1));

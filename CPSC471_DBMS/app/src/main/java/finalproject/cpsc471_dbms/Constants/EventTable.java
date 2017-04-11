@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 // Each event of different times will have own ID
 
 
-public class EventTable implements BaseColumns {
+public class EventTable extends ITable implements BaseColumns {
     public static final String TABLE_NAME = "Event";
     public static final String DESCRIPTION = "Description";
     public static final String START_TIME = "StartTime";
@@ -18,5 +18,5 @@ public class EventTable implements BaseColumns {
     public static final String TITLE = "EventName";
     public static final String IMAGE = "Image";
     public static final String SID = "SponsorID";
-    public static final String HOST = "WorkID";
+    public static final String HOST = "HostWorkID";
 }

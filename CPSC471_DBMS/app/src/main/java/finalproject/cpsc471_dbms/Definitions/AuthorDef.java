@@ -111,6 +111,8 @@ public class AuthorDef {
         if (getClass() != obj.getClass())
             return false;
 
-        return (isbn == ((AuthorDef) obj).isbn);
+        return (fName.equalsIgnoreCase(((AuthorDef) obj).fName)
+            && minit.equalsIgnoreCase(((AuthorDef) obj).minit)
+            && lName.equalsIgnoreCase(((AuthorDef) obj).lName));
     }
 }

@@ -19,27 +19,22 @@ import finalproject.cpsc471_dbms.Definitions.FloorDef;
  * Created by evech on 2017-03-25.
  */
 
-public class Floor {
+public class Floor extends IHandler<FloorDef, FloorTable>{
     private static final String WHERE_KEY_EQUALS = FloorTable._ID + "=?";
-    private SQLiteDatabase db;
-    private Context context;
 
     public Floor(Context context) {
-        this.context = context;
+        writeDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public long add(FloorDef x) {
-        ContentValues values = new ContentValues();
+    protected void innerAdd(FloorDef x, ContentValues values)
+    {
         values.put(FloorTable._ID, x.getfNumber());
         values.put(FloorTable.WORK_ID, x.getWorkId());
         values.put(FloorTable.COMPUTERS, x.getfComputer());
-
-        db = new _DatabaseHelper(context).getWritableDatabase();
-        long result = db.insert(FloorTable.TABLE_NAME, null, values);
-        db.close();
-        return result;
     }
 
+    // TODO : DO I NEED THIS??
+    /*
     public FloorDef get(int id) {
         db = new _DatabaseHelper(context).getReadableDatabase();
 
@@ -59,39 +54,23 @@ public class Floor {
                 Integer.parseInt(cur.getString(2)));
         return x;
     }
+    */
 
     public long update(FloorDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
-
         ContentValues values = new ContentValues();
-        values.put(FloorTable._ID, x.getfNumber());
-        values.put(FloorTable.WORK_ID, x.getWorkId());
-        values.put(FloorTable.COMPUTERS, x.getfComputer());
-        // update row
-        return db.update(FloorTable.TABLE_NAME, values,
+
+        if (x.getWorkId() != -1)
+            values.put(FloorTable.WORK_ID, x.getWorkId());
+        if (x.getfComputer() != -1)
+            values.put(FloorTable.COMPUTERS, x.getfComputer());
+
+        return writeDB.update(FloorTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
                 new String[] { x.getfNumber()+"" });
     }
 
-    public long delete(BorrowingDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
-
-        long result = db.delete(FloorTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[] {x.getId()+""});
-        db.close();
-        return result;
-    }
-
-    public void loadEntities() {
-        // This populates the list momentarily
-        List<FloorDef> list = genEntities();
-
-        for (FloorDef x : list) {
-            add(x);
-        }
-    }
-
-    private List<FloorDef> genEntities() {
+    // TODO : FIX THESE ENTITIES LATER
+    protected List<FloorDef> genEntities() {
         List<FloorDef> list = new ArrayList<>();
 
         list.add(new FloorDef(1, 10, 7001));

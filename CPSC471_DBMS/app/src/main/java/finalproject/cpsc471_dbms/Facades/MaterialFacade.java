@@ -4,8 +4,8 @@ import android.content.Context;
 
 import java.util.List;
 
-import finalproject.cpsc471_dbms.Constants.MaterialTable;
-import finalproject.cpsc471_dbms.DatabaseHandler.Materials;
+import finalproject.cpsc471_dbms.Constants.*;
+import finalproject.cpsc471_dbms.DatabaseHandler.*;
 import finalproject.cpsc471_dbms.Definitions.*;
 import finalproject.cpsc471_dbms.Queries.*;
 
@@ -19,6 +19,9 @@ public class MaterialFacade {
     private SearchQueries s;
     private MaterialQueries mq;
     private Materials m;
+    private Borrows b;
+    private Donation d;
+    private Holds h;
 
     private static int materialID = 500;
 
@@ -27,6 +30,9 @@ public class MaterialFacade {
         s = new SearchQueries(context);
         mq = new MaterialQueries(context);
         m = new Materials(context);
+        b = new Borrows(context);
+        d = new Donation(context);
+        h = new Holds(context);
     }
 
     public static void incrementID(){ materialID++; }
@@ -39,6 +45,21 @@ public class MaterialFacade {
 
     public int updateMaterial(MaterialsDef md)
     { return m.update(md); }
+
+    public long borrowMaterial(BorrowingDef bd)
+    { return b.add(bd); }
+
+    public long returnMaterial(BorrowingDef bd)
+    { return b.delete(bd.getIsbn(), bd.getId()); }
+
+    public long holdMaterial(OnHoldDef hd)
+    { return h.add(hd);}
+
+    public int expireHold(OnHoldDef hd)
+    { return h.delete(hd.getIsbn(), hd.getId()); }
+
+    public long donateMaterial(DonationDef dd)
+    { return d.update(dd); }
 
     // physically available
     public boolean materialIsAvailable(int ISBN)
@@ -70,9 +91,9 @@ public class MaterialFacade {
     public List<MaterialsDef> getByAuthor(String order)
     {
         if (order.equalsIgnoreCase(SearchQueries.ASC))
-            return s.getInfoBy(MaterialTable.AUTHOR, SearchQueries.ASC);
+            return s.getInfoBy(AuthorTable.LAST_NAME, SearchQueries.ASC);
         else if (order.equalsIgnoreCase(SearchQueries.DESC))
-            return s.getInfoBy(MaterialTable.AUTHOR, SearchQueries.DESC);
+            return s.getInfoBy(AuthorTable.LAST_NAME, SearchQueries.DESC);
         else
             return null;
     }
@@ -114,7 +135,6 @@ public class MaterialFacade {
     public List<MaterialsDef> getGenre(String genre)
     { return s.getSpecificInfoBy(MaterialTable.GENRE, genre + "%"); }
 
-    // TODO : Partial titles
     /**
      * @param title Desired title that we're specifying
      * @return list of materials with that title
@@ -127,7 +147,7 @@ public class MaterialFacade {
      * @return list of materials with that author
      */
     public List<MaterialsDef> getAuthor(String author)
-    { return s.getSpecificInfoBy(MaterialTable.AUTHOR, author + "%"); }
+    { return s.getSpecificInfoBy(AuthorTable.LAST_NAME, author + "%"); }
 
     /**
      * @param ISBN Desired ISBN that we're specifying
@@ -135,5 +155,15 @@ public class MaterialFacade {
      */
     public List<MaterialsDef> getISBN(int ISBN)
     { return s.getSpecificInfoBy(MaterialTable._ID, Integer.toString(ISBN)); }
+
+    public void close()
+    {
+        s.close();
+        mq.close();
+        m.close();
+        b.close();
+        d.close();
+        h.close();
+    }
 
 }

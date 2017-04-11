@@ -18,82 +18,31 @@ import finalproject.cpsc471_dbms.Definitions.SectionDef;
  * Created by evech on 2017-03-25.
  */
 
-public class Sections {
+public class Sections extends IHandler<SectionDef, SectionTable>{
     private static final String WHERE_KEY_EQUALS = SectionTable._ID + "=?";
-    private SQLiteDatabase db;
-    private Context context;
 
-    public Sections(Context context) {
-        this.context = context;
+    public Sections(Context context){
+        writeDB = (new _DatabaseHelper(context)).getWritableDatabase();
     }
 
-    public long add(SectionDef x) {
-        ContentValues values = new ContentValues();
-        values.put(SectionTable._ID, x.getGenre());
-        values.put(SectionTable.FLOOR_NUMBER, x.getfNo());
-
-        db = new _DatabaseHelper(context).getWritableDatabase();
-        return db.insert(SectionTable.TABLE_NAME, null, values);
+    protected void innerAdd(SectionDef s, ContentValues values)
+    {
+        values.put(SectionTable._ID, s.getGenre());
+        values.put(SectionTable.FLOOR_NUMBER, s.getfNo());
     }
 
-    public SectionDef get(String genre) {
-        db = new _DatabaseHelper(context).getReadableDatabase();
+    public int delete(int id)
+    { return delete(new String[]{Integer.toString(id)}); }
 
-        Cursor cur = db.query(SectionTable.TABLE_NAME,
-                new String[] {
-                        SectionTable._ID,
-                        SectionTable.FLOOR_NUMBER,
-                },
-                WHERE_KEY_EQUALS,
-                new String[] {genre},
-                null,null,null,null);
-        if(cur!=null)
-            cur.moveToFirst();
-        SectionDef x = new SectionDef(
-                cur.getString(0),
-                Integer.parseInt(cur.getString(1)));
-        return x;
-    }
-
-    public int update(SectionDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put(SectionTable._ID, x.getGenre());
-        values.put(SectionTable.FLOOR_NUMBER, x.getfNo());
-
-        // update row
-        return db.update(SectionTable.TABLE_NAME, values,
-                WHERE_KEY_EQUALS,
-                new String[] { x.getGenre()+"" });
-    }
-
-    public void delete(SectionDef x) {
-        db = new _DatabaseHelper(context).getWritableDatabase();
-
-        db.delete(SectionTable.TABLE_NAME, WHERE_KEY_EQUALS,
-                new String[] {x.getGenre()+""});
-        db.close();
-    }
-
-    public void loadEntities() {
-        // This populates the list momentarily
-        List<SectionDef> list = genEntities();
-
-        for (SectionDef x : list) {
-            add(x);
-        }
-    }
-
-    private List<SectionDef> genEntities() {
+    protected List<SectionDef> genEntities() {
         List<SectionDef> list = new ArrayList<>();
 
-        list.add(new SectionDef("fantasy",1));
-        list.add(new SectionDef("horror",1));
-        list.add(new SectionDef("humour",2));
-        list.add(new SectionDef("humour",3));
-        list.add(new SectionDef("biography",4));
-        list.add(new SectionDef("biography",5));
+        list.add(new SectionDef("fantasy",1,1));
+        list.add(new SectionDef("horror",1,2));
+        list.add(new SectionDef("humour",2,2));
+        list.add(new SectionDef("humour",3,3));
+        list.add(new SectionDef("biography",4,3));
+        list.add(new SectionDef("biography",5,4));
 
         return list;
     }

@@ -19,8 +19,8 @@ import finalproject.cpsc471_dbms.DatabaseHandler.*;
  */
 
 
-public class LoginQueries {
-    SQLiteDatabase readDB;
+public class LoginQueries extends IQueries{
+    private SQLiteDatabase readDB;
 
     public LoginQueries(Context context)
     {

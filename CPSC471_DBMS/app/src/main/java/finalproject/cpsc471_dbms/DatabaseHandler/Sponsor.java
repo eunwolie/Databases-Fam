@@ -9,6 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import finalproject.cpsc471_dbms.Constants.SectionTable;
 import finalproject.cpsc471_dbms.Constants.SponsorTable;
 import finalproject.cpsc471_dbms.Definitions.SponsorDef;
 
@@ -16,82 +17,24 @@ import finalproject.cpsc471_dbms.Definitions.SponsorDef;
  * Created by evech on 2017-03-27.
  */
 
-public class Sponsor {
-    private _DatabaseHelper sponsordbHelper;
-    private SQLiteDatabase writeDB;
-
-    private static final String WHERE_ID_EQUALS = SponsorTable._ID
-            + " =?";
+public class Sponsor extends IHandler<SponsorDef, SponsorTable>{
+    private static final String WHERE_ID_EQUALS = SponsorTable._ID + " =?";
 
     public Sponsor(Context context) {
-        sponsordbHelper = new _DatabaseHelper(context);
-        writeDB = sponsordbHelper.getWritableDatabase();
+        writeDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public long add(SponsorDef sponsor) {
-        ContentValues values = new ContentValues();
+    public void innerAdd(SponsorDef sponsor, ContentValues values)
+    {
         values.put(SponsorTable._ID, sponsor.getSponsorId());
         values.put(SponsorTable.NAME, sponsor.getName());
         values.put(SponsorTable.REASON, sponsor.getReason());
-        return writeDB.insert(SponsorTable.TABLE_NAME, null, values);
     }
 
-    public long update(SponsorDef sponsor) {
-        ContentValues values = new ContentValues();
-        values.put(SponsorTable.NAME, sponsor.getName());
+    public int delete(int id)
+    { return delete(new String[]{Integer.toString(id)}); }
 
-        long result = writeDB.update(_DatabaseHelper.CREATE_SPONSOR_TABLE, values,
-                WHERE_ID_EQUALS,
-                new String[] { String.valueOf(sponsor.getSponsorId()) });
-        Log.d("Update Result:", "=" + result);
-        return result;
-
-    }
-
-    public int delete(SponsorDef sponsor) {
-        return writeDB.delete(SponsorTable.TABLE_NAME,
-                WHERE_ID_EQUALS, new String[] {sponsor.getSponsorId() + "" });
-    }
-
-    public List<SponsorDef> getSponsors() {
-        List<SponsorDef> users = new ArrayList<SponsorDef>();
-        /*
-        Cursor cursor = writeDB.query(_DatabaseHelper.CREATE_SPONSOR_TABLE,
-                new String[] { SponsorTable._ID,
-                        SponsorTable.NAME}, null, null, null, null,
-                null);
-*/
-        Cursor cursor = writeDB.query(SponsorTable.TABLE_NAME,
-                new String[] { SponsorTable._ID,
-                        SponsorTable.NAME}, null, null, null, null,
-                null);
-
-        while (cursor.moveToNext()) {
-            SponsorDef user = new SponsorDef();
-            user.setSponsorId(cursor.getInt(0));
-            user.setName(cursor.getString(1));
-            users.add(user);
-        }
-
-        cursor.close();
-
-        return users;
-    }
-
-    public void loadSponsors() {
-
-        // This populates the list momentarily
-        List<SponsorDef> sponsors = getTempSponsor();
-
-        for (SponsorDef use : sponsors) {
-            ContentValues values = new ContentValues();
-            values.put(SponsorTable.NAME, use.getName());
-
-            writeDB.insert(_DatabaseHelper.CREATE_SPONSOR_TABLE, null, values);
-        }
-    }
-
-    private List<SponsorDef> getTempSponsor()
+    protected List<SponsorDef> genEntities()
     {
         List<SponsorDef> sponsors = new ArrayList<>();
 

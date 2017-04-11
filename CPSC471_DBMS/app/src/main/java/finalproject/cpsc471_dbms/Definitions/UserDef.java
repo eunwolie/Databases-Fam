@@ -23,12 +23,6 @@ public class UserDef {
         super();
     }
 
-    public UserDef(int id, String name) {
-        super();
-        this.id = id;
-        this.firstName = name;
-    }
-
     public UserDef(int id, String firstName, String lastName, String username,
                    String address, String password, int phone, byte[] image, String email) {
         super();
@@ -41,14 +35,6 @@ public class UserDef {
         this.phone = phone;
         this.image = image;
         this.email = email;
-    }
-
-    public UserDef(String firstName, String lastName, String username, String address, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.address = address;
-        this.password = password;
     }
 
     private UserDef(Parcel in) {

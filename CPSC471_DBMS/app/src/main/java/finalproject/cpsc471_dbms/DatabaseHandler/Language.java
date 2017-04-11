@@ -15,45 +15,22 @@ import finalproject.cpsc471_dbms.Definitions.*;
  * Created by evech on 2017-03-25.
  */
 
-public class Language {
+public class Language extends IBasicHandler<LanguageDef, LanguageTable>{
     private static final String WHERE_KEY_EQUALS = LanguageTable.ISBN + "=?";
-    private SQLiteDatabase db;
-    private Context context;
 
     public Language(Context context) {
-        this.context = context;
+        writeDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public long add(LanguageDef x) {
-        ContentValues values = new ContentValues();
-        values.put(LanguageTable.ISBN, x.getIsbn());
-        values.put(LanguageTable.LANGUAGE, x.getLanguage());
-
-        db = new _DatabaseHelper(context).getWritableDatabase();
-        long result = db.insert(LanguageTable.TABLE_NAME, null, values);
-        db.close();
-        return result;
+    public void innerAdd(LanguageDef l, ContentValues values)
+    {
+        values.put(LanguageTable.ISBN, l.getIsbn());
+        values.put(LanguageTable.LANGUAGE, l.getLanguage());
     }
 
-    public LanguageDef get(int id) {
-        db = new _DatabaseHelper(context).getReadableDatabase();
-
-        Cursor cur = db.query(LanguageTable.TABLE_NAME,
-                new String[] {
-                        LanguageTable.ISBN,
-                        LanguageTable.LANGUAGE,},
-                WHERE_KEY_EQUALS,
-                new String[] {id+""},
-                null,null,null,null);
-
-        LanguageDef x = new LanguageDef();
-
-        if(cur!=null) {
-            cur.moveToFirst();
-            x.setLanguage(cur.getString(0));
-            x.setIsbn(cur.getInt(1));
-            cur.close();
-        }
-        return x;
+    // TODO : ACTUALLY GENERATE SOMETHING HERE
+    protected List<LanguageDef> genEntities()
+    {
+        return new ArrayList<LanguageDef>();
     }
 }

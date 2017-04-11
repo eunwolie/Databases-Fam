@@ -11,15 +11,17 @@ public class DonationDef {
 
     private int sId = -1;
     private int isbn = -1;
+    private int bookAmount = -1;
 
     public DonationDef() {
         super();
     }
 
-    public DonationDef(int sId, int isbn) {
+    public DonationDef(int sId, int isbn, int bookAmount) {
         super();
         this.sId = sId;
         this.isbn = isbn;
+        this.bookAmount = bookAmount;
     }
 
 
@@ -27,6 +29,7 @@ public class DonationDef {
         super();
         this.sId = in.readInt();
         this.isbn = in.readInt();
+        this.bookAmount = in.readInt();
     }
 
     public int getsId() {
@@ -45,6 +48,14 @@ public class DonationDef {
         this.isbn = isbn;
     }
 
+    public int getBookAmount() {
+        return bookAmount;
+    }
+
+    public void setBookAmount(int bookAmount) {
+        this.bookAmount = bookAmount;
+    }
+
     public int describeContents() {
         return 0;
     }
@@ -52,6 +63,7 @@ public class DonationDef {
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(getsId());
         parcel.writeInt(getIsbn());
+        parcel.writeInt(getBookAmount());
     }
 
     public static final Parcelable.Creator<DonationDef> CREATOR = new Parcelable.Creator<DonationDef>() {

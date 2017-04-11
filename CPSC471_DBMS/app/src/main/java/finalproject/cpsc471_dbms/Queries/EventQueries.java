@@ -32,13 +32,10 @@ import finalproject.cpsc471_dbms.Definitions.*;
  *
  */
 
-public class EventQueries {
-    private SQLiteDatabase readDB;
-    private SQLiteDatabase writeDB;
+public class EventQueries extends IQueries{
 
     public EventQueries(Context context)
     {
-        readDB = new _DatabaseHelper(context).getReadableDatabase();
         writeDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
@@ -46,7 +43,7 @@ public class EventQueries {
     {
         List<EventDef> events = new ArrayList<EventDef>();
 
-        Cursor cursor = readDB.query(true, EventTable.TABLE_NAME, null,
+        Cursor cursor = writeDB.query(true, EventTable.TABLE_NAME, null,
                 null, null, null, null, null, null);
 
         while (cursor.moveToNext())
@@ -67,39 +64,6 @@ public class EventQueries {
 
         return events;
     }
-
-    // Maybe remove sponsor as a specific thing. However, the event NEEDS a host
-
-    public EventDef getEventInfo(int workID, int date, int startTime)
-    {
-        String where = EventTable.HOST + "=? AND "
-                + EventTable.DATE + "=? AND "
-                + EventTable.START_TIME + "=?";
-        String[] whereArgs = new String[]{
-                Integer.toString(workID), Integer.toString(date), Integer.toString(startTime)
-        };
-
-        Cursor cursor = readDB.query(EventTable.TABLE_NAME, null,
-                where, whereArgs, null, null, null);
-
-        EventDef event = new EventDef();
-
-        while (cursor.moveToNext())
-        {
-            event.setDate(cursor.getInt(cursor.getColumnIndex(EventTable.DATE)));
-            event.setSponsorID(cursor.getInt(cursor.getColumnIndex(EventTable.SID)));
-            event.setEndTime(cursor.getInt(cursor.getColumnIndex(EventTable.END_TIME)));
-            event.setStartTime(cursor.getInt(cursor.getColumnIndex(EventTable.START_TIME)));
-            event.setTitle(cursor.getString(cursor.getColumnIndex(EventTable.TITLE)));
-            event.setWorkID(cursor.getInt(cursor.getColumnIndex(EventTable.HOST)));
-            event.setDescription(cursor.getString(cursor.getColumnIndex(EventTable.DESCRIPTION)));
-            event.setImage(cursor.getBlob(cursor.getColumnIndex(EventTable.IMAGE)));
-        }
-
-        cursor.close();
-        return event;
-    }
-
 
     private int deleteBy(String attribute, String item)
     {
@@ -148,7 +112,7 @@ public class EventQueries {
 
     public int removeUserFromEvent(int uID)
     {
-        return readDB.delete(EventAttendanceTable.TABLE_NAME,
+        return writeDB.delete(EventAttendanceTable.TABLE_NAME,
                 EventAttendanceTable.UID + "=?",
                 new String[]{Integer.toString(uID)});
     }
@@ -164,7 +128,7 @@ public class EventQueries {
                 Integer.toString(e.getDate()),
                 Integer.toString(e.getStartTime())};
 
-        Cursor cursor = readDB.query(true, EventAttendanceTable.TABLE_NAME,
+        Cursor cursor = writeDB.query(true, EventAttendanceTable.TABLE_NAME,
                 new String[]{"COUNT(*)"},
                 where, want, null, null, null, null);
 
@@ -186,7 +150,7 @@ public class EventQueries {
             Integer.toString(e.getStartTime()),
             Integer.toString(e.getWorkID())};
 
-        Cursor cursor = readDB.query(EventAttendanceTable.TABLE_NAME,
+        Cursor cursor = writeDB.query(EventAttendanceTable.TABLE_NAME,
                 new String[]{"COUNT(*)"}, where, want,
                 null, null, null);
 
@@ -212,7 +176,7 @@ public class EventQueries {
 
     public byte[] getImage(String title)
     {
-        Cursor cursor = readDB.query(true, EventTable.TABLE_NAME,
+        Cursor cursor = writeDB.query(true, EventTable.TABLE_NAME,
                 new String[]{EventTable.IMAGE},
                 EventTable.TITLE + "=?", new String[]{title},
                 null, null, null, null);
