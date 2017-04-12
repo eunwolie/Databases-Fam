@@ -65,12 +65,12 @@ public class EventAttendance extends IHandler<EventAttendanceDef, EventAttendanc
     protected List<EventAttendanceDef> genEntities() {
         List<EventAttendanceDef> list = new ArrayList<>();
 
-        list.add(new EventAttendanceDef(9001,900, 421, 7001));
-        list.add(new EventAttendanceDef(9002,800, 422, 7001));
-        list.add(new EventAttendanceDef(9003,1100, 425, 7001));
-        list.add(new EventAttendanceDef(9004,1200, 425, 7002));
-        list.add(new EventAttendanceDef(9005,1200, 425, 7003));
-        list.add(new EventAttendanceDef(9006,1200, 425, 7004));
+        list.add(new EventAttendanceDef(0, 900, 0, 7001));
+        list.add(new EventAttendanceDef(1, 800, 1, 7001));
+        list.add(new EventAttendanceDef(2, 1100, 2, 7001));
+        list.add(new EventAttendanceDef(3, 1200, 3, 7002));
+        list.add(new EventAttendanceDef(4, 1200, 4, 7003));
+        list.add(new EventAttendanceDef(5, 1200, 5, 7004));
 
         return list;
     }
