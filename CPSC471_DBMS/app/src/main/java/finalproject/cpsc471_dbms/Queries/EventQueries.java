@@ -39,6 +39,52 @@ public class EventQueries extends IQueries{
         writeDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
+    public String getHost(int wid)
+    {
+        String eventHost = null;
+
+        String table = EventTable.TABLE_NAME + ", " + StaffTable.TABLE_NAME +
+                ", " + UserTable.TABLE_NAME;
+        String where = EventTable.HOST + "=? AND "
+                + EventTable.HOST + "=" + StaffTable._ID
+                + StaffTable._ID + "=" + UserTable._ID;
+        String[] whereArgs = new String[]{ Integer.toString(wid) };
+        Cursor cursor = writeDB.query(true, table, new String[]{UserTable.FIRST_NAME,
+                UserTable.LAST_NAME},
+                where, whereArgs, null, null, null, null, null);
+
+        if (cursor.moveToNext())
+        {
+            eventHost = cursor.getString(cursor.getColumnIndex(UserTable.FIRST_NAME));
+            eventHost += " " + cursor.getString(cursor.getColumnIndex(UserTable.LAST_NAME));
+        }
+
+        cursor.close();
+
+        return eventHost;
+    }
+
+    public String getSponsor(int wid, int date, int startTime)
+    {
+        String eventSponsor = null;
+
+        String table = EventTable.TABLE_NAME + " , " + SponsorTable.TABLE_NAME;
+        String where = EventTable.SID + "=" + SponsorTable._ID
+                + " AND " + EventTable.HOST + "=? AND "
+                + EventTable.DATE + "=? AND " + EventTable.START_TIME + "=?";
+        String[] whereArgs = new String[]{ Integer.toString(wid),
+            Integer.toString(date), Integer.toString(startTime)};
+        Cursor cursor = writeDB.query(true, table, new String[]{SponsorTable.NAME},
+                where, whereArgs, null, null, null, null, null);
+
+        if (cursor.moveToNext())
+            eventSponsor = cursor.getString(cursor.getColumnIndex(SponsorTable.NAME));
+
+        cursor.close();
+
+        return eventSponsor;
+    }
+
     public List<EventDef> getAllEventInfo()
     {
         List<EventDef> events = new ArrayList<EventDef>();

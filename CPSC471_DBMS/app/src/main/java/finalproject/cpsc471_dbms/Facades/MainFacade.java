@@ -77,9 +77,9 @@ public class MainFacade {
         createMaterials();
         createSponsors();
         createLocations();
-        //createEvents();
-        //createMaterialRelations();
-        //createEventRelations();
+        createEvents();
+        createMaterialRelations();
+        createEventRelations();
 
     }
 
