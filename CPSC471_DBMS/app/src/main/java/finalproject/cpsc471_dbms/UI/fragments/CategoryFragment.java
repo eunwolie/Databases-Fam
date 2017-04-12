@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import finalproject.cpsc471_dbms.UI.activities.DonateBooksActivity;
 import finalproject.cpsc471_dbms.UI.activities.MainActivity;
 import finalproject.cpsc471_dbms.UI.activities.MaterialViewActivity;
 import finalproject.cpsc471_dbms.UI.activities.RateActivity;
+import finalproject.cpsc471_dbms.UI.adapters.BookAdapter;
+import finalproject.cpsc471_dbms.UI.custom.Item;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -40,6 +43,10 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
     private Spinner typeSpinner, languageSpinner;
     private LinearLayout catSettings;
     private ListView categoryList;
+    private ArrayAdapter categoryAdapter;
+    private BookAdapter bookAdapter;
+
+    private boolean newSearch = false;
 
     @Nullable
     @Override
@@ -156,7 +163,29 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
     //list view thing
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(parent.getContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(getContext(), MaterialViewActivity.class));
+
+        String[] itemList = {"Title", "Author", "Genre"};   //test---------------------------------------------
+        String chosen = parent.getItemAtPosition(position).toString();
+
+        //first checks if it's author and genre so it can create the right adapter or whatever
+        //second makes it a book adapter, so it's books
+        //third is a book press so it makes it like start a book view
+        //you can't go backwards in search feelsbad
+        if ((chosen.equals("Author")) || (chosen.equals("Genre"))) {
+            //get refreshed data in string and set to itemlist or whatever it is
+            categoryAdapter.notifyDataSetChanged();
+            categoryList.setAdapter(categoryAdapter);
+        } else if (!newSearch) {
+            //get new data from db and put into the new adapter
+            Item[] ye = {new Item("cpl_logo.png", "ye fam")};  //test---------------
+            bookAdapter = new BookAdapter(getContext(), ye);
+            categoryList.setAdapter(bookAdapter);
+            newSearch = true;
+        } else {
+            //first identify the book with primary keys or whatever
+            startActivity(new Intent(getContext(), MaterialViewActivity.class));
+            //bundle and pass
+            getFragmentManager().beginTransaction().detach(this).attach(this).commit();
+        }
     }
 }

@@ -111,14 +111,16 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
 
     //Submits the new event to the database
     private void submit() {
-        //adds the new event to the database
-        //remember to ignore fields that are empty
         if (selectedImage == null) {
             //set default image
         } else {
             try {
                 byte[] inputData = getBytes(getContentResolver().openInputStream(selectedImage));
                 //add inputData to database
+
+
+                Toast.makeText(this, titleET.getText().toString() + " added to database!", Toast.LENGTH_SHORT).show();
+                finish();
             } catch (Exception e) {
                 //ignore
             }

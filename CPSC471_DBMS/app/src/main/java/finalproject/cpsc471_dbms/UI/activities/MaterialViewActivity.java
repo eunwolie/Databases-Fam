@@ -58,6 +58,7 @@ public class MaterialViewActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         if (v.getId() == R.id.borButton) {
             //borrow the item for the current user
+            finish();
         } else {
             onBackPressed();
         }

@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import finalproject.cpsc471_dbms.R;
 
@@ -13,6 +16,10 @@ import finalproject.cpsc471_dbms.R;
  */
 
 public class EventViewActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private ImageView eventPic;
+    private TextView eventTitle, eventTime, eventDate, eventSponsor, eventHost, eventDescription;
+    private Button joinEventButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +35,21 @@ public class EventViewActivity extends AppCompatActivity implements View.OnClick
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp);
         toolbar.setNavigationOnClickListener(this);
 
+        //Sets the views.
+        eventTitle = (TextView) findViewById(R.id.eventTitle);
+        eventTime = (TextView) findViewById(R.id.eventTime);
+        eventDate = (TextView) findViewById(R.id.eventDate);
+        eventSponsor = (TextView) findViewById(R.id.eventSponsor);
+        eventHost = (TextView) findViewById(R.id.eventHost);
+        eventDescription = (TextView) findViewById(R.id.eventDescription);
+
+        eventPic = (ImageView) findViewById(R.id.eventPic);
+
+        joinEventButton = (Button) findViewById(R.id.joinEventButton);
+
+        //Sets the listeners
+        joinEventButton.setOnClickListener(this);
+
         //code for event viewing info stuff here
     }
 
@@ -35,6 +57,9 @@ public class EventViewActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         if (v.getId() == R.id.toolbar) {
             onBackPressed();
+        } else if (v.getId() == R.id.joinEventButton) {
+            //add user to event
+            finish();
         } else {
             onBackPressed();
         }

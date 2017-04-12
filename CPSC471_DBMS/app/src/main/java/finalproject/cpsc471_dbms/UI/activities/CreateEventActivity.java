@@ -96,7 +96,7 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
                 //set sponsor id to given
                 //set date and time
 
-                //end activity
+                Toast.makeText(this, eventNameET.getText().toString() + " added to the database!", Toast.LENGTH_SHORT).show();
                 finish();
             } catch (Exception e) {
                 //ignore

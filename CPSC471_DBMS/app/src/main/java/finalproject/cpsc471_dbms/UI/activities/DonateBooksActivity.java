@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import finalproject.cpsc471_dbms.R;
 
@@ -44,6 +45,10 @@ public class DonateBooksActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         if (v.getId() == R.id.donateButton) {
             //submit donation
+
+            //replace hardcode with number of books donated. check for zero maybe and display another mes?
+            Toast.makeText(this, 4 + " books donated!", Toast.LENGTH_SHORT).show();
+            finish();
         } else {
             onBackPressed();
         }

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -89,6 +90,9 @@ public class EditUserActivity extends AppCompatActivity implements View.OnClickL
             try {
                 byte[] inputData = getBytes(getContentResolver().openInputStream(selectedImage));
                 //add inputData to database
+
+                Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
+                finish();
             } catch (Exception e) {
                 //ignore
             }

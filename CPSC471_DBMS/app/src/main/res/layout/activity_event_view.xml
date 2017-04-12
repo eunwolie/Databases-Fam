@@ -10,6 +10,7 @@
         layout="@layout/tool_bar" />
 
     <ImageView
+        android:id="@+id/eventPic"
         android:layout_width="match_parent"
         android:layout_height="180dp"
         android:src="@drawable/cpl_logo"
@@ -27,13 +28,15 @@
         android:layout_marginEnd="@dimen/activity_spacer">
 
         <TextView
+            android:id="@+id/eventTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Taking the Hobbits to Isengard"
-            android:textSize="16sp"
+            android:textSize="24sp"
             android:layout_marginBottom="@dimen/activity_spacer"/>
 
         <TextView
+            android:id="@+id/eventTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Time: 7PM"
@@ -41,6 +44,7 @@
             android:layout_marginBottom="@dimen/activity_spacer"/>
 
         <TextView
+            android:id="@+id/eventDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Date: March 3rd"
@@ -48,6 +52,7 @@
             android:layout_marginBottom="@dimen/activity_spacer"/>
 
         <TextView
+            android:id="@+id/eventSponsor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sponsor: Saruman Ltd"
@@ -55,6 +60,7 @@
             android:layout_marginBottom="@dimen/activity_spacer"/>
 
         <TextView
+            android:id="@+id/eventHost"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Supervised by Shannon from Accounting."
@@ -63,12 +69,14 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/eventDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus enim nulla, non pharetra ante mattis quis. Etiam urna elit, aliquam vitae accumsan a, varius consectetur tortor."
         android:layout_margin="@dimen/sizer"/>
 
     <Button
+        android:id="@+id/joinEventButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Join Event"

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -72,6 +73,7 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
             submit();
         } else if (id == R.id.makeSponsor) {
             startActivity(new Intent(CreateUserActivity.this, CreateSponsorActivity.class));
+            finish();
         } else {
             onBackPressed();
         }
@@ -91,6 +93,9 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
             try {
                 byte[] inputData = getBytes(getContentResolver().openInputStream(selectedImage));
                 //add inputData to database
+
+                Toast.makeText(this, "User created!", Toast.LENGTH_SHORT).show();
+                finish();
             } catch (Exception e) {
                 //ignore
             }

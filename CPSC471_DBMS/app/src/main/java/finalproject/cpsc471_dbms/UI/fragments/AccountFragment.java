@@ -34,6 +34,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener, A
     private TextView accName, accID, accEID, email, address;
     private Spinner sectionSpinner;
     private ListView sectionList;
+    private BookAdapter bookAdapter;
 
     @Nullable
     @Override
@@ -60,10 +61,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener, A
 
         sectionSpinner.setAdapter(sectionAdapter);
 
-        //----------------- Sets the lists -----------------
+        //------------- The following code is for the actual items in the category listing. -------------
         Item[] itemList = {new Item("cpl_logo.png", "Genre"), new Item("cpl_logo.png", "Author"), new Item("cpl_logo.png", "Availability"),
                 new Item("cpl_logo.png", "Author"), new Item("cpl_logo.png", "Availability")};
-        ListAdapter bookAdapter = new BookAdapter(getContext(),  itemList);
+
+        bookAdapter = new BookAdapter(getContext(),  itemList);
         sectionList.setAdapter(bookAdapter);
 
         //----------------- Sets the listeners -----------------
@@ -74,11 +76,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener, A
         return view;
     }
 
-    //---------------------------------- METHODS ----------------------------------
-
-
-
-
     //---------------------------------- LISTENERS ----------------------------------
     @Override
     public void onClick(View v) {
@@ -88,12 +85,12 @@ public class AccountFragment extends Fragment implements View.OnClickListener, A
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position == 0) {
-            //populate list view with checked out stuff
+            //checked out stuff from database
         } else if (position == 1) {
-            //populate list view with on hold stuff
+            //on hold stuff from database
         } else if (position == 2) {
-            //populate list view with over due stuff
-        }
+            //over due stuff from database
+        } bookAdapter.notifyDataSetChanged();
     }
 
     @Override

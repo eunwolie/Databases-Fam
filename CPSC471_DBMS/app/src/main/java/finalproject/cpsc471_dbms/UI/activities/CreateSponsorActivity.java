@@ -54,5 +54,6 @@ public class CreateSponsorActivity extends AppCompatActivity implements View.OnC
     private void submit() {
         //create the sponsor
         //toast them an id to login with
+        finish();
     }
 }
