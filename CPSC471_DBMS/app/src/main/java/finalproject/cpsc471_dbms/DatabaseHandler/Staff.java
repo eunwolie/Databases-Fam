@@ -86,10 +86,11 @@ public class Staff extends IHandler<StaffDef, StaffTable>{
     protected List<StaffDef> genEntities() {
         List<StaffDef> list = new ArrayList<>();
 
-        list.add(new StaffDef(7005, 79678, 9006, 100));
-        list.add(new StaffDef(7006, 21324, 9007, 900));
-        list.add(new StaffDef(7007, 21324, 9007, 900));
-        list.add(new StaffDef(7008, 21324, 9007, 900));
+        //create 4 staff out of 6 total users for demo
+        list.add(new StaffDef(7005, 79678, 0, 100));
+        list.add(new StaffDef(7006, 21324, 1, 900));
+        list.add(new StaffDef(7007, 21324, 2, 900));
+        list.add(new StaffDef(7008, 21324, 3, 900));
 
         return list;
     }
