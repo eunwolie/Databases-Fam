@@ -94,12 +94,13 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
                 byte[] inputData = getBytes(getContentResolver().openInputStream(selectedImage));
                 //add inputData to database
 
-                Toast.makeText(this, "User created!", Toast.LENGTH_SHORT).show();
-                finish();
             } catch (Exception e) {
                 //ignore
             }
         }
+
+        Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     //-----------------------------------------------------------------------------

@@ -86,17 +86,18 @@ public class EditUserActivity extends AppCompatActivity implements View.OnClickL
         //remember to ignore fields that are empty
         if (selectedImage == null) {
             //set default image
+
         } else {
             try {
                 byte[] inputData = getBytes(getContentResolver().openInputStream(selectedImage));
                 //add inputData to database
-
-                Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
-                finish();
             } catch (Exception e) {
                 //ignore
             }
         }
+
+        Toast.makeText(this, "Saved.", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private byte[] getBytes(InputStream streamIn) throws IOException {

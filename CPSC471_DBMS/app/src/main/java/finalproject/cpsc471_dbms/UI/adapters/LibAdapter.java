@@ -37,16 +37,17 @@ public class LibAdapter extends ArrayAdapter {
 
         libName.setText("Tim Cook");
         libID.setText("15626");
-        likeButton.setButtonDrawable(R.drawable.ic_thumb_up_unchecked);
+        likeButton.setText(null);
+        likeButton.setTextOn(null);
+        likeButton.setTextOff(null);
+        likeButton.setBackgroundResource(R.drawable.toggle_selector);
         likeButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    likeButton.setButtonDrawable(R.drawable.ic_thumb_up_check);
                     //update librarian likes
                 } else {
-                    likeButton.setButtonDrawable(R.drawable.ic_thumb_up_unchecked);
                     //update librarian likes
                 }
             }

@@ -20,21 +20,7 @@
         <activity android:name=".UI.activities.MainActivity"
             android:windowSoftInputMode="stateHidden" />
 
-        <activity android:name=".UI.activities.EventViewActivity"
-            android:parentActivityName=".UI.activities.MainActivity"/>
-
-        <activity android:name=".UI.activities.MaterialViewActivity"
-            android:parentActivityName=".UI.activities.MainActivity"/>
-
         <activity android:name=".UI.activities.AddItemActivity"
-            android:parentActivityName=".UI.activities.MainActivity"
-            android:windowSoftInputMode="stateHidden"/>
-
-        <activity android:name=".UI.activities.CreateUserActivity"
-            android:parentActivityName=".UI.activities.LoginActivity"
-            android:windowSoftInputMode="stateHidden"/>
-
-        <activity android:name=".UI.activities.EditUserActivity"
             android:parentActivityName=".UI.activities.MainActivity"
             android:windowSoftInputMode="stateHidden"/>
 
@@ -42,13 +28,27 @@
             android:parentActivityName=".UI.activities.MainActivity"
             android:windowSoftInputMode="stateHidden"/>
 
-        <activity android:name=".UI.activities.RateActivity"
-            android:parentActivityName=".UI.activities.MainActivity"/>
-
         <activity android:name=".UI.activities.CreateSponsorActivity"
             android:parentActivityName=".UI.activities.CreateUserActivity"/>
 
+        <activity android:name=".UI.activities.CreateUserActivity"
+            android:parentActivityName=".UI.activities.LoginActivity"
+            android:windowSoftInputMode="stateHidden"/>
+
         <activity android:name=".UI.activities.DonateBooksActivity"
+            android:parentActivityName=".UI.activities.MainActivity"/>
+
+        <activity android:name=".UI.activities.EditUserActivity"
+            android:parentActivityName=".UI.activities.MainActivity"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <activity android:name=".UI.activities.EventViewActivity"
+            android:parentActivityName=".UI.activities.MainActivity"/>
+
+        <activity android:name=".UI.activities.MaterialViewActivity"
+            android:parentActivityName=".UI.activities.MainActivity"/>
+
+        <activity android:name=".UI.activities.RateActivity"
             android:parentActivityName=".UI.activities.MainActivity"/>
 
     </application>
