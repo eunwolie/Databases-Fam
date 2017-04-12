@@ -55,12 +55,12 @@ public class Holds extends IHandler<OnHoldDef, OnHoldTable>{
     protected List<OnHoldDef> genEntities() {
         List<OnHoldDef> list = new ArrayList<>();
 
-        list.add(new OnHoldDef(420, 421, OnHoldDef.ARRIVED, 0, 1111));
-        list.add(new OnHoldDef(421, 422, OnHoldDef.WAITING, 1, 1112));
-        list.add(new OnHoldDef(421, 425, OnHoldDef.ARRIVED, 2, 1113));
-        list.add(new OnHoldDef(419, 425, OnHoldDef.ARRIVED, 3, 1114));
-        list.add(new OnHoldDef(419, 425, OnHoldDef.WAITING, 4, 1115));
-        list.add(new OnHoldDef(410, 420, OnHoldDef.WAITING, 5, 1116));
+        list.add(new OnHoldDef(420, 421, OnHoldDef.ARRIVED, 0, 0));
+        list.add(new OnHoldDef(421, 422, OnHoldDef.WAITING, 1, 1));
+        list.add(new OnHoldDef(421, 425, OnHoldDef.ARRIVED, 2, 2));
+        list.add(new OnHoldDef(419, 425, OnHoldDef.ARRIVED, 3, 3));
+        list.add(new OnHoldDef(419, 425, OnHoldDef.WAITING, 4, 4));
+        list.add(new OnHoldDef(410, 420, OnHoldDef.WAITING, 5, 5));
 
         return list;
     }
