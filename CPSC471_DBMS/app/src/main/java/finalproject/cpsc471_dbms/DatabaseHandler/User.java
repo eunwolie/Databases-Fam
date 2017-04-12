@@ -79,7 +79,7 @@ public class User extends IHandler<UserDef, UserTable>{
     protected List<UserDef> genEntities() {
         List<UserDef> users = new ArrayList<>();
 
-        int id = 9005;
+        
         String[] firstNames = new String[]{
                 "Spencer", "Farrah", "Eve", "William", "Erica", "Aerjay" };
         String[] lastNames = new String[]{
@@ -106,9 +106,8 @@ public class User extends IHandler<UserDef, UserTable>{
 
         for (int i = 0; i < firstNames.length; i++)
         {
-            users.add(new UserDef(id, firstNames[i], lastNames[i],
+            users.add(new UserDef(i, firstNames[i], lastNames[i],
                     usernames[i], address[i], passwords[i], phoneNums[i], new byte[]{}, emails[i]));
-            id++;
         }
 
         return users;
