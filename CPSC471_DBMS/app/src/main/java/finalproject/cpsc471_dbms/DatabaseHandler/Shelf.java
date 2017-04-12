@@ -2,16 +2,11 @@ package finalproject.cpsc471_dbms.DatabaseHandler;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import finalproject.cpsc471_dbms.Constants.BorrowingTable;
 import finalproject.cpsc471_dbms.Constants.ShelfTable;
-import finalproject.cpsc471_dbms.Definitions.BorrowingDef;
 import finalproject.cpsc471_dbms.Definitions.ShelfDef;
 
 /**
@@ -29,7 +24,7 @@ public class Shelf extends IHandler<ShelfDef, ShelfTable>{
     protected ContentValues innerAdd(ShelfDef s)
     {
         ContentValues values = new ContentValues();
-        values.put(ShelfTable.GENRE, s.getGenre());
+        values.put(ShelfTable.SECT_ID, s.getSectId());
         return values;
     }
 
@@ -38,7 +33,7 @@ public class Shelf extends IHandler<ShelfDef, ShelfTable>{
 
     public long update(ShelfDef x) {
         ContentValues values = new ContentValues();
-        values.put(ShelfTable.GENRE, x.getGenre());
+        values.put(ShelfTable.SECT_ID, x.getSectId());
         return writeDB.update(ShelfTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
                 new String[] { x.getShelfNumber()+"" });
@@ -50,9 +45,7 @@ public class Shelf extends IHandler<ShelfDef, ShelfTable>{
     protected List<ShelfDef> genEntities() {
         List<ShelfDef> list = new ArrayList<>();
 
-        String[] genres = new String[]{"fantasy", "horror", "humour",
-                "humour", "mystery", "non-fiction", "erotica", "erotica"};
-
+        int[] genres = new int[]{0, 1, 2, 2, 3, 4, 5, 5};
 
          for (int i = 0; i < genres.length; i++)
             list.add(new ShelfDef(genres[i], i + 1));

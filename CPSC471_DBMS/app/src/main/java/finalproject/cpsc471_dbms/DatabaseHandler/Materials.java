@@ -40,7 +40,7 @@ public class Materials extends IHandler<MaterialsDef, MaterialTable> {
 
         writeDB.insert(MaterialTable.TABLE_NAME, null, values);
 
-        ContentValues tempValues = new ContentValues();
+        ContentValues tempValues;
 
         if (material.getLanguage() != null) {
             for (LanguageDef l : material.getLanguage())
@@ -65,19 +65,32 @@ public class Materials extends IHandler<MaterialsDef, MaterialTable> {
         }
 
         if(material.getType().equalsIgnoreCase("audio")) {
-            AudioDef audio = new AudioDef(material.getIsbn(), -1);
+            AudioDef audio = new AudioDef(material.getIsbn(),
+                    ((AudioDef) material.getTypeInfo().get(0)).getLength());
             Audio a = new Audio(writeDB);
             a.add(audio);
         } else if(material.getType().equalsIgnoreCase("visual")) {
-            VisualsDef vis = new VisualsDef(material.getIsbn(), -1, 0);
+            VisualsDef vis = new VisualsDef(material.getIsbn(),
+                    ((VisualsDef) material.getTypeInfo().get(0)).getLength(),
+                    ((VisualsDef) material.getTypeInfo().get(0)).getHasEBook());
             Visuals v = new Visuals(writeDB);
             v.add(vis);
+        }else {
+            // TODO -> DO BOTH
+            AudioDef audio = new AudioDef();
+            audio.setIsbn(material.getIsbn());
+            VisualsDef vis = new VisualsDef();
+            vis.setIsbn(material.getIsbn());
+            //if material.getTypeInfo()
+            //{}
         }
+
         return values;
     }
 
     public long add(MaterialsDef def)
-    { return writeDB.insert(MaterialTable.TABLE_NAME, null, innerAdd(def)); }
+    {   innerAdd(def);
+        return 0;   }
 
     public int delete(int ISBN)
     { return delete(new String[]{Integer.toString(ISBN)}); }
@@ -134,30 +147,54 @@ public class Materials extends IHandler<MaterialsDef, MaterialTable> {
         
         String[] genres = new String[]{"fantasy","horror", "horror", "humour",
             "mystery", "fantasy", "erotica", "erotica", "non-fiction"};
-        
+
+        int[] shelves = new int[]{0, 1, 1, 2, 4, 0, 7, 8, 6};
+
         String[] types = new String[]{MaterialsDef.VISUAL_TYPE,
             MaterialsDef.BOTH_TYPE, MaterialsDef.AUDIO_TYPE, MaterialsDef.BOTH_TYPE,
             MaterialsDef.VISUAL_TYPE, MaterialsDef.VISUAL_TYPE, MaterialsDef.AUDIO_TYPE,
                 MaterialsDef.BOTH_TYPE, MaterialsDef.VISUAL_TYPE
         };
+
+        List<AuthorDef> authors = new ArrayList<AuthorDef>();
+
         int[] years = new int[]{2000, 1990, 1994, 1995, 2002, 2014, 1990, 2003, 2015};
         String[] companies = new String[]{"Scholastic", "Horror Enterprise", "Horror Enterprise",
             "Duck's Books", "Duck's Books", "Younger Scrolls", "Luscious Whispers",
             "Luscious Whispers", "Scholastic"};
         
-        int[] shelves = new int[]{};
+
 
         for (int i = 0; i < total; i++) {
             MaterialsDef m = new MaterialsDef();
             m.setIsbn(baseIsbn + i);
-            m.setDescription("");
-            m.setTitle("");
-            m.setGenre("fantasy");
-            m.setType("");
-            m.setYearOfCreation(1);
-            m.setCompany("");
+            m.setDescription("It's a book!!!");
+            m.setTitle(titles[i]);
+            m.setGenre(genres[i]);
+            m.setType(types[i]);
+            if (types[i].equalsIgnoreCase(MaterialsDef.AUDIO_TYPE))
+            {
+                List<TypeDef> t = new ArrayList<TypeDef>();
+                t.add(new AudioDef(5, baseIsbn + i));
+                m.setTypeInfo(t);
+            }
+            if (types[i].equalsIgnoreCase(MaterialsDef.VISUAL_TYPE))
+            {
+                    List<TypeDef> t = new ArrayList<TypeDef>();
+                    t.add(new VisualsDef(5, baseIsbn + i, 1));
+                    m.setTypeInfo(t);
+            }
+            if (types[i].equalsIgnoreCase(MaterialsDef.BOTH_TYPE))
+            {
+                List<TypeDef> t = new ArrayList<TypeDef>();
+                t.add(new AudioDef(5, baseIsbn + i));
+                t.add(new VisualsDef(5, baseIsbn + i, 1));
+                m.setTypeInfo(t);
+            }
+            m.setYearOfCreation(years[i]);
+            m.setCompany(companies[i]);
             //m.setImage(};
-            m.setShelf(-1);
+            m.setShelf(shelves[i]);
             materials.add(m);
         }
 
