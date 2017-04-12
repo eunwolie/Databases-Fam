@@ -130,11 +130,11 @@ public class Materials extends IHandler<MaterialsDef, MaterialTable> {
                 "The Thief Lord", "All-Nighters with 471", "The Looking Glass",
                 "Farrah's Life", "When Did She Leave", "Forest Bound",
                 "Updating Bottom and Top", "Sexual Adventures with Ashley",
-                "The Secret Lives of University Students "
-                + "and Their Struggles"
-        };
+                "The Secret Lives of University Students ", "and Their Struggles" };
+        
         String[] genres = new String[]{"fantasy","horror", "horror", "humour",
             "mystery", "fantasy", "erotica", "erotica", "non-fiction"};
+        
         String[] types = new String[]{MaterialsDef.VISUAL_TYPE,
             MaterialsDef.BOTH_TYPE, MaterialsDef.AUDIO_TYPE, MaterialsDef.BOTH_TYPE,
             MaterialsDef.VISUAL_TYPE, MaterialsDef.VISUAL_TYPE, MaterialsDef.AUDIO_TYPE,
@@ -144,8 +144,8 @@ public class Materials extends IHandler<MaterialsDef, MaterialTable> {
         String[] companies = new String[]{"Scholastic", "Horror Enterprise", "Horror Enterprise",
             "Duck's Books", "Duck's Books", "Younger Scrolls", "Luscious Whispers",
             "Luscious Whispers", "Scholastic"};
+        
         int[] shelves = new int[]{};
-
 
         for (int i = 0; i < total; i++) {
             MaterialsDef m = new MaterialsDef();
