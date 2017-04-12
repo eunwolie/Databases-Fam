@@ -9,26 +9,26 @@ import android.os.Parcelable;
 
 public class ShelfDef {
     private int shelfNumber = -1;
-    private String genre = null;
+    private int sectId = -1;
 
     public ShelfDef() {
         super();
     }
 
-    public ShelfDef(String genre, int shelfNumber) {
+    public ShelfDef(int sectId, int shelfNumber) {
         super();
-        this.genre = genre;
+        this.sectId = sectId;
         this.shelfNumber = shelfNumber;
     }
 
-    public ShelfDef(String genre) {
-        this.genre = genre;
+    public ShelfDef(int sectId) {
+        this.sectId = sectId;
     }
 
     private ShelfDef(Parcel in) {
         super();
         this.shelfNumber = in.readInt();
-        this.genre = in.readString();
+        this.sectId = in.readInt();
     }
 
     public int getShelfNumber() {
@@ -39,12 +39,12 @@ public class ShelfDef {
         this.shelfNumber = shelfNumber;
     }
 
-    public String getGenre() {
-        return genre;
+    public int getSectId() {
+        return sectId;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
+    public void setSectId(int sectId) {
+        this.sectId = sectId;
     }
 
     public int describeContents() {
@@ -53,7 +53,7 @@ public class ShelfDef {
 
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(getShelfNumber());
-        parcel.writeString(getGenre());
+        parcel.writeInt(getSectId());
     }
 
     public static final Parcelable.Creator<ShelfDef> CREATOR = new Parcelable.Creator<ShelfDef>() {
@@ -68,7 +68,7 @@ public class ShelfDef {
 
     @Override
     public String toString() {
-        return "genre:" + genre + ", shelf number:" + shelfNumber;
+        return "sectId:" + sectId + ", shelf number:" + shelfNumber;
     }
 
     //public int getHashCode(int i);
@@ -78,7 +78,7 @@ public class ShelfDef {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        //result = prime * result + genre;
+        result = prime * result + sectId;
         return result;
     }
 
@@ -91,6 +91,6 @@ public class ShelfDef {
         if (getClass() != obj.getClass())
             return false;
 
-        return (genre == ((ShelfDef) obj).genre);
+        return (sectId == ((ShelfDef) obj).sectId);
     }
 }

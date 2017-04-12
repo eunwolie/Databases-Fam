@@ -19,6 +19,7 @@ public class SectionDef {
     public SectionDef(String genre, int sNo, int fNo) {
         super();
         this.genre = genre;
+        this.sNo = sNo;
         this.fNo = fNo;
     }
 
@@ -29,6 +30,7 @@ public class SectionDef {
     private SectionDef(Parcel in) {
         super();
         this.fNo = in.readInt();
+        this.sNo = in.readInt();
         this.genre = in.readString();
     }
 
@@ -38,6 +40,14 @@ public class SectionDef {
 
     public void setfNo(int fNo) {
         this.fNo = fNo;
+    }
+
+    public int getsNo() {
+        return sNo;
+    }
+
+    public void setsNo(int sNo) {
+        this.sNo = sNo;
     }
 
     public String getGenre() {
@@ -54,6 +64,7 @@ public class SectionDef {
 
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(getfNo());
+        parcel.writeInt(getsNo());
         parcel.writeString(getGenre());
     }
 
@@ -89,7 +100,7 @@ public class SectionDef {
         if (getClass() != obj.getClass())
             return false;
         SectionDef other = (SectionDef) obj;
-        if (genre != other.genre)
+        if (sNo != other.sNo)
             return false;
         return true;
     }
