@@ -20,97 +20,75 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:scrollbars="none"
-            android:layout_margin="@dimen/activity_spacer">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_toEndOf="@+id/accImage"
-                    android:orientation="vertical"
-                    android:layout_marginStart="@dimen/activity_horizontal_margin"
-                    android:layout_centerVertical="true">
-
-                    <TextView
-                        android:id="@+id/accName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name: thrasher"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        android:id="@+id/accID"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ID: 69202"
-                        android:textSize="16sp"/>
-
-                    <TextView
-                        android:id="@+id/accEID"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Employee ID: 1453"
-                        android:textSize="16sp"
-                        android:visibility="visible" />
-
-                    <TextView
-                        android:id="@+id/email"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Email: totallyrealemail@hotmail.com"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Address: 21 NotFakeAddress Ave SE"
-                        android:textSize="16sp" />
-
-                </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/accImage"
-                    android:layout_width="124dp"
-                    android:layout_height="124dp"
-                    android:scaleType="centerCrop"
-                    android:background="@color/backgroundColour"
-                    android:src="@drawable/cpl_logo"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentStart="true"/>
-
-            </RelativeLayout>
-
-        </HorizontalScrollView>
+        <ImageButton
+            android:id="@+id/accImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            android:background="@color/backgroundColour"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_book_1"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/activity_spacer">
 
-            <Spinner
-                android:id="@+id/sectionSpinner"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/accName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/activity_spacer"/>
+                android:text="Name: thrasher"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/accID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID: 69202"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:id="@+id/accEID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Employee ID: 1453"
+                android:textSize="16sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email: totallyrealemail@hotmail.com"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address: 21 NotFakeAddress Ave SE"
+                android:textSize="16sp" />
 
         </LinearLayout>
+
+        <Spinner
+            android:id="@+id/sectionSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="@dimen/activity_spacer"
+            android:background="@drawable/app_edit_text_bg"
+            android:layout_margin="@dimen/activity_spacer"/>
 
         <ListView
             android:id="@+id/sectionList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:scrollbars="none">
 
         </ListView>

@@ -20,6 +20,10 @@ import android.widget.Toast;
 
 import finalproject.cpsc471_dbms.R;
 import finalproject.cpsc471_dbms.UI.activities.AddItemActivity;
+import finalproject.cpsc471_dbms.UI.activities.MainActivity;
+import finalproject.cpsc471_dbms.UI.activities.RateActivity;
+
+import static android.view.View.GONE;
 
 /**
  * Created by wj-hong on 26/02/17.
@@ -28,6 +32,7 @@ import finalproject.cpsc471_dbms.UI.activities.AddItemActivity;
 public class CategoryFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
     private FloatingActionButton addItemButton;
+    private FloatingActionButton rateButton;
     private ImageButton settingsButton;
     private LinearLayout catSettings;
 
@@ -38,10 +43,12 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
 
         //code for this fragment goes here
         addItemButton = (FloatingActionButton) view.findViewById(R.id.addItemButton);
+        rateButton = (FloatingActionButton) view.findViewById(R.id.rateButton);
         settingsButton = (ImageButton) view.findViewById(R.id.settingsButton);
         catSettings = (LinearLayout) view.findViewById(R.id.catSettings);
 
         addItemButton.setOnClickListener(this);
+        rateButton.setOnClickListener(this);
         settingsButton.setOnClickListener(this);
 
         final EditText searchEditText = (EditText) view.findViewById(R.id.searchEditText);
@@ -64,25 +71,31 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
 
         //------------- The following code is for the actual items in the category listing. -------------
         String[] itemList = {"Title", "Author", "Genre"};
-        ListAdapter categoryAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, itemList);
+        ListAdapter categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.better_generic_layout, itemList);
         ListView categoryList = (ListView) view.findViewById(R.id.categoryList);
         categoryList.setAdapter(categoryAdapter);
 
         categoryList.setOnItemClickListener(this);
 
-        return view;
+        if ((MainActivity.user == MainActivity.NORMAL) || (MainActivity.user == MainActivity.SPONSOR)) {
+            addItemButton.setVisibility(GONE);
+            rateButton.setVisibility(View.VISIBLE);
+        } return view;
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.addItemButton) {
+        int id = v.getId();
+        if (id == R.id.addItemButton) {
             startActivity(new Intent(getContext(), AddItemActivity.class));
-        } else if (v.getId() == R.id.settingsButton) {
+        } else if (id == R.id.settingsButton) {
             if (catSettings.isShown()) {
-                catSettings.setVisibility(View.GONE);
+                catSettings.setVisibility(GONE);
             } else {
                 catSettings.setVisibility(View.VISIBLE);
             }
+        } else if (id == R.id.rateButton) {
+            startActivity(new Intent(getContext(), RateActivity.class));
         }
     }
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/sizer">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_weight="4"
+        android:padding="@dimen/sizer"
+        android:layout_marginStart="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/libName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tim Cook"
+            android:textSize="24sp"/>
+
+        <TextView
+            android:id="@+id/libID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15263"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+    <RadioButton
+        android:id="@+id/likeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:padding="@dimen/sizer"
+        android:layout_margin="@dimen/activity_spacer"/>
+
+</LinearLayout>

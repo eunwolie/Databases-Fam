@@ -17,8 +17,12 @@ import android.widget.Toast;
 
 import finalproject.cpsc471_dbms.R;
 import finalproject.cpsc471_dbms.UI.activities.CreateEventActivity;
+import finalproject.cpsc471_dbms.UI.activities.EventViewActivity;
+import finalproject.cpsc471_dbms.UI.activities.MainActivity;
 import finalproject.cpsc471_dbms.UI.adapters.DashAdapter;
 import finalproject.cpsc471_dbms.UI.custom.Item;
+
+import static android.view.View.GONE;
 
 /**
  * Created by wj-hong on 24/03/17.
@@ -42,7 +46,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
 
         categoryList.setOnItemClickListener(this);
 
-        return view;
+        // Setting user views.
+        if (MainActivity.user == MainActivity.NORMAL) {
+            fab.setVisibility(GONE);
+        } return view;
     }
 
     @Override
@@ -55,5 +62,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(parent.getContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getContext(), EventViewActivity.class));
     }
 }

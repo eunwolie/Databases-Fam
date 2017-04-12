@@ -12,18 +12,22 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import finalproject.cpsc471_dbms.R;
 import finalproject.cpsc471_dbms.UI.activities.EditUserActivity;
+import finalproject.cpsc471_dbms.UI.adapters.BookAdapter;
+import finalproject.cpsc471_dbms.UI.custom.Item;
 
 /**
  * Created by wj-hong on 26/02/17.
  */
 
-public class AccountFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
+public class AccountFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
     private Spinner sectionSpinner;
 
@@ -44,22 +48,31 @@ public class AccountFragment extends Fragment implements View.OnClickListener, A
 
         sectionSpinner = (Spinner) view.findViewById(R.id.sectionSpinner);
         ArrayAdapter<CharSequence> sectionAdapter = ArrayAdapter.createFromResource(getContext(), R.array.sectionArray, android.R.layout.simple_spinner_item);
-
         sectionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         sectionSpinner.setAdapter(sectionAdapter);
         sectionSpinner.setOnItemSelectedListener(this);
+
+        Item[] itemList = {new Item("cpl_logo.png", "Genre"), new Item("cpl_logo.png", "Author"), new Item("cpl_logo.png", "Availability"),
+                new Item("cpl_logo.png", "Author"), new Item("cpl_logo.png", "Availability")};
+        ListAdapter bookAdapter = new BookAdapter(getContext(),  itemList);
+        ListView sectionList = (ListView) view.findViewById(R.id.sectionList);
+        sectionList.setAdapter(bookAdapter);
+
+        sectionList.setOnItemClickListener(this);
 
         fab.setOnClickListener(this);
 
         return view;
     }
 
+    //for the button
     @Override
     public void onClick(View v) {
         startActivity(new Intent(getContext(), EditUserActivity.class));
     }
 
+    //for the spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position == 0) {
@@ -74,5 +87,11 @@ public class AccountFragment extends Fragment implements View.OnClickListener, A
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    //for the list
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(parent.getContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
     }
 }

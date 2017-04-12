@@ -9,9 +9,24 @@ import android.net.Uri;
 public class DashItem {
 
     private Uri eventImage;
-    private String date;
     private String eventName;
     private String sponsor;
+    private String date;
+
+    public DashItem(Uri eventImage, String eventName, String sponsor, String date) {
+        this.eventImage = eventImage;
+        this.eventName = eventName;
+        this.sponsor = sponsor;
+        this.date = date;
+    }
+
+    public Uri getEventImage() {
+        return eventImage;
+    }
+
+    public void setEventImage(Uri eventImage) {
+        this.eventImage = eventImage;
+    }
 
     public String getEventName() {
         return eventName;
@@ -35,13 +50,5 @@ public class DashItem {
 
     public void setDate(String date) {
         this.date = date;
-    }
-
-    public Uri getEventImage() {
-        return eventImage;
-    }
-
-    public void setEventImage(Uri eventImage) {
-        this.eventImage = eventImage;
     }
 }

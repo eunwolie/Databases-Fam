@@ -39,18 +39,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        int flag;
         Intent intent = null;
         if (v.getId() == R.id.loginButton) {
-            if (checkValidInput())
+            if ((flag = checkValidInput()) != -1) {
+                MainActivity.user = flag;
                 intent = new Intent(LoginActivity.this, MainActivity.class);
+            } else {
+                Toast.makeText(this, "You have entered an invalid username or password.", Toast.LENGTH_SHORT).show();
+            }
         } else if (v.getId() == R.id.createButton) {
             intent = new Intent(LoginActivity.this, CreateUserActivity.class);
         } startActivity(intent);
     }
 
     //incomplete
-    private boolean checkValidInput() {
+    //Invalid = -1; Regular User = 0; Librarian = 1; Sponser = 2; CHECK MAINACTIVITY FOR DETAILS
+    private int checkValidInput() {
         Toast.makeText(this, "Credentials: " + usernameText.getText() + " :: " + passwordText.getText(), Toast.LENGTH_SHORT).show();
-        return true;
+        return MainActivity.NORMAL;
     }
 }

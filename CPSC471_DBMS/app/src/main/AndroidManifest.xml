@@ -42,6 +42,9 @@
             android:parentActivityName=".UI.activities.MainActivity"
             android:windowSoftInputMode="stateHidden"/>
 
+        <activity android:name=".UI.activities.RateActivity"
+            android:parentActivityName=".UI.activities.MainActivity"/>
+
     </application>
 
 </manifest>

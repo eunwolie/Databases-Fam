@@ -14,13 +14,21 @@ import finalproject.cpsc471_dbms.UI.adapters.ViewPagerAdapter;
  * The number and title of tabs will change. There may only be one or two tabs in the final product. */
 public class MainActivity extends AppCompatActivity {
 
+    // Constants
+    public static final int NORMAL = 0;
+    public static final int LIBRARIAN = 1;
+    public static final int SPONSOR = 2;
+
+    // Global end user flag.
+    public static int user = 0;
+
     // Declaring Your View and Variables
-    Toolbar toolbar;
-    ViewPager pager;
-    ViewPagerAdapter adapter;
-    SlidingTabLayout tabs;
-    CharSequence Titles[] = {"Dashboard", "Account", "Categories"};
-    int Numboftabs = 3;
+    private Toolbar toolbar;
+    private ViewPager pager;
+    private ViewPagerAdapter adapter;
+    private SlidingTabLayout tabs;
+    private CharSequence Titles[] = {"Dashboard", "Account", "Categories"};
+    private int Numboftabs = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
