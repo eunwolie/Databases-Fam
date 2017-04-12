@@ -28,7 +28,6 @@ public class Donation extends IHandler<DonationDef, DonationTable>{
     {
         ContentValues values = new ContentValues();
         values.put(DonationTable.SID, d.getsId());
-        values.put(DonationTable.ISBN, d.getIsbn());
         return values;
     }
 
@@ -62,7 +61,7 @@ public class Donation extends IHandler<DonationDef, DonationTable>{
         values.put(DonationTable.AMOUNT_DONATED, x.getBookAmount() + d.getBookAmount());
         return writeDB.update(DonationTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
-                new String[] { x.getIsbn()+"" });
+                new String[] { x.getSID()+"" });
     }
 
     public int delete(int SID) {
