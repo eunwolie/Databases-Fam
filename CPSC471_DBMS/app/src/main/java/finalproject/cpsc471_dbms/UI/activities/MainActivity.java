@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Global end user flag.
     public static int user = 0;
+    public static int userId = 0;
 
     // Declaring Your View and Variables
     private Toolbar toolbar;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         //------------- The following code is for the tabs setup in the application. -------------
 
         //Get username to toast
-        Toast.makeText(this, "Logged in as " + user, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Logged in as " + userId, Toast.LENGTH_SHORT).show();
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);

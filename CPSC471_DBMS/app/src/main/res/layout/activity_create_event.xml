@@ -22,7 +22,7 @@
                 android:id="@+id/eventImage"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@drawable/cpl_logo"
+                android:src="@drawable/def_event"
                 android:scaleType="centerCrop"
                 android:background="@color/backgroundColour"
                 android:layout_gravity="center"

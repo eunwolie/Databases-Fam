@@ -54,8 +54,11 @@ public class LoginFacade {
         }catch(NumberFormatException e) { return false; }
     }
 
-    public void createSponsor(SponsorDef sd)
-    { s.add(sd); }
+    public int createSponsor(SponsorDef sd)
+    {
+        s.add(sd);
+        return Sponsor.getNewSponsorID();
+    }
 
     public void createAccount(UserDef ud)
     { u.add(ud); }

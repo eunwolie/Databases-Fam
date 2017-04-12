@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import finalproject.cpsc471_dbms.Facades.LoginFacade;
 import finalproject.cpsc471_dbms.R;
 
 /**
@@ -20,12 +21,16 @@ import finalproject.cpsc471_dbms.R;
  * This class will be the launcher activity. After login the app will be redirected to the MainActivity. */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+private LoginFacade loginQueries;
+
     private EditText usernameText;
     private EditText passwordText;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
+
+        loginQueries= new LoginFacade(this);
 
         usernameText = (EditText) findViewById(R.id.usernameEdit);
         passwordText = (EditText) findViewById(R.id.passwordEdit);
@@ -35,6 +40,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         loginButton.setOnClickListener(this);
         createButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loginQueries.close();
     }
 
     //Buttons listener
@@ -57,7 +68,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //incomplete
     //Invalid = -1; Regular User = 0; Librarian = 1; Sponser = 2; CHECK MAINACTIVITY FOR DETAILS
     private int checkValidInput() {
-        Toast.makeText(this, "Credentials: " + usernameText.getText() + " :: " + passwordText.getText(), Toast.LENGTH_SHORT).show();
-        return MainActivity.NORMAL;
+        if (loginQueries.isExistingSponsor(usernameText.getText().toString(), passwordText.getText().toString())) {
+            MainActivity.userId = Integer.parseInt(passwordText.getText().toString());
+            return MainActivity.SPONSOR;
+        } else {
+            int id = loginQueries.getUserID(usernameText.getText().toString(), passwordText.getText().toString());
+            if (id != -1) {
+                if (loginQueries.isUserRegular(id)) {
+                    MainActivity.userId = id;
+                    return MainActivity.NORMAL;
+                } else
+                    return MainActivity.LIBRARIAN;
+            }
+            else
+                return -1;
+        }
     }
 }

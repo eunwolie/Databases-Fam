@@ -18,8 +18,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import finalproject.cpsc471_dbms.Definitions.BorrowingDef;
+import finalproject.cpsc471_dbms.Definitions._BorrowedDef;
+import finalproject.cpsc471_dbms.Facades.AccountFacade;
 import finalproject.cpsc471_dbms.R;
 import finalproject.cpsc471_dbms.UI.activities.EditUserActivity;
+import finalproject.cpsc471_dbms.UI.activities.MainActivity;
 import finalproject.cpsc471_dbms.UI.adapters.BookAdapter;
 import finalproject.cpsc471_dbms.UI.custom.Item;
 
@@ -28,6 +32,8 @@ import finalproject.cpsc471_dbms.UI.custom.Item;
  */
 
 public class AccountFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
+
+    private AccountFacade accountFacade;
 
     private FloatingActionButton fab;
     private ImageView accImage;
@@ -40,6 +46,8 @@ public class AccountFragment extends Fragment implements View.OnClickListener, A
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.account_tab, container, false);
+
+        accountFacade = new AccountFacade(getContext(), MainActivity.userId);
 
         //----------------- Sets the views -----------------
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
@@ -62,10 +70,9 @@ public class AccountFragment extends Fragment implements View.OnClickListener, A
         sectionSpinner.setAdapter(sectionAdapter);
 
         //------------- The following code is for the actual items in the category listing. -------------
-        Item[] itemList = {new Item("cpl_logo.png", "Genre"), new Item("cpl_logo.png", "Author"), new Item("cpl_logo.png", "Availability"),
-                new Item("cpl_logo.png", "Author"), new Item("cpl_logo.png", "Availability")};
+        _BorrowedDef[] itemList = accountFacade.getBorrowedMaterial().toArray(new _BorrowedDef[accountFacade.getBorrowedMaterial().size()]);
 
-        bookAdapter = new BookAdapter(getContext(),  itemList);
+        bookAdapter = new BookAdapter(getContext(), itemList);
         sectionList.setAdapter(bookAdapter);
 
         //----------------- Sets the listeners -----------------

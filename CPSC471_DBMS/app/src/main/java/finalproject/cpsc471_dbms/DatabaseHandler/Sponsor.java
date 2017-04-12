@@ -17,21 +17,24 @@ import finalproject.cpsc471_dbms.Definitions.SponsorDef;
  * Created by evech on 2017-03-27.
  */
 
-public class Sponsor extends IHandler<SponsorDef, SponsorTable>{
+public class Sponsor extends IHandler<SponsorDef, SponsorTable> {
     private static final String WHERE_KEY_EQUALS = SponsorTable._ID + " =?";
+    private static int totalSponsor = 0;
 
     public Sponsor(Context context) {
         super(WHERE_KEY_EQUALS);
         writeDB = new _DatabaseHelper(context).getWritableDatabase();
     }
 
-    public ContentValues innerAdd(SponsorDef sponsor)
-    {
+    public ContentValues innerAdd(SponsorDef sponsor) {
         ContentValues values = new ContentValues();
         values.put(SponsorTable.NAME, sponsor.getName());
         values.put(SponsorTable.REASON, sponsor.getReason());
+        totalSponsor++;
         return values;
     }
+
+    public static int getNewSponsorID() { return totalSponsor - 1; }
 
     public long add(SponsorDef def)
     { return writeDB.insert(SponsorTable.TABLE_NAME, null, innerAdd(def)); }

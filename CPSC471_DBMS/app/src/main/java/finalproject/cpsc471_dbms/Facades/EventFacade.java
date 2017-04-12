@@ -23,6 +23,12 @@ public class EventFacade {
         e = new Event(context);
     }
 
+    public String getEventHost(EventDef ev)
+    { return eq.getHost(ev.getWorkID()); }
+
+    public String getEventSponsor(EventDef ev)
+    { return eq.getSponsor(ev.getWorkID(), ev.getDate(), ev.getStartTime()); }
+
     public List<EventDef> getAllEvents()
     { return eq.getAllEventInfo(); }
 

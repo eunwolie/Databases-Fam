@@ -23,7 +23,7 @@
                 android:id="@+id/cardImage"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
-                android:src="@drawable/cpl_logo"
+                android:src="@drawable/def_event"
                 android:scaleType="centerCrop"/>
 
             <LinearLayout

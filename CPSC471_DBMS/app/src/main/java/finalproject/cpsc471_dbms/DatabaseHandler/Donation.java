@@ -61,7 +61,7 @@ public class Donation extends IHandler<DonationDef, DonationTable>{
         values.put(DonationTable.AMOUNT_DONATED, x.getBookAmount() + d.getBookAmount());
         return writeDB.update(DonationTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
-                new String[] { x.getSID()+"" });
+                new String[] { x.getsId()+"" });
     }
 
     public int delete(int SID) {

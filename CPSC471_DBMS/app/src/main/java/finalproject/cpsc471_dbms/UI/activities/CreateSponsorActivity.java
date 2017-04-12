@@ -7,7 +7,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import finalproject.cpsc471_dbms.Definitions.SponsorDef;
+import finalproject.cpsc471_dbms.Facades.LoginFacade;
 import finalproject.cpsc471_dbms.R;
 
 /**
@@ -16,6 +19,8 @@ import finalproject.cpsc471_dbms.R;
 
 public class CreateSponsorActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private LoginFacade loginFacade;
+
     private EditText spnName, spnReason;
     private Button makeButton;
 
@@ -23,6 +28,8 @@ public class CreateSponsorActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_sponsor);
+
+        loginFacade = new LoginFacade(this);
 
         //Sets the toolbar -----------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -43,6 +50,12 @@ public class CreateSponsorActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loginFacade.close();
+    }
+
+    @Override
     public void onClick(View v) {
         if (v.getId() == R.id.makeButton) {
             submit();
@@ -52,8 +65,11 @@ public class CreateSponsorActivity extends AppCompatActivity implements View.OnC
     }
 
     private void submit() {
-        //create the sponsor
-        //toast them an id to login with
+        SponsorDef newSponsor = new SponsorDef(spnName.getText().toString(), spnReason.getText().toString());
+
+        int idPass = loginFacade.createSponsor(newSponsor);
+
+        Toast.makeText(this, "Log in with password: " + idPass, Toast.LENGTH_SHORT).show();
         finish();
     }
 }
