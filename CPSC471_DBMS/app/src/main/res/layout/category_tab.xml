@@ -27,6 +27,16 @@
         android:layout_gravity="bottom|end"
         android:visibility="gone"/>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/charityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fabSize="normal"
+        android:src="@drawable/ic_mood"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_gravity="bottom|end"
+        android:visibility="gone"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

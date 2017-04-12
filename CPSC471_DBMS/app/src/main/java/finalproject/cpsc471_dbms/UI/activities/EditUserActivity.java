@@ -8,7 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,6 +25,9 @@ import finalproject.cpsc471_dbms.R;
 public class EditUserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageButton accImage;
+    private TextView accName, accID, accEID, email, address;
+    private EditText fnameET, lnameET, passwordET, emailET, addressET, phoneNumberET;
+
     private Button submitButton;
     private Uri selectedImage = null;
 
@@ -31,6 +36,7 @@ public class EditUserActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user);
 
+        //Sets the toolbar -----------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -39,12 +45,26 @@ public class EditUserActivity extends AppCompatActivity implements View.OnClickL
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp);
         toolbar.setNavigationOnClickListener(this);
 
+        //Sets the views -----------------
+        fnameET = (EditText) findViewById(R.id.fnameET);
+        lnameET = (EditText) findViewById(R.id.lnameET);
+        passwordET = (EditText) findViewById(R.id.passwordET);
+        emailET = (EditText) findViewById(R.id.emailET);
+        addressET = (EditText) findViewById(R.id.addressET);
+        phoneNumberET = (EditText) findViewById(R.id.phoneNumberET);
+
+        accName = (TextView) findViewById(R.id.accName);
+        accID = (TextView) findViewById(R.id.accID);
+        accEID = (TextView) findViewById(R.id.accEID);
+        email = (TextView) findViewById(R.id.email);
+        address = (TextView) findViewById(R.id.address);
+
         accImage = (ImageButton) findViewById(R.id.accImage);
         submitButton = (Button) findViewById(R.id.submitButton);
 
+        //Sets the listeners -----------------
         accImage.setOnClickListener(this);
         submitButton.setOnClickListener(this);
-
     }
 
     @Override

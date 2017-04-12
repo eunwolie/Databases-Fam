@@ -25,6 +25,7 @@ public class RateActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate_lib);
 
+        //Sets the toolbar -----------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -38,13 +39,16 @@ public class RateActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-        String[] itemList = {"Title", "Author", "Genre", "Title", "Author", "Genre"};
-        ListAdapter libAdapter = new LibAdapter(this, itemList);
+        //Sets the views -----------------
         ListView libList = (ListView) findViewById(R.id.librarianList);
+
+        //Sets the adapter -----------------
+        String[] itemList = {"Title", "Author", "Genre", "Title", "Author", "Genre", "Title", "Author", "Genre"}; //test
+        ListAdapter libAdapter = new LibAdapter(this, itemList);
         libList.setAdapter(libAdapter);
 
+        //Sets the listeners -----------------
         libList.setOnItemClickListener(this);
-
     }
 
     @Override

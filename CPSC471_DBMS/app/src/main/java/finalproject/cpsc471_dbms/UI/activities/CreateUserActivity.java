@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,7 +24,9 @@ import finalproject.cpsc471_dbms.R;
 public class CreateUserActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ImageButton accImage;
-    private Button submitButton;
+    private TextView usernameET, fnameET, lnameET, passwordET, emailET, addressET, phoneNumberET;
+
+    private Button submitButton, makeSponsor;
     private Uri selectedImage = null;
 
     @Override
@@ -31,7 +34,7 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
 
-        //Sets the toolbar
+        //Sets the toolbar -----------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -40,14 +43,26 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp);
         toolbar.setNavigationOnClickListener(this);
 
+        //Sets the views -----------------
+        usernameET = (TextView) findViewById(R.id.usernameET);
+        fnameET = (TextView) findViewById(R.id.fnameET);
+        lnameET = (TextView) findViewById(R.id.lnameET);
+        passwordET = (TextView) findViewById(R.id.passwordET);
+        emailET = (TextView) findViewById(R.id.emailET);
+        addressET = (TextView) findViewById(R.id.addressET);
+        phoneNumberET = (TextView) findViewById(R.id.phoneNumberET);
+
         accImage = (ImageButton) findViewById(R.id.accImage);
         submitButton = (Button) findViewById(R.id.submitButton);
+        makeSponsor = (Button) findViewById(R.id.makeSponsor);
 
+        //Sets the listeners -----------------
         accImage.setOnClickListener(this);
         submitButton.setOnClickListener(this);
-
+        makeSponsor.setOnClickListener(this);
     }
 
+    //---------------------------------- LISTENERS ----------------------------------
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -55,10 +70,16 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
             selectImage();
         } else if (id == R.id.submitButton) {
             submit();
+        } else if (id == R.id.makeSponsor) {
+            startActivity(new Intent(CreateUserActivity.this, CreateSponsorActivity.class));
         } else {
             onBackPressed();
         }
     }
+
+    //-----------------------------------------------------------------------------
+
+    //---------------------------------- METHODS ----------------------------------
 
     //Submits the new user to the database
     private void submit() {
@@ -76,6 +97,9 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+    //-----------------------------------------------------------------------------
+
+    //---------------------------------- IMAGE CODE ----------------------------------
     private byte[] getBytes(InputStream streamIn) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -101,4 +125,6 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
             }
         }
     }
+
+    //-----------------------------------------------------------------------------
 }

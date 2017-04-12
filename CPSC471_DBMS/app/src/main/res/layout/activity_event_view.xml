@@ -17,18 +17,63 @@
         android:layout_marginStart="@dimen/activity_spacer"
         android:layout_marginEnd="@dimen/activity_spacer"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginStart="@dimen/activity_spacer"
+        android:layout_marginEnd="@dimen/activity_spacer">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Taking the Hobbits to Isengard"
+            android:textSize="16sp"
+            android:layout_marginBottom="@dimen/activity_spacer"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time: 7PM"
+            android:textSize="16sp"
+            android:layout_marginBottom="@dimen/activity_spacer"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date: March 3rd"
+            android:textSize="16sp"
+            android:layout_marginBottom="@dimen/activity_spacer"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sponsor: Saruman Ltd"
+            android:textSize="16sp"
+            android:layout_marginBottom="@dimen/activity_spacer"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Supervised by Shannon from Accounting."
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam maximus enim nulla, non pharetra ante mattis quis. Etiam urna elit, aliquam vitae accumsan a, varius consectetur tortor."
-        android:layout_marginBottom="@dimen/activity_spacer"
-        android:layout_marginStart="@dimen/activity_spacer"
-        android:layout_marginEnd="@dimen/activity_spacer"/>
+        android:layout_margin="@dimen/sizer"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Join Event"
+        android:background="@drawable/app_button_bg"
+        android:textColor="@color/white"
         android:layout_marginStart="@dimen/activity_spacer"
         android:layout_marginEnd="@dimen/activity_spacer"/>
 

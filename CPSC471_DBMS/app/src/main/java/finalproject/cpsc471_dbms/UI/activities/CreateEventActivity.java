@@ -24,14 +24,10 @@ import finalproject.cpsc471_dbms.R;
 
 public class CreateEventActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText eventNameET;
-    private EditText sponsorET;
-    private EditText employeeET;
-    private EditText dateET;
-    private EditText timeET;
+    private ImageButton eventImage;
+    private EditText eventNameET, sponsorET, employeeET, dateET, timeET, desc;
 
     private Button addEventButton;
-    private ImageButton eventImage;
     private Uri selectedImage = null;
 
     @Override
@@ -39,6 +35,7 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
+        //Sets the toolbar -----------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -47,19 +44,23 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp);
         toolbar.setNavigationOnClickListener(this);
 
-        addEventButton = (Button) findViewById(R.id.addEventButton);
-        eventImage = (ImageButton) findViewById(R.id.eventImage);
-
-        addEventButton.setOnClickListener(this);
-        eventImage.setOnClickListener(this);
-
+        //Sets the views -----------------
         eventNameET = (EditText) findViewById(R.id.eventNameET);
         sponsorET = (EditText) findViewById(R.id.sponsorET);
         employeeET = (EditText) findViewById(R.id.employeeET);
         dateET = (EditText) findViewById(R.id.dateET);
         timeET = (EditText) findViewById(R.id.timeET);
+        desc = (EditText) findViewById(R.id.eventDesc);
+
+        eventImage = (ImageButton) findViewById(R.id.eventImage);
+        addEventButton = (Button) findViewById(R.id.addEventButton);
+
+        //Sets the listeners -----------------
+        eventImage.setOnClickListener(this);
+        addEventButton.setOnClickListener(this);
     }
 
+    //---------------------------------- LISTENERS ----------------------------------
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -71,6 +72,10 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
             onBackPressed();
         }
     }
+
+    //-----------------------------------------------------------------------------
+
+    //---------------------------------- METHODS ----------------------------------
 
     /* Submits the new event to the database
      * Check key attributes not empty.
@@ -99,6 +104,9 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    //--------------------------------------------------------------------------------
+
+    //---------------------------------- IMAGE CODE ----------------------------------
     private byte[] getBytes(InputStream streamIn) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -116,12 +124,11 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-
-            if (resultCode == RESULT_OK) {
-                selectedImage= data.getData();
-                eventImage.setImageURI(selectedImage);
-            }
+        if ((requestCode == 1) || (resultCode == RESULT_OK)) {
+            selectedImage= data.getData();
+            eventImage.setImageURI(selectedImage);
         }
     }
+
+    //--------------------------------------------------------------------------------
 }

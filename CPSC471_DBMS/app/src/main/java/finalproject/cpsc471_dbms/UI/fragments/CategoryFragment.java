@@ -20,10 +20,13 @@ import android.widget.Toast;
 
 import finalproject.cpsc471_dbms.R;
 import finalproject.cpsc471_dbms.UI.activities.AddItemActivity;
+import finalproject.cpsc471_dbms.UI.activities.DonateBooksActivity;
 import finalproject.cpsc471_dbms.UI.activities.MainActivity;
+import finalproject.cpsc471_dbms.UI.activities.MaterialViewActivity;
 import finalproject.cpsc471_dbms.UI.activities.RateActivity;
 
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 /**
  * Created by wj-hong on 26/02/17.
@@ -31,8 +34,7 @@ import static android.view.View.GONE;
 
 public class CategoryFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
-    private FloatingActionButton addItemButton;
-    private FloatingActionButton rateButton;
+    private FloatingActionButton addItemButton, rateButton, charityButton;
     private ImageButton settingsButton;
     private LinearLayout catSettings;
 
@@ -44,11 +46,14 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
         //code for this fragment goes here
         addItemButton = (FloatingActionButton) view.findViewById(R.id.addItemButton);
         rateButton = (FloatingActionButton) view.findViewById(R.id.rateButton);
+        charityButton = (FloatingActionButton) view.findViewById(R.id.charityButton);
+
         settingsButton = (ImageButton) view.findViewById(R.id.settingsButton);
         catSettings = (LinearLayout) view.findViewById(R.id.catSettings);
 
         addItemButton.setOnClickListener(this);
         rateButton.setOnClickListener(this);
+        charityButton.setOnClickListener(this);
         settingsButton.setOnClickListener(this);
 
         final EditText searchEditText = (EditText) view.findViewById(R.id.searchEditText);
@@ -77,9 +82,25 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
 
         categoryList.setOnItemClickListener(this);
 
-        if ((MainActivity.user == MainActivity.NORMAL) || (MainActivity.user == MainActivity.SPONSOR)) {
-            addItemButton.setVisibility(GONE);
-            rateButton.setVisibility(View.VISIBLE);
+        switch (MainActivity.user) {
+
+            case MainActivity.NORMAL:       addItemButton.setVisibility(GONE);
+                                            rateButton.setVisibility(VISIBLE);
+                                            charityButton.setVisibility(GONE);
+                                            break;
+            case MainActivity.LIBRARIAN:    addItemButton.setVisibility(VISIBLE);
+                                            rateButton.setVisibility(GONE);
+                                            charityButton.setVisibility(GONE);
+                                            break;
+            case MainActivity.SPONSOR:      addItemButton.setVisibility(GONE);
+                                            rateButton.setVisibility(GONE);
+                                            charityButton.setVisibility(VISIBLE);
+                                            break;
+
+            default:    addItemButton.setVisibility(VISIBLE);
+                        rateButton.setVisibility(GONE);
+                        charityButton.setVisibility(GONE);
+                        break;
         } return view;
     }
 
@@ -92,10 +113,12 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
             if (catSettings.isShown()) {
                 catSettings.setVisibility(GONE);
             } else {
-                catSettings.setVisibility(View.VISIBLE);
+                catSettings.setVisibility(VISIBLE);
             }
         } else if (id == R.id.rateButton) {
             startActivity(new Intent(getContext(), RateActivity.class));
+        } else if (id == R.id.charityButton) {
+            startActivity(new Intent(getContext(), DonateBooksActivity.class));
         }
     }
 
@@ -120,5 +143,6 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(parent.getContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getContext(), MaterialViewActivity.class));
     }
 }

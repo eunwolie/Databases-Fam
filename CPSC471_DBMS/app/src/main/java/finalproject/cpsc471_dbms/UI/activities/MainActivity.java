@@ -4,6 +4,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import finalproject.cpsc471_dbms.R;
 import finalproject.cpsc471_dbms.UI.custom.SlidingTabLayout;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         //------------- The following code is for the tabs setup in the application. -------------
+
+        Toast.makeText(this, "Logged in as " + user, Toast.LENGTH_SHORT).show();
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);

@@ -101,7 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="Time"
-                android:inputType="textImeMultiLine"
+                android:inputType="time"
                 android:textAlignment="center"
                 android:textColorHint="@color/colorPrimary"
                 android:background="@drawable/app_edit_text_bg"
@@ -110,6 +110,26 @@
                 android:gravity="center"
                 android:layout_gravity="center"
                 android:padding="@dimen/sizer"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginTop="@dimen/activity_spacer"/>
+
+            <EditText
+                android:id="@+id/eventDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+                android:inputType="textLongMessage"
+                android:textAlignment="center"
+                android:textColorHint="@color/colorPrimary"
+                android:background="@drawable/app_edit_text_bg"
+                android:textColor="@color/textColour"
+                android:ems="12"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:paddingTop="@dimen/sizer"
+                android:paddingStart="@dimen/sizer"
+                android:paddingEnd="@dimen/sizer"
+                android:paddingBottom="128dp"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:layout_marginTop="@dimen/activity_spacer"/>
 

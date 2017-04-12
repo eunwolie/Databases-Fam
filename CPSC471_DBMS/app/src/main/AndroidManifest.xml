@@ -45,6 +45,12 @@
         <activity android:name=".UI.activities.RateActivity"
             android:parentActivityName=".UI.activities.MainActivity"/>
 
+        <activity android:name=".UI.activities.CreateSponsorActivity"
+            android:parentActivityName=".UI.activities.CreateUserActivity"/>
+
+        <activity android:name=".UI.activities.DonateBooksActivity"
+            android:parentActivityName=".UI.activities.MainActivity"/>
+
     </application>
 
 </manifest>

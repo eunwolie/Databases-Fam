@@ -27,16 +27,19 @@ import finalproject.cpsc471_dbms.R;
 
 public class AddItemActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    private Button addItemButton;
     private ImageButton itemImage;
+    private EditText titleET, isbnET, authorET, genreET, publisherET, yrPubET;
+    private Spinner typeSpinner, languageSpinner;
+    private Button addItemButton;
     private Uri selectedImage;
+    private String type, language;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
-        //Sets the toolbar
+        //Sets the toolbar -----------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -45,25 +48,21 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24dp);
         toolbar.setNavigationOnClickListener(this);
 
+        //Sets the views -----------------
+        titleET = (EditText) findViewById(R.id.titleET);
+        isbnET = (EditText) findViewById(R.id.isbnET);
+        authorET = (EditText) findViewById(R.id.authorET);
+        genreET = (EditText) findViewById(R.id.genreET);
+        publisherET = (EditText) findViewById(R.id.publisherET);
+        yrPubET = (EditText) findViewById(R.id.yrPubET);
+
         addItemButton = (Button) findViewById(R.id.addItemButton);
         itemImage = (ImageButton) findViewById(R.id.itemImage);
 
-        addItemButton.setOnClickListener(this);
-        itemImage.setOnClickListener(this);
+        typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
+        languageSpinner = (Spinner) findViewById(R.id.languageSpinner);
 
-        String type;
-        String language;
-
-        final EditText titleET = (EditText) findViewById(R.id.titleET);
-        final EditText isbnET = (EditText) findViewById(R.id.isbnET);
-        final EditText authorET = (EditText) findViewById(R.id.authorET);
-        final EditText genreET = (EditText) findViewById(R.id.genreET);
-        final EditText publisherET = (EditText) findViewById(R.id.publisherET);
-        final EditText yrPubET = (EditText) findViewById(R.id.yrPubET);
-
-        final Spinner typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
-        final Spinner languageSpinner = (Spinner) findViewById(R.id.languageSpinner);
-
+        //Sets adapters -----------------
         ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(this, R.array.typeArray, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(this, R.array.languageArray, android.R.layout.simple_spinner_item);
 
@@ -73,10 +72,14 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         typeSpinner.setAdapter(typeAdapter);
         languageSpinner.setAdapter(languageAdapter);
 
+        //Sets the listeners -----------------
+        addItemButton.setOnClickListener(this);
+        itemImage.setOnClickListener(this);
         typeSpinner.setOnItemSelectedListener(this);
         languageSpinner.setOnItemSelectedListener(this);
-
     }
+
+    //---------------------------------- LISTENERS ----------------------------------
 
     @Override
     public void onClick(View v) {
@@ -89,6 +92,22 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
             onBackPressed();
         }
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (view.getId() == R.id.typeSpinner) {
+            Toast.makeText(parent.getContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    //-----------------------------------------------------------------------------
+
+    //---------------------------------- METHODS ----------------------------------
 
     //Submits the new event to the database
     private void submit() {
@@ -106,6 +125,9 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    //--------------------------------------------------------------------------------
+
+    //---------------------------------- IMAGE CODE ----------------------------------
     private byte[] getBytes(InputStream streamIn) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -132,15 +154,5 @@ public class AddItemActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (view.getId() == R.id.typeSpinner) {
-            Toast.makeText(parent.getContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+    //--------------------------------------------------------------------------------
 }

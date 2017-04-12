@@ -37,6 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         createButton.setOnClickListener(this);
     }
 
+    //Buttons listener
     @Override
     public void onClick(View v) {
         int flag;

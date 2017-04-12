@@ -9,19 +9,20 @@
         android:layout_height="wrap_content"
         layout="@layout/tool_bar" />
 
+    <ImageView
+        android:id="@+id/matImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/cpl_logo"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/activity_spacer"
+        android:layout_marginEnd="@dimen/activity_spacer"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_margin="@dimen/activity_spacer">
-
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/cpl_logo"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/activity_spacer"
-            android:layout_marginEnd="@dimen/activity_spacer"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -32,6 +33,7 @@
             android:layout_marginEnd="@dimen/activity_spacer">
 
             <TextView
+                android:id="@+id/matTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Title : The Thief Lord"
@@ -39,6 +41,7 @@
                 android:layout_marginBottom="@dimen/activity_spacer"/>
 
             <TextView
+                android:id="@+id/matGenre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Genre: Fantasy/Adventure"
@@ -46,6 +49,7 @@
                 android:layout_marginBottom="@dimen/activity_spacer"/>
 
             <TextView
+                android:id="@+id/matLang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Languages: German, English"
@@ -53,6 +57,7 @@
                 android:layout_marginBottom="@dimen/activity_spacer"/>
 
             <TextView
+                android:id="@+id/matType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Type: Book"
@@ -60,6 +65,31 @@
                 android:layout_marginBottom="@dimen/activity_spacer"/>
 
             <TextView
+                android:id="@+id/matFloor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Floor: 5"
+                android:textSize="16sp"
+                android:layout_marginBottom="@dimen/activity_spacer"/>
+
+            <TextView
+                android:id="@+id/matSec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Section: 3"
+                android:textSize="16sp"
+                android:layout_marginBottom="@dimen/activity_spacer"/>
+
+            <TextView
+                android:id="@+id/matShelf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shelf: 6"
+                android:textSize="16sp"
+                android:layout_marginBottom="@dimen/activity_spacer"/>
+
+            <TextView
+                android:id="@+id/matAvail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Available: Yes"
@@ -67,13 +97,27 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/matElec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Has Electronic Copy"
+            android:textSize="12sp"
+            android:layout_marginTop="@dimen/activity_spacer"
+            android:layout_gravity="center"
+            android:visibility="visible"/>
+
     </LinearLayout>
 
     <Button
+        android:id="@+id/borButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Borrow Item"
         android:layout_marginStart="@dimen/activity_spacer"
-        android:layout_marginEnd="@dimen/activity_spacer"/>
+        android:layout_marginEnd="@dimen/activity_spacer"
+        android:background="@drawable/app_button_bg"
+        android:textColor="@color/white"
+        android:visibility="visible"/>
 
 </LinearLayout>
