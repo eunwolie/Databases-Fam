@@ -1,6 +1,5 @@
 package finalproject.cpsc471_dbms.Queries;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,10 +26,10 @@ public class MaterialQueries extends IQueries{
                 + SectionTable.TABLE_NAME + " , "
                 + ShelfTable.TABLE_NAME + " , "
                 + MaterialTable.TABLE_NAME;
-        String[] want = new String[]{FloorTable._ID, SectionTable._ID, ShelfTable._ID};
+        String[] want = new String[]{FloorTable._ID, SectionTable.NAME, ShelfTable._ID};
         String where =  MaterialTable._ID + "=? AND "
                 + ShelfTable._ID + "=" + MaterialTable.SHELF_NO + " AND "
-                + SectionTable._ID + "=" + ShelfTable.GENRE + " AND "
+                + SectionTable._ID + "=" + ShelfTable.SECT_ID + " AND "
                 + FloorTable._ID + "=" + SectionTable.FLOOR_NUMBER;
 
         Cursor cursor = readDB.query(tables, want,
