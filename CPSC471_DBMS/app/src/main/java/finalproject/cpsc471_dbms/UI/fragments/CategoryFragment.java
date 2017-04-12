@@ -34,16 +34,21 @@ import static android.view.View.VISIBLE;
 
 public class CategoryFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
+    private EditText searchEditText;
     private FloatingActionButton addItemButton, rateButton, charityButton;
     private ImageButton settingsButton;
+    private Spinner typeSpinner, languageSpinner;
     private LinearLayout catSettings;
+    private ListView categoryList;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.category_tab, container, false);
 
-        //code for this fragment goes here
+        //----------------- Sets the views -----------------
+        searchEditText = (EditText) view.findViewById(R.id.searchEditText);
+
         addItemButton = (FloatingActionButton) view.findViewById(R.id.addItemButton);
         rateButton = (FloatingActionButton) view.findViewById(R.id.rateButton);
         charityButton = (FloatingActionButton) view.findViewById(R.id.charityButton);
@@ -51,17 +56,12 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
         settingsButton = (ImageButton) view.findViewById(R.id.settingsButton);
         catSettings = (LinearLayout) view.findViewById(R.id.catSettings);
 
-        addItemButton.setOnClickListener(this);
-        rateButton.setOnClickListener(this);
-        charityButton.setOnClickListener(this);
-        settingsButton.setOnClickListener(this);
+        typeSpinner = (Spinner) view.findViewById(R.id.typeSpinner);
+        languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
 
-        final EditText searchEditText = (EditText) view.findViewById(R.id.searchEditText);
+        categoryList = (ListView) view.findViewById(R.id.categoryList);
 
         //------------- The following code is for the spinners in the cat settings. -------------
-        final Spinner typeSpinner = (Spinner) view.findViewById(R.id.typeSpinner);
-        final Spinner languageSpinner = (Spinner) view.findViewById(R.id.languageSpinner);
-
         ArrayAdapter<CharSequence> typeAdapter = ArrayAdapter.createFromResource(getContext(), R.array.typeArray, android.R.layout.simple_spinner_item);
         ArrayAdapter<CharSequence> languageAdapter = ArrayAdapter.createFromResource(getContext(), R.array.languageArray, android.R.layout.simple_spinner_item);
 
@@ -71,17 +71,25 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
         typeSpinner.setAdapter(typeAdapter);
         languageSpinner.setAdapter(languageAdapter);
 
+        //------------- The following code is for the actual items in the category listing. -------------
+        String[] itemList = {"Title", "Author", "Genre"};   //test---------------------------------------------
+
+        ListAdapter categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.better_generic_layout, itemList);
+        categoryList.setAdapter(categoryAdapter);
+
+        //----------------- Sets the listeners -----------------
+        addItemButton.setOnClickListener(this);
+        rateButton.setOnClickListener(this);
+        charityButton.setOnClickListener(this);
+
+        settingsButton.setOnClickListener(this);
+
         typeSpinner.setOnItemSelectedListener(this);
         languageSpinner.setOnItemSelectedListener(this);
 
-        //------------- The following code is for the actual items in the category listing. -------------
-        String[] itemList = {"Title", "Author", "Genre"};
-        ListAdapter categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.better_generic_layout, itemList);
-        ListView categoryList = (ListView) view.findViewById(R.id.categoryList);
-        categoryList.setAdapter(categoryAdapter);
-
         categoryList.setOnItemClickListener(this);
 
+        //Sets the user views.
         switch (MainActivity.user) {
 
             case MainActivity.NORMAL:       addItemButton.setVisibility(GONE);
@@ -104,6 +112,13 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
         } return view;
     }
 
+    //---------------------------------- METHODS ----------------------------------
+
+
+
+
+    //---------------------------------- LISTENERS ----------------------------------
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
@@ -122,7 +137,6 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
-    //Spinner items
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (parent.getId() == R.id.typeSpinner) {

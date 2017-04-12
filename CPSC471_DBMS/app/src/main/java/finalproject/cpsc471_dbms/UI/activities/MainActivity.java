@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         //------------- The following code is for the tabs setup in the application. -------------
 
+        //Get username to toast
         Toast.makeText(this, "Logged in as " + user, Toast.LENGTH_SHORT).show();
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.

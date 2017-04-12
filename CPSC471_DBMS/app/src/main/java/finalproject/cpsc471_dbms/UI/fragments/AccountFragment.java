@@ -29,50 +29,62 @@ import finalproject.cpsc471_dbms.UI.custom.Item;
 
 public class AccountFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener {
 
+    private FloatingActionButton fab;
+    private ImageView accImage;
+    private TextView accName, accID, accEID, email, address;
     private Spinner sectionSpinner;
+    private ListView sectionList;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.account_tab, container, false);
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        //----------------- Sets the views -----------------
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
 
-        final ImageView accImage = (ImageView) view.findViewById(R.id.accImage);
+        accImage = (ImageView) view.findViewById(R.id.accImage);
 
-        final TextView accName = (TextView) view.findViewById(R.id.accName);
-        final TextView accID = (TextView) view.findViewById(R.id.accID);
-        final TextView accEID = (TextView) view.findViewById(R.id.accEID);
-        final TextView email = (TextView) view.findViewById(R.id.email);
-        final TextView address = (TextView) view.findViewById(R.id.address);
+        accName = (TextView) view.findViewById(R.id.accName);
+        accID = (TextView) view.findViewById(R.id.accID);
+        accEID = (TextView) view.findViewById(R.id.accEID);
+        email = (TextView) view.findViewById(R.id.email);
+        address = (TextView) view.findViewById(R.id.address);
 
         sectionSpinner = (Spinner) view.findViewById(R.id.sectionSpinner);
+        sectionList = (ListView) view.findViewById(R.id.sectionList);
+
+        //----------------- Sets the spinners -----------------
         ArrayAdapter<CharSequence> sectionAdapter = ArrayAdapter.createFromResource(getContext(), R.array.sectionArray, android.R.layout.simple_spinner_item);
         sectionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         sectionSpinner.setAdapter(sectionAdapter);
-        sectionSpinner.setOnItemSelectedListener(this);
 
+        //----------------- Sets the lists -----------------
         Item[] itemList = {new Item("cpl_logo.png", "Genre"), new Item("cpl_logo.png", "Author"), new Item("cpl_logo.png", "Availability"),
                 new Item("cpl_logo.png", "Author"), new Item("cpl_logo.png", "Availability")};
         ListAdapter bookAdapter = new BookAdapter(getContext(),  itemList);
-        ListView sectionList = (ListView) view.findViewById(R.id.sectionList);
         sectionList.setAdapter(bookAdapter);
 
-        sectionList.setOnItemClickListener(this);
-
+        //----------------- Sets the listeners -----------------
         fab.setOnClickListener(this);
+        sectionSpinner.setOnItemSelectedListener(this);
+        sectionList.setOnItemClickListener(this);
 
         return view;
     }
 
-    //for the button
+    //---------------------------------- METHODS ----------------------------------
+
+
+
+
+    //---------------------------------- LISTENERS ----------------------------------
     @Override
     public void onClick(View v) {
         startActivity(new Intent(getContext(), EditUserActivity.class));
     }
 
-    //for the spinner
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position == 0) {

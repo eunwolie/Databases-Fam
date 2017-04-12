@@ -30,21 +30,28 @@ import static android.view.View.GONE;
 
 public class DashboardFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
+    private FloatingActionButton fab;
+    private ListView dashboardList;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dashboard_tab, container, false);
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(this);
+        //----------------- Sets the views -----------------
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        dashboardList = (ListView) view.findViewById(R.id.dashboardList);
 
+        //------------- The following code is for the actual items in the category listing. -------------
         Item[] itemList = {new Item("cpl_logo.png", "Genre"), new Item("cpl_logo.png", "Author"), new Item("cpl_logo.png", "Availability"),
                 new Item("cpl_logo.png", "Author"), new Item("cpl_logo.png", "Availability")};
-        ListAdapter categoryAdapter = new DashAdapter(getContext(),  itemList);
-        ListView categoryList = (ListView) view.findViewById(R.id.dashboardList);
-        categoryList.setAdapter(categoryAdapter);
 
-        categoryList.setOnItemClickListener(this);
+        ListAdapter categoryAdapter = new DashAdapter(getContext(),  itemList);
+        dashboardList.setAdapter(categoryAdapter);
+
+        //----------------- Sets the listeners -----------------
+        fab.setOnClickListener(this);
+        dashboardList.setOnItemClickListener(this);
 
         // Setting user views.
         if (MainActivity.user == MainActivity.NORMAL) {
@@ -52,6 +59,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener,
         } return view;
     }
 
+    //-------------------------- LISTENERS --------------------------
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.fab) {
