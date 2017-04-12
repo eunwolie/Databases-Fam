@@ -30,7 +30,6 @@ public class Floor extends IHandler<FloorDef, FloorTable>{
     protected ContentValues innerAdd(FloorDef x)
     {
         ContentValues values = new ContentValues();
-        values.put(FloorTable._ID, x.getfNumber());
         //values.put(FloorTable.WORK_ID, x.getWorkId());
         values.put(FloorTable.COMPUTERS, x.getfComputer());
         return values;

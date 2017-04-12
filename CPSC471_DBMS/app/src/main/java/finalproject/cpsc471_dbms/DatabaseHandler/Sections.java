@@ -29,7 +29,7 @@ public class Sections extends IHandler<SectionDef, SectionTable>{
     protected ContentValues innerAdd(SectionDef s)
     {
         ContentValues values = new ContentValues();
-        values.put(SectionTable._ID, s.getGenre());
+        values.put(SectionTable.NAME, s.getGenre());
         values.put(SectionTable.FLOOR_NUMBER, s.getfNo());
         return values;
     }

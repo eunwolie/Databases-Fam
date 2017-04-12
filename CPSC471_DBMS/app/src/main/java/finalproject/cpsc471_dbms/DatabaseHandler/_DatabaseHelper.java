@@ -155,7 +155,8 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String CREATE_SECTION_TABLE = "CREATE TABLE "
             + SectionTable.TABLE_NAME + "("
-            + SectionTable._ID + " TEXT NOT NULL PRIMARY KEY, "
+            + SectionTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + SectionTable.NAME + " TEXT NOT NULL UNIQUE, "
             + SectionTable.FLOOR_NUMBER + " INTEGER, "
             + "FOREIGN KEY(" + SectionTable.FLOOR_NUMBER + ") REFERENCES "
             + FloorTable.TABLE_NAME + "(" + FloorTable._ID + ") ON DELETE CASCADE )";
@@ -165,7 +166,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + ShelfTable._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
             + ShelfTable.GENRE + " TEXT, "
             + "FOREIGN KEY(" + ShelfTable.GENRE + ") REFERENCES "
-            + SectionTable.TABLE_NAME + "(" + SectionTable._ID + ") ON DELETE CASCADE )";
+            + SectionTable.TABLE_NAME + "(" + SectionTable.NAME + ") ON DELETE CASCADE )";
 
     public static final String CREATE_SPONSOR_TABLE = "CREATE TABLE "
             + SponsorTable.TABLE_NAME + "("
