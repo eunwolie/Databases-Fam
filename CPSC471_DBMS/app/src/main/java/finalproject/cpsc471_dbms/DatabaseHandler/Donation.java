@@ -61,7 +61,7 @@ public class Donation extends IHandler<DonationDef, DonationTable>{
         values.put(DonationTable.AMOUNT_DONATED, x.getBookAmount() + d.getBookAmount());
         return writeDB.update(DonationTable.TABLE_NAME, values,
                 WHERE_KEY_EQUALS,
-                new String[] { x.getSID()+"" });
+                new String[] { x.getsId()+"" });
     }
 
     public int delete(int SID) {
@@ -74,7 +74,7 @@ public class Donation extends IHandler<DonationDef, DonationTable>{
         int[] bookAmounts = new int[]{2,1,3,200,14,9};
 
         for (int i = 0; i < bookAmounts.length; i++)
-            list.add(new DonationDef(5000 + i, 1110 + i, bookAmounts[i]));
+            list.add(new DonationDef(i, bookAmounts[i]));
 
         return list;
     }
