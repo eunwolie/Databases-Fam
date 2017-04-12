@@ -11,7 +11,7 @@
         android:id="@+id/bookImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_book_1"
+        android:src="@drawable/def_book"
         android:scaleType="fitCenter"
         android:layout_weight="1"
         android:layout_margin="@dimen/activity_spacer"

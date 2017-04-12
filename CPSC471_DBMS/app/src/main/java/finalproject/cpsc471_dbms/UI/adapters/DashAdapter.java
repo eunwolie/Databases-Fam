@@ -1,6 +1,7 @@
 package finalproject.cpsc471_dbms.UI.adapters;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Date;
+
+import finalproject.cpsc471_dbms.Definitions.EventDef;
 import finalproject.cpsc471_dbms.R;
 import finalproject.cpsc471_dbms.UI.custom.Item;
 
@@ -18,7 +22,7 @@ import finalproject.cpsc471_dbms.UI.custom.Item;
 
 public class DashAdapter extends ArrayAdapter {
 
-    public DashAdapter(Context context, Item[] events) {
+    public DashAdapter(Context context, EventDef[] events) {
         super(context, R.layout.dash_item_layout, events);
     }
 
@@ -28,7 +32,7 @@ public class DashAdapter extends ArrayAdapter {
         LayoutInflater itemInflater = LayoutInflater.from(getContext());
         View itemView = itemInflater.inflate(R.layout.dash_item_layout, parent, false);
 
-        Item singleItem = (Item) getItem(position);
+        EventDef singleItem = (EventDef) getItem(position);
 
         ImageView cardImage = (ImageView) itemView.findViewById(R.id.cardImage);
         TextView eventName = (TextView) itemView.findViewById(R.id.eventName);
@@ -38,7 +42,12 @@ public class DashAdapter extends ArrayAdapter {
         date.setText("TUE, JAN 3 - WED, MAR 1");
         sponsor.setText("Saruman Ltd");
         eventName.setText("Taking the Hobbits to Isengard");
-        cardImage.setImageResource(R.drawable.cpl_logo);
+        cardImage.setImageResource(R.drawable.def_event);
+
+        date.setText(new Date(singleItem.getDate()).toString());
+        //sponsor.setText(singleItem.get());
+        eventName.setText(singleItem.getTitle());
+        cardImage.setImageBitmap(BitmapFactory.decodeByteArray(singleItem.getImage(), 0, singleItem.getImage().length));
 
         return itemView;
     }

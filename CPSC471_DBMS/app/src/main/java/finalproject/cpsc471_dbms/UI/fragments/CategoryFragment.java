@@ -173,14 +173,14 @@ public class CategoryFragment extends Fragment implements View.OnClickListener, 
         //you can't go backwards in search feelsbad
         if ((chosen.equals("Author")) || (chosen.equals("Genre"))) {
             //get refreshed data in string and set to itemlist or whatever it is
-            categoryAdapter.notifyDataSetChanged();
-            categoryList.setAdapter(categoryAdapter);
+           // categoryAdapter.notifyDataSetChanged();
+           // categoryList.setAdapter(categoryAdapter);
         } else if (!newSearch) {
             //get new data from db and put into the new adapter
             Item[] ye = {new Item("cpl_logo.png", "ye fam")};  //test---------------
-            bookAdapter = new BookAdapter(getContext(), ye);
-            categoryList.setAdapter(bookAdapter);
-            newSearch = true;
+          //  bookAdapter = new BookAdapter(getContext(), ye);
+           // categoryList.setAdapter(bookAdapter);
+           // newSearch = true;
         } else {
             //first identify the book with primary keys or whatever
             startActivity(new Intent(getContext(), MaterialViewActivity.class));

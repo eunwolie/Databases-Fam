@@ -16,6 +16,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import finalproject.cpsc471_dbms.Definitions.UserDef;
+import finalproject.cpsc471_dbms.Facades.LoginFacade;
 import finalproject.cpsc471_dbms.R;
 
 /**
@@ -23,6 +25,8 @@ import finalproject.cpsc471_dbms.R;
  */
 
 public class CreateUserActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private LoginFacade loginFacade;
 
     private ImageButton accImage;
     private TextView usernameET, fnameET, lnameET, passwordET, emailET, addressET, phoneNumberET;
@@ -34,6 +38,8 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
+
+        loginFacade = new LoginFacade(this);
 
         //Sets the toolbar -----------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -63,6 +69,12 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
         makeSponsor.setOnClickListener(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loginFacade.close();
+    }
+
     //---------------------------------- LISTENERS ----------------------------------
     @Override
     public void onClick(View v) {
@@ -85,21 +97,25 @@ public class CreateUserActivity extends AppCompatActivity implements View.OnClic
 
     //Submits the new user to the database
     private void submit() {
-        //adds the new event to the database
-        //remember to ignore fields that are empty
         if (selectedImage == null) {
-            //set default image
+            selectedImage = Uri.parse("android.resource://finalproject.cpsc471_dbms/" + R.drawable.def_profile); //not sure
         } else {
             try {
                 byte[] inputData = getBytes(getContentResolver().openInputStream(selectedImage));
-                //add inputData to database
 
-                Toast.makeText(this, "User created!", Toast.LENGTH_SHORT).show();
-                finish();
+                UserDef newUser = new UserDef(0, fnameET.getText().toString(), lnameET.getText().toString(), usernameET.getText().toString(),
+                                                addressET.getText().toString(), passwordET.getText().toString(), Integer.parseInt(phoneNumberET.getText().toString()),
+                                                inputData, emailET.getText().toString());
+
+                loginFacade.createAccount(newUser);
+
             } catch (Exception e) {
                 //ignore
             }
         }
+
+        Toast.makeText(this, "Account Created.", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     //-----------------------------------------------------------------------------

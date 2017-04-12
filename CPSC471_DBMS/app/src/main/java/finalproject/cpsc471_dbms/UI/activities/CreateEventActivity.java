@@ -16,6 +16,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import finalproject.cpsc471_dbms.Definitions.EventDef;
+import finalproject.cpsc471_dbms.Facades.EventFacade;
 import finalproject.cpsc471_dbms.R;
 
 /**
@@ -23,6 +25,8 @@ import finalproject.cpsc471_dbms.R;
  */
 
 public class CreateEventActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private EventFacade eventFacade;
 
     private ImageButton eventImage;
     private EditText eventNameET, sponsorET, employeeET, dateET, timeET, desc;
@@ -34,6 +38,8 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        eventFacade = new EventFacade(this);
 
         //Sets the toolbar -----------------
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -58,6 +64,12 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
         //Sets the listeners -----------------
         eventImage.setOnClickListener(this);
         addEventButton.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        eventFacade.close();
     }
 
     //---------------------------------- LISTENERS ----------------------------------
@@ -87,14 +99,13 @@ public class CreateEventActivity extends AppCompatActivity implements View.OnCli
             Toast.makeText(this, "Employee ID cannot be empty!", Toast.LENGTH_SHORT).show();
         } else{
             try {
-                if (selectedImage != null) {
-                    byte[] inputData = getBytes(getContentResolver().openInputStream(selectedImage));
-                    //add inputData to database
-                }
+                if (selectedImage == null) selectedImage = Uri.parse("android.resource://finalproject.cpsc471_dbms/" + R.drawable.def_profile); //not sure
 
-                //set event name and employee id
-                //set sponsor id to given
-                //set date and time
+                byte[] inputData = getBytes(getContentResolver().openInputStream(selectedImage));
+
+                eventFacade.addEvent(new EventDef(Integer.parseInt(timeET.getText().toString()), 0, Integer.parseInt(dateET.getText().toString()),
+                                        eventNameET.getText().toString(), MainActivity.userId, Integer.parseInt(employeeET.getText().toString()),
+                                        desc.getText().toString(), inputData));
 
                 Toast.makeText(this, eventNameET.getText().toString() + " added to the database!", Toast.LENGTH_SHORT).show();
                 finish();

@@ -81,7 +81,7 @@
                         android:layout_height="124dp"
                         android:scaleType="centerCrop"
                         android:background="@color/backgroundColour"
-                        android:src="@drawable/cpl_logo"
+                        android:src="@drawable/def_profile"
                         android:layout_centerVertical="true"
                         android:layout_alignParentStart="true"/>
 
