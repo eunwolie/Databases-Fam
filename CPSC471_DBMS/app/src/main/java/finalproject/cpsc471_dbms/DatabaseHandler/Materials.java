@@ -137,13 +137,13 @@ public class Materials extends IHandler<MaterialsDef, MaterialTable> {
         List<MaterialsDef> materials = new ArrayList<>();
 
         int total = 9;
-        int baseIsbn = 1111;
+        int baseIsbn = 0;
         String descriptions = "";
         String[] titles = new String[]{
                 "The Thief Lord", "All-Nighters with 471", "The Looking Glass",
                 "Farrah's Life", "When Did She Leave", "Forest Bound",
                 "Updating Bottom and Top", "Sexual Adventures with Ashley",
-                "The Secret Lives of University Students ", "and Their Struggles" };
+                "The Secret Lives of University Students " + "and Their Struggles" };
         
         String[] genres = new String[]{"fantasy","horror", "horror", "humour",
             "mystery", "fantasy", "erotica", "erotica", "non-fiction"};
@@ -175,20 +175,20 @@ public class Materials extends IHandler<MaterialsDef, MaterialTable> {
             if (types[i].equalsIgnoreCase(MaterialsDef.AUDIO_TYPE))
             {
                 List<TypeDef> t = new ArrayList<TypeDef>();
-                t.add(new AudioDef(5, baseIsbn + i));
+                t.add(new AudioDef(5, i));
                 m.setTypeInfo(t);
             }
             if (types[i].equalsIgnoreCase(MaterialsDef.VISUAL_TYPE))
             {
                     List<TypeDef> t = new ArrayList<TypeDef>();
-                    t.add(new VisualsDef(5, baseIsbn + i, 1));
+                    t.add(new VisualsDef(5, i, 1));
                     m.setTypeInfo(t);
             }
             if (types[i].equalsIgnoreCase(MaterialsDef.BOTH_TYPE))
             {
                 List<TypeDef> t = new ArrayList<TypeDef>();
-                t.add(new AudioDef(5, baseIsbn + i));
-                t.add(new VisualsDef(5, baseIsbn + i, 1));
+                t.add(new AudioDef(5, i));
+                t.add(new VisualsDef(5, i, 1));
                 m.setTypeInfo(t);
             }
             m.setYearOfCreation(years[i]);

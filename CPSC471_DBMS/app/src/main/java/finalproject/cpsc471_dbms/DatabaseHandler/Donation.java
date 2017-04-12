@@ -74,7 +74,7 @@ public class Donation extends IHandler<DonationDef, DonationTable>{
         int[] bookAmounts = new int[]{2,1,3,200,14,9};
 
         for (int i = 0; i < bookAmounts.length; i++)
-            list.add(new DonationDef(5000 + i, 1110 + i, bookAmounts[i]));
+            list.add(new DonationDef(i, bookAmounts[i]));
 
         return list;
     }

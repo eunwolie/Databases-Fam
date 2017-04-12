@@ -10,17 +10,15 @@ import android.os.Parcelable;
 public class DonationDef {
 
     private int sId = -1;
-    private int isbn = -1;
     private int bookAmount = -1;
 
     public DonationDef() {
         super();
     }
 
-    public DonationDef(int sId, int isbn, int bookAmount) {
+    public DonationDef(int sId, int bookAmount) {
         super();
         this.sId = sId;
-        this.isbn = isbn;
         this.bookAmount = bookAmount;
     }
 
@@ -28,7 +26,6 @@ public class DonationDef {
     private DonationDef(Parcel in) {
         super();
         this.sId = in.readInt();
-        this.isbn = in.readInt();
         this.bookAmount = in.readInt();
     }
 
@@ -39,15 +36,6 @@ public class DonationDef {
     public void setId(int sId) {
         this.sId = sId;
     }
-
-    public int getIsbn() {
-        return isbn;
-    }
-
-    public void setIsbn(int isbn) {
-        this.isbn = isbn;
-    }
-
     public int getBookAmount() {
         return bookAmount;
     }
@@ -62,7 +50,6 @@ public class DonationDef {
 
     public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(getsId());
-        parcel.writeInt(getIsbn());
         parcel.writeInt(getBookAmount());
     }
 
@@ -78,7 +65,7 @@ public class DonationDef {
 
     @Override
     public String toString() {
-        return "sponsor id:" + sId + ", isbn:" + isbn;
+        return "sponsor id:" + sId;
     }
 
 

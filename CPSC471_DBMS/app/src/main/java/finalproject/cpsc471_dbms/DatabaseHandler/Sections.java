@@ -19,7 +19,7 @@ import finalproject.cpsc471_dbms.Definitions.SectionDef;
  */
 
 public class Sections extends IHandler<SectionDef, SectionTable>{
-    private static final String WHERE_KEY_EQUALS = SectionTable._ID + "=?";
+    private static final String WHERE_KEY_EQUALS = SectionTable.NAME + "=?";
 
     public Sections(Context context){
         super(WHERE_KEY_EQUALS);
