@@ -73,11 +73,8 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + DonationTable.TABLE_NAME + "("
             + DonationTable.AMOUNT_DONATED + " INTEGER, "
             + DonationTable.SID + " INTEGER, "
-            + DonationTable.ISBN + " INTEGER, "
             + "FOREIGN KEY(" + DonationTable.SID + ") REFERENCES "
-            + SponsorTable.TABLE_NAME + "(" + SponsorTable._ID + ") ON DELETE CASCADE, "
-            + "FOREIGN KEY(" + DonationTable.ISBN + ") REFERENCES "
-            + MaterialTable.TABLE_NAME + "(" + MaterialTable._ID + ") ON DELETE CASCADE )";
+            + SponsorTable.TABLE_NAME + "(" + SponsorTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_EVENT_TABLE = "CREATE TABLE "
             + EventTable.TABLE_NAME + "("
