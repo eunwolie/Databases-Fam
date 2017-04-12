@@ -45,11 +45,14 @@ public class Shelf extends IHandler<ShelfDef, ShelfTable>{
     protected List<ShelfDef> genEntities() {
         List<ShelfDef> list = new ArrayList<>();
 
-        int[] genres = new int[]{0, 1, 2, 2, 3, 4, 5, 5};
+        int[] genres = new int[]{1, 2, 3, 3, 4, 5, 6, 6};
 
          for (int i = 0; i < genres.length; i++)
             list.add(new ShelfDef(genres[i], i + 1));
 
         return list;
     }
+
+    public String toString()
+    { return "Shelf"; }
 }

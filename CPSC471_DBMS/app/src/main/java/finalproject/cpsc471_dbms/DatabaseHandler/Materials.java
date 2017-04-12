@@ -148,7 +148,7 @@ public class Materials extends IHandler<MaterialsDef, MaterialTable> {
         String[] genres = new String[]{"fantasy","horror", "horror", "humour",
             "mystery", "fantasy", "erotica", "erotica", "non-fiction"};
 
-        int[] shelves = new int[]{0, 1, 1, 2, 4, 0, 7, 8, 6};
+        int[] shelves = new int[]{1, 2, 2, 3, 5, 1, 8, 8, 7};
 
         String[] types = new String[]{MaterialsDef.VISUAL_TYPE,
             MaterialsDef.BOTH_TYPE, MaterialsDef.AUDIO_TYPE, MaterialsDef.BOTH_TYPE,
@@ -175,20 +175,20 @@ public class Materials extends IHandler<MaterialsDef, MaterialTable> {
             if (types[i].equalsIgnoreCase(MaterialsDef.AUDIO_TYPE))
             {
                 List<TypeDef> t = new ArrayList<TypeDef>();
-                t.add(new AudioDef(5, i));
+                t.add(new AudioDef(5, i + 1));
                 m.setTypeInfo(t);
             }
             if (types[i].equalsIgnoreCase(MaterialsDef.VISUAL_TYPE))
             {
                     List<TypeDef> t = new ArrayList<TypeDef>();
-                    t.add(new VisualsDef(5, i, 1));
+                    t.add(new VisualsDef(5, i + 1, 1));
                     m.setTypeInfo(t);
             }
             if (types[i].equalsIgnoreCase(MaterialsDef.BOTH_TYPE))
             {
                 List<TypeDef> t = new ArrayList<TypeDef>();
-                t.add(new AudioDef(5, i));
-                t.add(new VisualsDef(5, i, 1));
+                t.add(new AudioDef(5, i + 1));
+                t.add(new VisualsDef(5, i + 1, 1));
                 m.setTypeInfo(t);
             }
             m.setYearOfCreation(years[i]);
@@ -200,4 +200,7 @@ public class Materials extends IHandler<MaterialsDef, MaterialTable> {
 
         return materials;
     }
+
+    public String toString()
+    { return "Material"; }
 }

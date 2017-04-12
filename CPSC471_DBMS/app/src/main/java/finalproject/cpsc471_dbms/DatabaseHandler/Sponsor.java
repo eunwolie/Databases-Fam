@@ -63,5 +63,6 @@ public class Sponsor extends IHandler<SponsorDef, SponsorTable> {
         return sponsors;
     }
 
-
+    public String toString()
+    { return "Sponsor"; }
 }

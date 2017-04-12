@@ -33,12 +33,12 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + EventAttendanceTable.HOST_ID + " INTEGER, "
             + "FOREIGN KEY(" + EventAttendanceTable.UID + ") REFERENCES "
             + UserTable.TABLE_NAME + "(" + UserTable._ID + ") " + ", "
-            + "FOREIGN KEY(" + EventAttendanceTable.START_TIME + ") REFERENCES "
-            + EventTable.TABLE_NAME + "(" + EventTable.START_TIME + ") ON DELETE CASCADE, "
+            //+ "FOREIGN KEY(" + EventAttendanceTable.START_TIME + ") REFERENCES "
+            //+ EventTable.TABLE_NAME + "(" + EventTable.START_TIME + ") ON DELETE CASCADE, "
             + "FOREIGN KEY(" + EventAttendanceTable.HOST_ID + ") REFERENCES "
-            + StaffTable.TABLE_NAME + "(" + StaffTable._ID + ") ON DELETE CASCADE, "
-            + "FOREIGN KEY(" + EventAttendanceTable.DATE + ") REFERENCES "
-            + EventTable.TABLE_NAME + "(" + EventTable.DATE + ") ON DELETE CASCADE )";
+            + StaffTable.TABLE_NAME + "(" + StaffTable._ID + ") ON DELETE CASCADE )";
+            //+ "FOREIGN KEY(" + EventAttendanceTable.DATE + ") REFERENCES "
+            //+ EventTable.TABLE_NAME + "(" + EventTable.DATE + ") ON DELETE CASCADE )";
 
     public static final String CREATE_AUDIO_TABLE = "CREATE TABLE "
             + AudioTable.TABLE_NAME + "("
@@ -93,7 +93,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String CREATE_FLOOR_TABLE = "CREATE TABLE "
             + FloorTable.TABLE_NAME + "("
-            + FloorTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + FloorTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT DEFAULT 0, "
             + FloorTable.COMPUTERS + " INTEGER, "
             + FloorTable.WORK_ID + " INTEGER, "
             + "FOREIGN KEY(" + FloorTable.WORK_ID + ") REFERENCES "
@@ -120,15 +120,15 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + LibrarianTable.DESKNO + " INTEGER, "
             + LibrarianTable.WORK_ID + " INTEGER, "
             + "FOREIGN KEY(" + LibrarianTable.WORK_ID  + ") REFERENCES "
-            + StaffTable.TABLE_NAME + "(" + StaffTable._ID + ") ON DELETE CASCADE "
-            + "FOREIGN KEY(" + LibrarianTable.DESKNO  + ") REFERENCES "
-            + FloorTable.TABLE_NAME + "(" + FloorTable._ID + ") ON DELETE CASCADE )";
+            + StaffTable.TABLE_NAME + "(" + StaffTable._ID + ") ON DELETE CASCADE )";
+            //+ "FOREIGN KEY(" + LibrarianTable.DESKNO  + ") REFERENCES "
+            //+ FloorTable.TABLE_NAME + "(" + FloorTable._ID + ") ON DELETE CASCADE )";
 
     public static final String CREATE_MATERIALS_TABLE = "CREATE TABLE "
             + MaterialTable.TABLE_NAME + "("
             + MaterialTable.TITLE + " TEXT, "
             + MaterialTable.DESCRIPTION + " TEXT, "
-            + MaterialTable._ID + " INTEGER PRIMARY KEY, "
+            + MaterialTable._ID + " INTEGER PRIMARY KEY DEFAULT 0, "
             + MaterialTable.GENRE + " TEXT NOT NULL, "
             + MaterialTable.TYPE + " TEXT NOT NULL, "
             + MaterialTable.YEAR_CREATED + " INTEGER, "
@@ -160,7 +160,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String CREATE_SHELF_TABLE = "CREATE TABLE "
             + ShelfTable.TABLE_NAME + "("
-            + ShelfTable._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+            + ShelfTable._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0, "
             + ShelfTable.SECT_ID + " INTEGER, "
             + "FOREIGN KEY(" + ShelfTable.SECT_ID + ") REFERENCES "
             + SectionTable.TABLE_NAME + "(" + SectionTable._ID + ") ON DELETE CASCADE )";
@@ -169,11 +169,11 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
             + SponsorTable.TABLE_NAME + "("
             + SponsorTable.NAME + " TEXT, "
             + SponsorTable.REASON + " TEXT, "
-            + SponsorTable._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT )";
+            + SponsorTable._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0 )";
 
     public static final String CREATE_STAFF_TABLE = "CREATE TABLE "
             + StaffTable.TABLE_NAME + "("
-            + StaffTable._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+            + StaffTable._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 0, "
             + StaffTable.SALARY + " INTEGER, "
             + StaffTable.SSN + " INTEGER NOT NULL, "
             + StaffTable.USER_ID + " INTEGER, "
@@ -190,7 +190,7 @@ public class _DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String CREATE_USER_TABLE = "CREATE TABLE "
             + UserTable.TABLE_NAME + "("
-            + UserTable._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+            + UserTable._ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT DEFAULT 1, "
             + UserTable.EMAIL + " TEXT NOT NULL, "
             + UserTable.FIRST_NAME + " TEXT NOT NULL, "
             + UserTable.LAST_NAME + " TEXT NOT NULL, "

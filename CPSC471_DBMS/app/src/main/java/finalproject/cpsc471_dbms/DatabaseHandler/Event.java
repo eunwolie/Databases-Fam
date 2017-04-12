@@ -122,8 +122,8 @@ public class Event extends IHandler<EventDef, EventTable>{
             e.setEndTime(startTimes[i] + 300);
             e.setDate(dates[i]);
             e.setTitle("Event" + i);
-            e.setSponsorID(i);
-            e.setWorkID(i);
+            e.setSponsorID(i + 1);
+            e.setWorkID(i + 1);
             e.setDescription("Generic");
             // TODO : ADD EVENT IMAGE
             list.add(e);
@@ -131,4 +131,7 @@ public class Event extends IHandler<EventDef, EventTable>{
 
         return list;
     }
+
+    public String toString()
+    { return "Event"; }
 }

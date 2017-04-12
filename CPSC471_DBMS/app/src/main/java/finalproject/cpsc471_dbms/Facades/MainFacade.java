@@ -26,7 +26,7 @@ public class MainFacade {
         this.context = context;
     }
 
-    private void createUsers()
+    private void createBegin()
     {
         handlers.add(new User(context));
         handlers.add(new Staff(context));
@@ -73,10 +73,10 @@ public class MainFacade {
 
     public void getTestLists()
     {
-        createUsers();
+        createBegin();
+        createLocations();
         createMaterials();
         createSponsors();
-        createLocations();
         createEvents();
         createMaterialRelations();
         createEventRelations();

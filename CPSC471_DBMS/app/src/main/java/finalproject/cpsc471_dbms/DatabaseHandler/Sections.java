@@ -54,4 +54,7 @@ public class Sections extends IHandler<SectionDef, SectionTable>{
 
         return list;
     }
+
+    public String toString()
+    { return "Section"; }
 }

@@ -87,12 +87,14 @@ public class Staff extends IHandler<StaffDef, StaffTable>{
         List<StaffDef> list = new ArrayList<>();
 
         //create 4 staff out of 6 total users for demo
-        list.add(new StaffDef(0, 79678, 0, 0));
-        list.add(new StaffDef(1, 21324, 1, 1));
-        list.add(new StaffDef(2, 21324, 2, 2));
-        list.add(new StaffDef(3, 21324, 3, 3));
+        list.add(new StaffDef(1, 79678, 4, 4));
+        list.add(new StaffDef(2, 21324, 8, 1));
+        list.add(new StaffDef(3, 21324, 2, 2));
+        list.add(new StaffDef(4, 21324, 3, 3));
 
         return list;
     }
 
+    public String toString()
+    { return "Staff"; }
 }

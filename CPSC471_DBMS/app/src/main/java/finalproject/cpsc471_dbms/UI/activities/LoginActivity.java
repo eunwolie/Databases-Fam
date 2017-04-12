@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import finalproject.cpsc471_dbms.Facades.LoginFacade;
+import finalproject.cpsc471_dbms.Facades.MainFacade;
 import finalproject.cpsc471_dbms.R;
 
 /**
@@ -20,12 +22,19 @@ import finalproject.cpsc471_dbms.R;
  * This class will be the launcher activity. After login the app will be redirected to the MainActivity. */
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private LoginFacade loginQueries;
+    private MainFacade mainQueries;
     private EditText usernameText;
     private EditText passwordText;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
+
+        loginQueries = new LoginFacade(this);
+        mainQueries = new MainFacade(this);
+        mainQueries.getTestLists();
+        mainQueries.populateLists();
 
         usernameText = (EditText) findViewById(R.id.usernameEdit);
         passwordText = (EditText) findViewById(R.id.passwordEdit);
@@ -37,6 +46,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         createButton.setOnClickListener(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        loginQueries.close();
+    }
+
     //Buttons listener
     @Override
     public void onClick(View v) {
@@ -44,6 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         Intent intent = null;
         if (v.getId() == R.id.loginButton) {
             if ((flag = checkValidInput()) != -1) {
+                Toast.makeText(this, "Credentials: " + usernameText.getText() + " :: " + passwordText.getText(), Toast.LENGTH_SHORT).show();
                 MainActivity.user = flag;
                 intent = new Intent(LoginActivity.this, MainActivity.class);
             } else {
@@ -54,10 +70,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } startActivity(intent);
     }
 
-    //incomplete
-    //Invalid = -1; Regular User = 0; Librarian = 1; Sponser = 2; CHECK MAINACTIVITY FOR DETAILS
+    //Invalid = -1; Regular User = 0; Librarian = 1; Sponsor = 2; CHECK MAINACTIVITY FOR DETAILS
     private int checkValidInput() {
-        Toast.makeText(this, "Credentials: " + usernameText.getText() + " :: " + passwordText.getText(), Toast.LENGTH_SHORT).show();
-        return MainActivity.NORMAL;
+        if (loginQueries.isExistingSponsor(usernameText.getText().toString(), passwordText.getText().toString()))
+            return MainActivity.SPONSOR;
+        else {
+            int id = loginQueries.getUserID(usernameText.getText().toString(), passwordText.getText().toString());
+            if (id != -1) {
+                if (loginQueries.isUserRegular(id))
+                    return MainActivity.NORMAL;
+                else
+                    return MainActivity.LIBRARIAN;
+            }
+            else
+                return -1;
+        }
     }
 }

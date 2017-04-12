@@ -65,7 +65,7 @@ public class Borrows extends IHandler<BorrowingDef, BorrowingTable>{
     protected List<BorrowingDef> genEntities() {
         List<BorrowingDef> list = new ArrayList<>();
 
-        list.add(new BorrowingDef(420, 421, 4, "overdue", 0, 0));
+        list.add(new BorrowingDef(420, 421, 4, "overdue", 6, 6));
         list.add(new BorrowingDef(421, 422, 1, "overdue", 1, 1));
         list.add(new BorrowingDef(421, 425, 0, "borrowed", 2, 2));
         list.add(new BorrowingDef(419, 425, 0, "borrowed", 3, 3));
@@ -74,4 +74,7 @@ public class Borrows extends IHandler<BorrowingDef, BorrowingTable>{
 
         return list;
     }
+
+    public String toString()
+    { return "Borrows"; }
 }

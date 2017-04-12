@@ -74,8 +74,11 @@ public class Donation extends IHandler<DonationDef, DonationTable>{
         int[] bookAmounts = new int[]{2,1,3,200,14,9};
 
         for (int i = 0; i < bookAmounts.length; i++)
-            list.add(new DonationDef(i, bookAmounts[i]));
+            list.add(new DonationDef(i + 1, bookAmounts[i]));
 
         return list;
     }
+
+    public String toString()
+    { return "Donation"; }
 }

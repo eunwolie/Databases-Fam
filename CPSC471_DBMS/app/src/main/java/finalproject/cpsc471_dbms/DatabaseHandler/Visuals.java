@@ -49,4 +49,7 @@ public class Visuals extends IHandler<VisualsDef, VisualTable>{
 
         return list;
     }
+
+    public String toString()
+    { return "Visuals"; }
 }

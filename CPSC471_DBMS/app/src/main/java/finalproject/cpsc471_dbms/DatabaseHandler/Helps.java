@@ -49,14 +49,17 @@ public class Helps extends IHandler<LibHelpDef, LibHelpTable>{
     protected List<LibHelpDef> genEntities() {
         List<LibHelpDef> list = new ArrayList<>();
 
-        list.add(new LibHelpDef(1,1));
-        list.add(new LibHelpDef(2,2));
-        list.add(new LibHelpDef(2,3));
-        list.add(new LibHelpDef(3,4));
-        list.add(new LibHelpDef(0,1));
-        list.add(new LibHelpDef(2,1));
+        list.add(new LibHelpDef(5,4));
+        list.add(new LibHelpDef(6,4));
+        list.add(new LibHelpDef(5,2));
+        list.add(new LibHelpDef(5,3));
+        list.add(new LibHelpDef(6,2));
+        list.add(new LibHelpDef(6,1));
 
         return list;
     }
+
+    public String toString()
+    { return "Helps"; }
 
 }

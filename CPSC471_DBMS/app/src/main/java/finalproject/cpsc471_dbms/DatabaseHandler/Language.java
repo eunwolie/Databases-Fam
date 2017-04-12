@@ -37,4 +37,7 @@ public class Language extends IBasicHandler<LanguageDef, LanguageTable>{
     {
         return new ArrayList<LanguageDef>();
     }
+
+    public String toString()
+    { return "Language"; }
 }

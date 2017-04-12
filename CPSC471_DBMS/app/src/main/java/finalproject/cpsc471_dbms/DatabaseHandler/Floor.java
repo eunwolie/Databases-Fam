@@ -69,4 +69,7 @@ public class Floor extends IHandler<FloorDef, FloorTable>{
         return list;
     }
 
+    public String toString()
+    { return "Floor"; }
+
 }

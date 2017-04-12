@@ -18,7 +18,7 @@ import finalproject.cpsc471_dbms.Definitions.UserDef;
 
 public class User extends IHandler<UserDef, UserTable>{
     private static final String WHERE_KEY_EQUALS = UserTable._ID + "=?";
-    private static int userID = 0;
+    private static int userID = 1;
 
     public User(Context context) {
         super(WHERE_KEY_EQUALS);
@@ -45,7 +45,9 @@ public class User extends IHandler<UserDef, UserTable>{
     }
 
     public long add(UserDef def)
-    { return writeDB.insert(UserTable.TABLE_NAME, null, innerAdd(def)); }
+    {   long result = writeDB.insert(UserTable.TABLE_NAME, null, innerAdd(def));
+        Log.d("From user", "We received: " + result);
+        return result;  }
 
     public int delete(int id)
     { return delete(new String[]{Integer.toString(id)}); }
@@ -113,4 +115,6 @@ public class User extends IHandler<UserDef, UserTable>{
         return users;
     }
 
+    public String toString()
+    { return "User"; }
 }

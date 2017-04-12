@@ -48,4 +48,7 @@ public class Audio extends IHandler<AudioDef, AudioTable>{
 
         return list;
     }
+
+    public String toString()
+    { return "Audio"; }
 }

@@ -49,4 +49,7 @@ public class Author extends IBasicHandler<AuthorDef, AuthorTable>{
 
         return list;
     }
+
+    public String toString()
+    { return "Author"; }
 }

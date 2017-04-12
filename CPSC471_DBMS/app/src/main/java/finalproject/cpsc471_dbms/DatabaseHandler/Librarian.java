@@ -72,8 +72,11 @@ public class Librarian extends IHandler<LibrarianDef, LibrarianTable>{
     protected List<LibrarianDef> genEntities() {
         List<LibrarianDef> list = new ArrayList<>();
 
-        list.add(new LibrarianDef(7006,4));
+        list.add(new LibrarianDef(1,4));
 
         return list;
     }
+
+    public String toString()
+    { return "Librarian"; }
 }

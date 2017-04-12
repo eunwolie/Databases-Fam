@@ -2,6 +2,7 @@ package finalproject.cpsc471_dbms.DatabaseHandler;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.List;
 
@@ -24,7 +25,8 @@ public abstract class IBasicHandler<A, T extends ITable> {
         List<A> items = genEntities();
 
         for (A item : items) {
-            add(item);
+            Long result = add(item);
+            Log.e("Creation", "This happened to " + toString() + " " + result);
         }
 
         //addForeignKeys();
@@ -36,4 +38,6 @@ public abstract class IBasicHandler<A, T extends ITable> {
 
     public void close()
     { if (writeDB != null) writeDB.close(); }
+
+    public abstract String toString();
 }
